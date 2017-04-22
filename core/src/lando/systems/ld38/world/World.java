@@ -16,8 +16,8 @@ public class World {
 
     private static final float HEIGHT_NOISE_HEIGHT = 5f;
     private static final float HEIGHT_NOISE_SCALE = 0.6f;
-    private static final float ISLAND_BACK_HEIGHT = 3f;
-    private static final float ISLAND_FRONT_HEIGHT = -2f;
+    private static final float ISLAND_BACK_HEIGHT = 5f;
+    private static final float ISLAND_FRONT_HEIGHT = 0f;
     private static final long HEIGHT_NOISE_SEED = 23203423489124l;
 
     // Computed --------------------------------------------------------------------------------------------------------
@@ -127,7 +127,8 @@ public class World {
         float basicHeight = ISLAND_FRONT_HEIGHT + (ISLAND_RISE * depth);
         float noisePercent = (float)(osn.eval(col * HEIGHT_NOISE_SCALE, adjustedRow * HEIGHT_NOISE_SCALE) + 1) / 2; // -1 to 1
         float noiseHeight = HEIGHT_NOISE_HEIGHT * noisePercent;
-        return basicHeight + noiseHeight;
+        int quantHeight = (int) ((basicHeight + noiseHeight));
+        return quantHeight;
     }
 
 

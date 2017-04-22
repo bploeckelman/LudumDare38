@@ -51,7 +51,7 @@ public class Tile extends GameObject {
 
     public void render(SpriteBatch batch, float x, float y, float width, float height){
 
-        float heightOffset = this.height;
+        float heightOffset = this.height * 2;
         float a = Math.max(this.height / World.WORLD_MAX_HEIGHT, 0);
         if (heightOffset > 0)
             batch.draw(bottom_tex, x, y, tileWidth, tileHeight);
