@@ -30,6 +30,7 @@ public class Assets {
     public static GlyphLayout layout;
     public static BitmapFont font;
     public static ShaderProgram fontShader;
+    public static ShaderProgram waterShader;
 
     public static TextureAtlas atlas;
 
@@ -40,6 +41,7 @@ public class Assets {
     public static Texture sand_hex;
     public static Texture stone_hex;
     public static Texture water_hex;
+    public static Texture water_bumpmap;
     public static Texture turn_counter_background;
 
     public static boolean initialized;
@@ -61,8 +63,9 @@ public class Assets {
         mgr.load("images/clay.png", Texture.class, nearestParams);
         mgr.load("images/sand.png", Texture.class, nearestParams);
         mgr.load("images/stone.png", Texture.class, nearestParams);
-        mgr.load("images/forest.png", Texture.class, nearestParams);
+        mgr.load("images/tree.png", Texture.class, nearestParams);
         mgr.load("images/water.png", Texture.class, nearestParams);
+        mgr.load("images/water-bump.png", Texture.class, nearestParams);
         mgr.load("images/turn_counter_background.png", Texture.class, nearestParams);
 
         atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));
@@ -89,12 +92,15 @@ public class Assets {
 
         whitePixel = mgr.get("images/white-pixel.png", Texture.class);
         blank_hex = mgr.get("images/blank-hex.png", Texture.class);
-        forest_hex = mgr.get("images/forest.png", Texture.class);
+        forest_hex = mgr.get("images/tree.png", Texture.class);
         clay_hex = mgr.get("images/clay.png", Texture.class);
         stone_hex = mgr.get("images/stone.png", Texture.class);
         sand_hex = mgr.get("images/sand.png", Texture.class);
         water_hex = mgr.get("images/water.png", Texture.class);
+        water_bumpmap = mgr.get("images/water-bump.png", Texture.class);
+        water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         turn_counter_background = mgr.get("images/turn_counter_background.png", Texture.class);
+
 
         final Texture distText = new Texture(Gdx.files.internal("fonts/ubuntu.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
@@ -104,6 +110,12 @@ public class Assets {
                 Gdx.files.internal("shaders/dist.frag"));
         if (!fontShader.isCompiled()) {
             Gdx.app.error("fontShader", "compilation failed:\n" + fontShader.getLog());
+        }
+        ShaderProgram.pedantic = false;
+        waterShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"),
+                Gdx.files.internal("shaders/water.frag"));
+        if (!waterShader.isCompiled()){
+            Gdx.app.error("WaterShader", "compilation failed:\n" + waterShader.getLog());
         }
 
         return 1f;

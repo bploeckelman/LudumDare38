@@ -15,6 +15,7 @@ import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.Player;
 import lando.systems.ld38.world.TurnCounter;
 import lando.systems.ld38.world.UserResources;
+import lando.systems.ld38.world.Tile;
 import lando.systems.ld38.world.World;
 import sun.font.GlyphLayout;
 
@@ -31,9 +32,11 @@ public class GameScreen extends BaseScreen{
     public boolean alternate = true;
     public int turn;
     public Array<TurnAction> turnActions;
+    float time;
 
     public GameScreen(){
         super();
+        time = 0;
         world = new World();
         resources = new UserResources();
         turnCounter = new TurnCounter();
@@ -48,6 +51,7 @@ public class GameScreen extends BaseScreen{
             Gdx.app.exit();
         }
 
+        time += dt;
         world.update(dt);
 
         if (Gdx.input.justTouched()) {
@@ -71,6 +75,14 @@ public class GameScreen extends BaseScreen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
+
+        batch.setShader(Assets.waterShader);
+        batch.begin();
+        Assets.waterShader.setUniformf("u_time", time);
+        Assets.waterShader.setUniformf("u_light" , 0, .5f, 10);
+        batch.draw(Assets.water_bumpmap, -100, -100, world.WORLD_WIDTH * Tile.tileWidth + 100, world.WORLD_WIDTH * Tile.tileHeight + 100);
+        batch.end();
+        batch.setShader(null);
         batch.begin();
 
         world.render(batch);

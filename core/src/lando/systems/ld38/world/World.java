@@ -73,7 +73,7 @@ public class World {
                 // Create the tiles in a circle around the center.
                 if (dist <= r) {
                     Tile.Type type = Tile.Type.Forest;
-                    float t = MathUtils.random();
+                    float t = (float)osn.eval(col * .1f, adjustedRow*.1f) /2f + .5f;
                     if (t > .5f) type = Tile.Type.Sand;
                     if (t > .6f) type = Tile.Type.Stone;
                     if (t > .7f) type = Tile.Type.Clay;

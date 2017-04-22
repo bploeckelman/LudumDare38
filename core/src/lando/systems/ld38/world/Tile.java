@@ -20,10 +20,6 @@ public class Tile extends GameObject {
 
     public void render(SpriteBatch batch, float x, float y, float width, float height){
 
-        if (this.height > 0) {
-            batch.draw(Assets.blank_hex, x, y, width, height);
-        }
-
         Texture tex = Assets.blank_hex;
         switch(type){
             case Grass: tex = Assets.blank_hex;
@@ -40,7 +36,8 @@ public class Tile extends GameObject {
                 break;
         }
         float a = Math.max(this.height / World.WORLD_MAX_HEIGHT, 0);
-        batch.setColor(1f,1f,1f,a);
+//        batch.setColor(1f,1f,1f,a);
+        if (type == Type.Ocean) return;
         batch.draw(tex, x, y, tileWidth, tileHeight);
         batch.setColor(Color.WHITE);
     }
