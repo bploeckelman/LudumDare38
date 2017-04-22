@@ -1,10 +1,14 @@
-package lando.systems.ld38.lib.openSimplexNoise;/*
+package lando.systems.ld38.lib.openSimplexNoise;
+/*
  * OpenSimplex Noise sample class.
  */
 
+// NOTE: GWT doesn't support AWT or ImageIO, so we can't use these here
+/*
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+*/
 import java.io.IOException;
 
 public class OpenSimplexNoiseTest
@@ -15,7 +19,8 @@ public class OpenSimplexNoiseTest
 
 	public static void main(String[] args)
 		throws IOException {
-		
+
+		/*
 		OpenSimplexNoise noise = new OpenSimplexNoise();
 		BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		for (int y = 0; y < HEIGHT; y++)
@@ -28,5 +33,6 @@ public class OpenSimplexNoiseTest
 			}
 		}
 		ImageIO.write(image, "png", new File("noise.png"));
+		*/
 	}
 }
