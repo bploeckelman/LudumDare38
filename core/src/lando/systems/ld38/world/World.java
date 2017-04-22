@@ -1,6 +1,7 @@
 package lando.systems.ld38.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -15,7 +16,12 @@ public class World {
         tiles = new Array<Tile>(world_width * world_width);
         for (int x = 0; x < world_width; x++){
             for (int y = 0; y < world_width; y++){
-                tiles.add(new Tile(y, x));
+                Tile.Type type = Tile.Type.Ocean;
+                float t = MathUtils.random();
+                if (t > .5f) type = Tile.Type.Dirt;
+                if (t > .8f) type = Tile.Type.Grass;
+                if (t > .9f) type = Tile.Type.Forest;
+                tiles.add(new Tile(y, x, type));
             }
         }
     }
