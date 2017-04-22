@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
+import lando.systems.ld38.world.World;
 
 /**
  * Created by Brian on 4/16/2017
@@ -13,15 +14,17 @@ import lando.systems.ld38.utils.Config;
 public class GameScreen extends BaseScreen{
 
     public Texture debugTex;
+    public World world;
 
     public GameScreen(){
         super();
+        world = new World();
         debugTex = Assets.whitePixel;
     }
 
     @Override
     public void update(float dt) {
-
+        world.update(dt);
     }
 
     @Override
@@ -32,7 +35,7 @@ public class GameScreen extends BaseScreen{
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        batch.draw(debugTex, 0, 0, 50, 50);
+        world.render(batch);
 
         batch.end();
     }
