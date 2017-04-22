@@ -9,10 +9,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -33,6 +30,8 @@ public class Assets {
     public static GlyphLayout layout;
     public static BitmapFont font;
     public static ShaderProgram fontShader;
+
+    public static TextureAtlas atlas;
 
     public static Texture whitePixel;
     public static Texture blank_hex;
@@ -63,6 +62,8 @@ public class Assets {
         mgr.load("images/stone.png", Texture.class, nearestParams);
         mgr.load("images/forest.png", Texture.class, nearestParams);
         mgr.load("images/water.png", Texture.class, nearestParams);
+
+        atlas = new TextureAtlas(Gdx.files.internal("sprites.atlas"));
 
         if (tween == null) {
             tween = new TweenManager();
