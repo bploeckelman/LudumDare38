@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import lando.systems.ld38.utils.Assets;
 
 /**
  * Created by aeharding on 4/22/17.
@@ -25,7 +26,7 @@ public class UserResources {
     private int y = Gdx.graphics.getHeight();
 
     public UserResources() {
-        batch = new SpriteBatch();
+        batch = Assets.batch;
         font = new BitmapFont(Gdx.files.internal("fonts/vinque.fnt"), // generated with http://kvazars.com/littera/
                 Gdx.files.internal("fonts/vinque.png"), false);
         shapeRenderer = new ShapeRenderer();

@@ -19,45 +19,44 @@ public class Tile extends GameObject {
         super(col, row, height);
     }
 
-    public Tile(int col, int row, float height, Type type){
-        super(col, row, height);
+    public void setType(Type type){
         this.type = type;
+        switch (type){
+            case Clay:
+                top_tex = Assets.clay_hex;
+                bottom_tex = Assets.clay_bottom;
+                break;
+            case Dirt:
+                top_tex = Assets.dirt_hex;
+                bottom_tex = Assets.dirt_bottom;
+                break;
+            case Grass:
+                top_tex = Assets.grass_hex;
+                bottom_tex = Assets.grass_bottom;
+                break;
+            case Sand:
+                top_tex = Assets.sand_hex;
+                bottom_tex = Assets.sand_bottom;
+                break;
+            case Snow:
+                top_tex = Assets.snow_hex;
+                bottom_tex = Assets.snow_bottom;
+                break;
+            case Stone:
+                top_tex = Assets.stone_hex;
+                bottom_tex = Assets.stone_bottom;
+                break;
+        }
     }
 
     public void render(SpriteBatch batch, float x, float y, float width, float height){
 
-        float heightOffest = this.height * 2;
+        float heightOffset = this.height;
         float a = Math.max(this.height / World.WORLD_MAX_HEIGHT, 0);
-        Texture tex = Assets.blank_hex;
-        switch(type){
-            case Grass: top_tex = Assets.grass_hex;
-                bottom_tex = Assets.grass_bottom;
-                break;
-            case Sand: top_tex = Assets.sand_hex;
-                bottom_tex = Assets.sand_bottom;
-                break;
-            case Dirt: top_tex = Assets.dirt_hex;
-                bottom_tex = Assets.dirt_bottom;
-                break;
-            case Stone: top_tex = Assets.stone_hex;
-                bottom_tex = Assets.stone_bottom;
-                break;
-            case Clay: top_tex = Assets.clay_hex;
-                bottom_tex = Assets.clay_bottom;
-                break;
-            case Snow: top_tex = Assets.snow_hex;
-                bottom_tex = Assets.snow_bottom;
-                break;
-        }
-//        batch.setColor(1f,1f,1f,a);
-        batch.draw(bottom_tex, x, y, tileWidth, tileHeight);
-        batch.draw(top_tex, x, y + heightOffest, tileWidth, tileHeight);
-        batch.setColor(Color.WHITE);
-        batch.draw(Assets.whitePixel, x, y, 4, tileHeight);
-        batch.setColor(0,0,0,1);
-        batch.draw(Assets.whitePixel, x, y, 4, tileHeight*0.95f);
-        batch.setColor(1f,0,0,1);
-        batch.draw(Assets.whitePixel, x+2, y, 2, tileHeight * a);
+        if (heightOffset > 0)
+            batch.draw(bottom_tex, x, y, tileWidth, tileHeight);
+        batch.draw(top_tex, x, y + heightOffset, tileWidth, tileHeight);
+
         batch.setColor(Color.WHITE);
     }
 }

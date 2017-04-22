@@ -27,17 +27,18 @@ public class World {
 
     public Array<Tile> tiles;
     public Array<Player> players;
+    public Water water;
 
     private OpenSimplexNoise osn;
 
     public Rectangle bounds;
 
     public World(){
-
+        water = new Water(this);
         osn = new OpenSimplexNoise(HEIGHT_NOISE_SEED);
 
         generateWorldTiles();
-        bounds = new Rectangle(0, 0,(Tile.tileWidth * .75f) * WORLD_WIDTH ,Tile.tileHeight * WORLD_WIDTH);
+        bounds = new Rectangle(0, 0,(Tile.tileWidth) * WORLD_WIDTH ,Tile.tileHeight * WORLD_WIDTH * .75f);
 
         players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
 
@@ -48,17 +49,20 @@ public class World {
     }
 
     public void update(float dt){
-
+        water.update(dt);
     }
 
     public void render(SpriteBatch batch){
         for (int i = tiles.size-1; i >= 0; i--){
-            tiles.get(i).render(batch);
+            Tile t = tiles.get(i);
+            if (t.height <= water.waterHeight) t.render(batch);
         }
+        water.render(batch);
 
-//        for (Tile tile : tiles){
-//            tile.render(batch);
-//        }
+        for (int i = tiles.size-1; i >= 0; i--){
+            Tile t = tiles.get(i);
+            if (t.height > water.waterHeight) t.render(batch);
+        }
 
         for (Player player : players) {
             player.render(batch);
@@ -113,7 +117,7 @@ public class World {
             } else {
                 type = Tile.Type.Snow;
             }
-            tile.type = type;
+            tile.setType(type);
         }
     }
 

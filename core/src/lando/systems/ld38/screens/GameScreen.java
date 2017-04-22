@@ -122,13 +122,6 @@ public class GameScreen extends BaseScreen {
 
         batch.setProjectionMatrix(camera.combined);
 
-        batch.setShader(Assets.waterShader);
-        batch.begin();
-        Assets.waterShader.setUniformf("u_time", time);
-        Assets.waterShader.setUniformf("u_light" , 0, .5f, 10);
-        batch.draw(Assets.water_bumpmap, -100, -100, world.WORLD_WIDTH * Tile.tileWidth + 100, world.WORLD_WIDTH * Tile.tileHeight + 100);
-        batch.end();
-        batch.setShader(null);
         batch.begin();
 
         world.render(batch);
