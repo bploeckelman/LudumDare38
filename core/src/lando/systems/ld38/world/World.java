@@ -18,7 +18,9 @@ public class World {
             for (int y = 0; y < world_width; y++){
                 Tile.Type type = Tile.Type.Ocean;
                 float t = MathUtils.random();
-                if (t > .5f) type = Tile.Type.Dirt;
+                if (t > .5f) type = Tile.Type.Sand;
+                if (t > .6f) type = Tile.Type.Stone;
+                if (t > .7f) type = Tile.Type.Clay;
                 if (t > .8f) type = Tile.Type.Grass;
                 if (t > .9f) type = Tile.Type.Forest;
                 tiles.add(new Tile(y, x, type));

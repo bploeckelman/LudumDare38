@@ -1,6 +1,7 @@
 package lando.systems.ld38.world;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld38.utils.Assets;
 
@@ -11,7 +12,7 @@ public class Tile {
     public static float tileWidth = 40;
     public static float tileHeight = 30;
 
-    enum Type {Grass, Dirt, Forest, Ocean}
+    enum Type {Grass, Sand, Forest, Ocean, Clay, Stone}
     public Type type;
     public float height;
     public int row;
@@ -31,17 +32,22 @@ public class Tile {
         float x = col * tileWidth * .75f;
         float y = row * tileHeight;
         if (col %2 == 0) y += tileHeight/2f;
+        Texture tex = Assets.blank_hex;
         switch(type){
-            case Grass:batch.setColor(.5f,.5f, 0, 1);
+            case Grass:tex = Assets.blank_hex;
                 break;
-            case Dirt:batch.setColor(1,1,0,1);
+            case Sand:tex = Assets.sand_hex;
                 break;
-            case Forest:batch.setColor(0,1,0,1);
+            case Forest:tex = Assets.forest_hex;
                 break;
-            case Ocean:batch.setColor(0,0,1,1);
+            case Stone:tex = Assets.stone_hex;
+                break;
+            case Clay:tex = Assets.clay_hex;
+                break;
+            case Ocean: tex = Assets.water_hex;
                 break;
         }
-        batch.draw(Assets.blank_hex, x, y, tileWidth, tileHeight);
+        batch.draw(tex, x, y, tileWidth, tileHeight);
         batch.setColor(Color.WHITE);
     }
 }
