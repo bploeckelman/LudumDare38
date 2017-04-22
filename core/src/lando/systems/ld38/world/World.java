@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 public class World {
 
     public Array<Tile> tiles;
+    public Array<Player> players;
     public int world_width = 20;
 
     public World(){
@@ -24,6 +25,14 @@ public class World {
                 tiles.add(new Tile(y, x, type));
             }
         }
+
+
+        players = new Array<Player>(world_width * world_width);
+
+        Player player = new Player();
+        player.row = 1;
+        player.col = 1;
+        players.add(player);
     }
 
     public void update(float dt){
@@ -33,6 +42,10 @@ public class World {
     public void render(SpriteBatch batch){
         for (Tile tile : tiles){
             tile.render(batch);
+        }
+
+        for (Player player : players) {
+            player.render(batch);
         }
     }
 

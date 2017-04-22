@@ -7,30 +7,18 @@ import lando.systems.ld38.utils.Assets;
 /**
  * Created by dsgraham on 4/22/17.
  */
-public class Tile {
-    public static float tileWidth = 40;
-    public static float tileHeight = 30;
 
+public class Tile extends GameObject {
     enum Type {Grass, Dirt, Forest, Ocean}
     public Type type;
-    public float height;
-    public int row;
-    public int col;
 
     public Tile(int col, int row, Type type){
-        this.col = col;
-        this.row = row;
+        super(col, row);
         this.type = type;
     }
 
-    public void update(float dt){
-
-    }
-
-    public void render(SpriteBatch batch){
-        float x = col * tileWidth * .75f;
-        float y = row * tileHeight;
-        if (col %2 == 0) y += tileHeight/2f;
+    public void render(SpriteBatch batch, float x, float y, float width, float height){
+        batch.draw(Assets.blank_hex, x, y, width, height);
         switch(type){
             case Grass:batch.setColor(.5f,.5f, 0, 1);
                 break;
