@@ -9,7 +9,6 @@ import lando.systems.ld38.utils.Assets;
  */
 public class Player extends GameObject {
 
-
     public void render(SpriteBatch batch, float x, float y, float width, float height) {
         batch.setColor(Color.RED);
         batch.draw(Assets.whitePixel, x, y, width, height);

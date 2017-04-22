@@ -4,15 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
+import com.badlogic.gdx.graphics.Color;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.Player;
+import lando.systems.ld38.world.TurnCounter;
 import lando.systems.ld38.world.UserResources;
 import lando.systems.ld38.world.World;
+import sun.font.GlyphLayout;
 
 /**
  * Created by Brian on 4/16/2017
@@ -22,6 +26,7 @@ public class GameScreen extends BaseScreen{
     public Texture debugTex;
     public World world;
     public UserResources resources;
+    public TurnCounter turnCounter;
 
     public boolean alternate = true;
     public int turn;
@@ -31,6 +36,7 @@ public class GameScreen extends BaseScreen{
         super();
         world = new World();
         resources = new UserResources();
+        turnCounter = new TurnCounter();
         debugTex = Assets.whitePixel;
         turn = 0;
         turnActions = new Array<TurnAction>();
@@ -72,6 +78,14 @@ public class GameScreen extends BaseScreen{
         batch.end();
 
         resources.render();
+
+        batch.setProjectionMatrix(hudCamera.combined);
+        batch.begin();
+        batch.setColor(Color.WHITE);
+
+        turnCounter.render(batch, turn);
+
+        batch.end();
     }
 
     private void endTurn() {
