@@ -36,6 +36,11 @@ public class Assets {
 
     public static Texture whitePixel;
     public static Texture blank_hex;
+    public static Texture clay_hex;
+    public static Texture forest_hex;
+    public static Texture sand_hex;
+    public static Texture stone_hex;
+    public static Texture water_hex;
 
     public static boolean initialized;
 
@@ -53,6 +58,11 @@ public class Assets {
         mgr = new AssetManager();
         mgr.load("images/white-pixel.png", Texture.class, nearestParams);
         mgr.load("images/blank-hex.png", Texture.class, nearestParams);
+        mgr.load("images/clay.png", Texture.class, nearestParams);
+        mgr.load("images/sand.png", Texture.class, nearestParams);
+        mgr.load("images/stone.png", Texture.class, nearestParams);
+        mgr.load("images/forest.png", Texture.class, nearestParams);
+        mgr.load("images/water.png", Texture.class, nearestParams);
 
         if (tween == null) {
             tween = new TweenManager();
@@ -76,6 +86,11 @@ public class Assets {
 
         whitePixel = mgr.get("images/white-pixel.png", Texture.class);
         blank_hex = mgr.get("images/blank-hex.png", Texture.class);
+        forest_hex = mgr.get("images/forest.png", Texture.class);
+        clay_hex = mgr.get("images/clay.png", Texture.class);
+        stone_hex = mgr.get("images/stone.png", Texture.class);
+        sand_hex = mgr.get("images/sand.png", Texture.class);
+        water_hex = mgr.get("images/water.png", Texture.class);
 
         final Texture distText = new Texture(Gdx.files.internal("fonts/ubuntu.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
