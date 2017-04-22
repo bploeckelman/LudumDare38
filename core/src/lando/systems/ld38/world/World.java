@@ -1,7 +1,6 @@
 package lando.systems.ld38.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -71,27 +70,50 @@ public class World {
     }
 
     private void generateWorldTiles() {
-        float r = (World.WORLD_WIDTH - 1) / 2; // sub 1 because we're zero indexing the tiles
+        float r = ((World.WORLD_WIDTH - 1) / 2); // sub 1 because we're zero indexing the tiles
         Vector2 c = new Vector2(r,r);
+        float maxTileHeight = 0;
+        float thisHeight;
         tiles = new Array<Tile>(WORLD_WIDTH * WORLD_WIDTH );
+        // Create the tiles.
         for (int row = 0; row < WORLD_WIDTH; row++){
             for (int col = 0; col < WORLD_WIDTH; col++){
                 float adjustedRow = (col % 2 == 0) ? row + 0.5f : row;
                 float dist = c.dst(col,adjustedRow);
-                // Create the tiles in a circle around the center.
+                // Inside the island perimeter?
                 if (dist <= r) {
-                    Tile.Type type = Tile.Type.Dirt;
-                    float t = (float)osn.eval(col * .1f, adjustedRow*.1f) /2f + .5f;
-                    if (t > .5f) type = Tile.Type.Sand;
-                    if (t > .6f) type = Tile.Type.Stone;
-                    if (t > .7f) type = Tile.Type.Clay;
-                    if (t > .8f) type = Tile.Type.Grass;
-                    if (t > .9f) type = Tile.Type.Snow;
-                    float h = getTileHeight(col,row);
-                    tiles.add(new Tile(col, row, h, type));
+                    thisHeight = getTileHeight(col,row);
+                    if (thisHeight > maxTileHeight) {
+                        maxTileHeight = thisHeight;
+                    }
+                    // Only add tiles if they're above sea level
+                    if (thisHeight > 0) {
+                        tiles.add(new Tile(col, row, thisHeight));
+                    }
                 }
-                // TODO: create "OceanTile" objects if it's off the island? Or just set the height to -1?
             }
+        }
+        // Now, assign biomes.
+        float relativeHeightAboveSeaLevel; // 0 - 1, one being the highest.  Height of 0 is bound to 0.
+        float typeStep = 1 / 6f;  // Number of biomes
+        for (Tile tile : tiles) {
+            relativeHeightAboveSeaLevel = tile.height <= 0 ? 0 : tile.height / maxTileHeight;
+            // Clay, Dirt, Grass, Sand, Snow, Stone
+            Tile.Type type;
+            if (relativeHeightAboveSeaLevel <= typeStep * 1) {
+                type = Tile.Type.Sand;
+            } else if (relativeHeightAboveSeaLevel <= typeStep * 2) {
+                type = Tile.Type.Clay;
+            } else if (relativeHeightAboveSeaLevel <= typeStep * 3) {
+                type = Tile.Type.Grass;
+            } else if (relativeHeightAboveSeaLevel <= typeStep * 4) {
+                type = Tile.Type.Dirt;
+            } else if (relativeHeightAboveSeaLevel <= typeStep * 5) {
+                type = Tile.Type.Stone;
+            } else {
+                type = Tile.Type.Snow;
+            }
+            tile.type = type;
         }
     }
 
