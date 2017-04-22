@@ -37,9 +37,17 @@ public class Assets {
     public static Texture whitePixel;
     public static Texture blank_hex;
     public static Texture clay_hex;
-    public static Texture forest_hex;
+    public static Texture clay_bottom;
+    public static Texture dirt_hex;
+    public static Texture dirt_bottom;
+    public static Texture grass_hex;
+    public static Texture grass_bottom;
     public static Texture sand_hex;
+    public static Texture sand_bottom;
+    public static Texture snow_hex;
+    public static Texture snow_bottom;
     public static Texture stone_hex;
+    public static Texture stone_bottom;
     public static Texture water_hex;
     public static Texture water_bumpmap;
     public static Texture turn_counter_background;
@@ -60,11 +68,18 @@ public class Assets {
         mgr = new AssetManager();
         mgr.load("images/white-pixel.png", Texture.class, nearestParams);
         mgr.load("images/blank-hex.png", Texture.class, nearestParams);
-        mgr.load("images/clay.png", Texture.class, nearestParams);
-        mgr.load("images/sand.png", Texture.class, nearestParams);
-        mgr.load("images/stone.png", Texture.class, nearestParams);
-        mgr.load("images/tree.png", Texture.class, nearestParams);
-        mgr.load("images/water.png", Texture.class, nearestParams);
+        mgr.load("images/clay_top.png", Texture.class, nearestParams);
+        mgr.load("images/dirt_top.png", Texture.class, nearestParams);
+        mgr.load("images/grass_top.png", Texture.class, nearestParams);
+        mgr.load("images/sand_top.png", Texture.class, nearestParams);
+        mgr.load("images/snow_top.png", Texture.class, nearestParams);
+        mgr.load("images/stone_top.png", Texture.class, nearestParams);
+        mgr.load("images/clay_bottom.png", Texture.class, nearestParams);
+        mgr.load("images/dirt_bottom.png", Texture.class, nearestParams);
+        mgr.load("images/grass_bottom.png", Texture.class, nearestParams);
+        mgr.load("images/sand_bottom.png", Texture.class, nearestParams);
+        mgr.load("images/snow_bottom.png", Texture.class, nearestParams);
+        mgr.load("images/stone_bottom.png", Texture.class, nearestParams);
         mgr.load("images/water-bump.png", Texture.class, nearestParams);
         mgr.load("images/turn_counter_background.png", Texture.class, nearestParams);
 
@@ -92,11 +107,20 @@ public class Assets {
 
         whitePixel = mgr.get("images/white-pixel.png", Texture.class);
         blank_hex = mgr.get("images/blank-hex.png", Texture.class);
-        forest_hex = mgr.get("images/tree.png", Texture.class);
-        clay_hex = mgr.get("images/clay.png", Texture.class);
-        stone_hex = mgr.get("images/stone.png", Texture.class);
-        sand_hex = mgr.get("images/sand.png", Texture.class);
-        water_hex = mgr.get("images/water.png", Texture.class);
+        clay_hex = mgr.get("images/clay_top.png", Texture.class);
+        dirt_hex = mgr.get("images/dirt_top.png", Texture.class);
+        grass_hex = mgr.get("images/grass_top.png", Texture.class);
+        sand_hex = mgr.get("images/sand_top.png", Texture.class);
+        snow_hex = mgr.get("images/snow_top.png", Texture.class);
+        stone_hex = mgr.get("images/stone_top.png", Texture.class);
+
+        clay_bottom = mgr.get("images/clay_bottom.png", Texture.class);
+        dirt_bottom = mgr.get("images/dirt_bottom.png", Texture.class);
+        grass_bottom = mgr.get("images/grass_bottom.png", Texture.class);
+        sand_bottom = mgr.get("images/sand_bottom.png", Texture.class);
+        snow_bottom = mgr.get("images/snow_bottom.png", Texture.class);
+        stone_bottom = mgr.get("images/stone_bottom.png", Texture.class);
+
         water_bumpmap = mgr.get("images/water-bump.png", Texture.class);
         water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         turn_counter_background = mgr.get("images/turn_counter_background.png", Texture.class);

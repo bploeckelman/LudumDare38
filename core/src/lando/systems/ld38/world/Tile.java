@@ -10,35 +10,44 @@ import lando.systems.ld38.utils.Assets;
  */
 
 public class Tile extends GameObject {
-    enum Type {Grass, Sand, Forest, Ocean, Clay, Stone}
+    enum Type {Clay, Dirt, Grass, Sand, Snow, Stone}
     public Type type;
+    Texture top_tex;
+    Texture bottom_tex;
 
     public Tile(int col, int row, float height, Type type){
         super(col, row, height);
         this.type = type;
+        switch(type){
+            case Grass: top_tex = Assets.grass_hex;
+                bottom_tex = Assets.grass_bottom;
+                break;
+            case Sand: top_tex = Assets.sand_hex;
+                bottom_tex = Assets.sand_bottom;
+                break;
+            case Dirt: top_tex = Assets.dirt_hex;
+                bottom_tex = Assets.dirt_bottom;
+                break;
+            case Stone: top_tex = Assets.stone_hex;
+                bottom_tex = Assets.stone_bottom;
+                break;
+            case Clay: top_tex = Assets.clay_hex;
+                bottom_tex = Assets.clay_bottom;
+                break;
+            case Snow: top_tex = Assets.snow_hex;
+                bottom_tex = Assets.snow_bottom;
+                break;
+        }
+
     }
 
     public void render(SpriteBatch batch, float x, float y, float width, float height){
 
-        Texture tex = Assets.blank_hex;
-        switch(type){
-            case Grass: tex = Assets.blank_hex;
-                break;
-            case Sand: tex = Assets.sand_hex;
-                break;
-            case Forest: tex = Assets.forest_hex;
-                break;
-            case Stone: tex = Assets.stone_hex;
-                break;
-            case Clay: tex = Assets.clay_hex;
-                break;
-            case Ocean: tex = Assets.water_hex;
-                break;
-        }
+        float heightOffest = this.height * 2;
         float a = Math.max(this.height / World.WORLD_MAX_HEIGHT, 0);
 //        batch.setColor(1f,1f,1f,a);
-        if (type == Type.Ocean) return;
-        batch.draw(tex, x, y, tileWidth, tileHeight);
+        batch.draw(bottom_tex, x, y, tileWidth, tileHeight);
+        batch.draw(top_tex, x, y + heightOffest, tileWidth, tileHeight);
         batch.setColor(Color.WHITE);
     }
 }

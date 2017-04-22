@@ -53,9 +53,13 @@ public class World {
     }
 
     public void render(SpriteBatch batch){
-        for (Tile tile : tiles){
-            tile.render(batch);
+        for (int i = tiles.size-1; i >= 0; i--){
+            tiles.get(i).render(batch);
         }
+
+//        for (Tile tile : tiles){
+//            tile.render(batch);
+//        }
 
         for (Player player : players) {
             player.render(batch);
@@ -70,19 +74,19 @@ public class World {
         float r = (World.WORLD_WIDTH - 1) / 2; // sub 1 because we're zero indexing the tiles
         Vector2 c = new Vector2(r,r);
         tiles = new Array<Tile>(WORLD_WIDTH * WORLD_WIDTH );
-        for (int col = 0; col < WORLD_WIDTH; col++){
-            for (int row = 0; row < WORLD_WIDTH; row++){
+        for (int row = 0; row < WORLD_WIDTH; row++){
+            for (int col = 0; col < WORLD_WIDTH; col++){
                 float adjustedRow = (col % 2 == 0) ? row + 0.5f : row;
                 float dist = c.dst(col,adjustedRow);
                 // Create the tiles in a circle around the center.
                 if (dist <= r) {
-                    Tile.Type type = Tile.Type.Forest;
+                    Tile.Type type = Tile.Type.Dirt;
                     float t = (float)osn.eval(col * .1f, adjustedRow*.1f) /2f + .5f;
                     if (t > .5f) type = Tile.Type.Sand;
                     if (t > .6f) type = Tile.Type.Stone;
                     if (t > .7f) type = Tile.Type.Clay;
                     if (t > .8f) type = Tile.Type.Grass;
-                    if (t > .9f) type = Tile.Type.Forest;
+                    if (t > .9f) type = Tile.Type.Snow;
                     float h = getTileHeight(col,row);
                     tiles.add(new Tile(col, row, h, type));
                 }

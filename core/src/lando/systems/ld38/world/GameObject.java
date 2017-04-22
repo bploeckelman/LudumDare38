@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public abstract class GameObject {
 
-    public static float tileWidth = 40;
-    public static float tileHeight = 26;
+    public static float tileWidth = 26;
+    public static float tileHeight = 30;
 
     public float height;
     public int row;
@@ -27,9 +27,9 @@ public abstract class GameObject {
     }
 
     public void render(SpriteBatch batch) {
-        float x = col * tileWidth * .75f;
-        float y = row * tileHeight;
-        if (col % 2 == 0) y += tileHeight / 2f;
+        float x = col * tileWidth;
+        float y = row * tileHeight * .75f;
+        if (row % 2 == 0) x += tileWidth / 2f;
         render(batch, x, y, tileWidth, tileHeight);
     }
 
