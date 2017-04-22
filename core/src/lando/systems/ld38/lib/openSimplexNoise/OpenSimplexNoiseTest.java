@@ -1,16 +1,17 @@
-/*
+package lando.systems.ld38.lib.openSimplexNoise;/*
  * OpenSimplex Noise sample class.
  */
 
-import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-import java.io.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class OpenSimplexNoiseTest
 {
 	private static final int WIDTH = 512;
 	private static final int HEIGHT = 512;
-	private static final double FEATURE_SIZE = 24;
+	private static final double FEATURE_SIZE = 240;
 
 	public static void main(String[] args)
 		throws IOException {

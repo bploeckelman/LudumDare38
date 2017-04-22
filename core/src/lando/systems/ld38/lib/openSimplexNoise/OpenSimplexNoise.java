@@ -1,3 +1,5 @@
+package lando.systems.ld38.lib.openSimplexNoise;
+
 /*
  * OpenSimplex Noise in Java.
  * by Kurt Spencer
