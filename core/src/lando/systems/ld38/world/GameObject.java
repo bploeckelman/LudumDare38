@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public abstract class GameObject {
     public static float tileWidth = 40;
-    public static float tileHeight = 40;
+    public static float tileHeight = 26;
 
     public float height;
     public int row;
@@ -15,9 +15,10 @@ public abstract class GameObject {
 
     public GameObject() {}
 
-    public GameObject(int col, int row){
+    public GameObject(int col, int row, float height){
         this.col = col;
         this.row = row;
+        this.height = height;
     }
 
     public void update(float dt){
