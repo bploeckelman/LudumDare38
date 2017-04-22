@@ -3,6 +3,7 @@ package lando.systems.ld38.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
 
@@ -30,11 +31,14 @@ public class World {
 
     private OpenSimplexNoise osn;
 
+    public Rectangle bounds;
+
     public World(){
 
         osn = new OpenSimplexNoise(HEIGHT_NOISE_SEED);
 
         generateWorldTiles();
+        bounds = new Rectangle(0, 0,(Tile.tileWidth * .75f) * WORLD_WIDTH ,Tile.tileHeight * WORLD_WIDTH);
 
         players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
 
