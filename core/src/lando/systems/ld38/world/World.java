@@ -7,8 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
 
-import java.util.ArrayList;
-
 /**
  * Created by dsgraham on 4/22/17.
  */
@@ -36,7 +34,7 @@ public class World {
     public Array<Player> players;
     public Water water;
 
-    public final ArrayList<ResourceIndicator> resIndicators = new ArrayList<ResourceIndicator>(10);
+    public final Array<ResourceIndicator> resIndicators = new Array<ResourceIndicator>(10);
 
     private OpenSimplexNoise osn;
 
@@ -70,10 +68,10 @@ public class World {
             resIndicator.update(dt);
         }
 
-        for (int i = resIndicators.size() - 1; i >= 0; i--) {
+        for (int i = resIndicators.size - 1; i >= 0; i--) {
             resIndicators.get(i).update(dt);
             if (resIndicators.get(i).isComplete()) {
-                resIndicators.remove(i);
+                resIndicators.removeIndex(i);
             }
         }
 //        for (Tile t : tiles) {
@@ -210,18 +208,18 @@ public class World {
         return quantHeight;
     }
 
-    public ArrayList<Player> getPlayer(int row, int col) {
-        ArrayList<Player> selectedPlayers = new ArrayList<Player>();
+    public Array<Player> getPlayers(GridPoint2 location) {
+        Array<Player> selectedPlayers = new Array<Player>(5);
         for(Player p : players) {
-            if (p.row == col && p.col == row) {
+            if (p.row == location.y && p.col == location.x) {
                 selectedPlayers.add(p);
             }
         }
         return selectedPlayers;
     }
 
-    public Tile getTile(GridPoint2 point) {
-        return getTile(point.y, point.x);
+    public Tile getTile(GridPoint2 location) {
+        return getTile(location.y, location.x);
     }
 
     public Tile getTile(int row, int col){

@@ -80,16 +80,6 @@ public class GameScreen extends BaseScreen {
         time += dt;
         world.update(dt);
 
-//        if (pickPixmap != null) {
-//            int x = Gdx.input.getX();
-//            int y = Gdx.graphics.getHeight() - Gdx.input.getY();
-//            pickColor.set(pickPixmap.getPixel(x/pickMapScale, y/pickMapScale));
-//            Tile selectedTile = Tile.parsePickColorForTileInWorld(pickColor, world);
-//            if (selectedTile != null) {
-//                selectedTile.isHighlighted = true;
-//            }
-//        }
-
         if (Gdx.input.justTouched()) {
             Player character = world.players.first();
             int toCol = character.col + (alternate ? 1 : 0);
@@ -122,11 +112,7 @@ public class GameScreen extends BaseScreen {
         cameraTouchStart.set(camera.position);
         touchStart.set(screenX, screenY, 0);
 
-//        // test
-//        GridPoint2 grid = getGridPosition(screenX, screenY);
-//
-//        Tile tile = world.getTile(grid.y, grid.x);
-//        ArrayList<Player> player = world.getPlayer(grid.y, grid.x);
+        selectPlayer(screenX, screenY);
 
         return true;
     }
@@ -237,4 +223,13 @@ public class GameScreen extends BaseScreen {
         world.endTurn();
     }
 
+    private void selectPlayer(int screenX, int screenY) {
+        GridPoint2 location = getGridPosition(screenX, screenY);
+        Array<Player> players = world.getPlayers(location);
+        Player player = players.first();
+        if (player == null) return;
+
+        Tile tile = world.getTile(location);
+
+    }
 }
