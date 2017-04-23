@@ -10,6 +10,9 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Config.gameWidth;
 		config.height = Config.gameHeight;
+//		config.vSyncEnabled = false;
+//		config.foregroundFPS = 0;
+//		config.backgroundFPS = 0;
 		new LwjglApplication(new LudumDare38(), config);
 	}
 }
