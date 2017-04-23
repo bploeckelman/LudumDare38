@@ -52,6 +52,9 @@ public class EndTurnButton extends Button {
     }
     @Override
     public void render(SpriteBatch batch) {
+        batch.setColor(0.25f, 0.25f, 0.25f, 0.75f);
+        batch.draw(Assets.whitePixel, bounds.x, bounds.y, bounds.width, bounds.height + keyframe.getRegionHeight() * 2f + 20f);
+        batch.setColor(Color.WHITE);
         batch.draw(keyframe,
                 bounds.x + bounds.width / 2f - keyframe.getRegionWidth(),
                 bounds.y + bounds.height + 10f,

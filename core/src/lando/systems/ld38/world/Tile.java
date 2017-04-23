@@ -13,7 +13,7 @@ import lando.systems.ld38.utils.Assets;
 
 public class Tile extends GameObject {
 
-    public static float heightScale = 4;
+    public static float heightScale = 8;
 
     public Type type;
     public TextureRegion top_tex;
