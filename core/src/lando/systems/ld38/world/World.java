@@ -2,6 +2,7 @@ package lando.systems.ld38.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -47,15 +48,16 @@ public class World {
         generateWorldTiles();
         bounds = new Rectangle(-100, -100,(Tile.tileWidth) * WORLD_WIDTH + 200, Tile.tileHeight * WORLD_WIDTH * .75f + 200);
 
-        players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
-
-        Player player = new Player(this, 10, 10);
-        players.add(player);
-
-        Player player2 = new Player(this, 11, 10);
-        players.add(player2);
-
-        players.add(new Player(this, 10,11));
+        players = new Array<Player>();
+        for (int i = 0; i < 5; i ++){
+            int row = MathUtils.random(4);
+            int col = MathUtils.random(WORLD_WIDTH);
+            while (getTile(row, col) == null || getTile(row, col).type == Type.Ocean){
+                row = MathUtils.random(6);
+                col = MathUtils.random(WORLD_WIDTH);
+            }
+            players.add(new Player(this, row, col));
+        }
 
         adjacentTiles = new Array<Tile>();
     }
