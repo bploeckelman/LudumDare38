@@ -135,7 +135,7 @@ public class GameScreen extends BaseScreen {
         batch.setColor(Color.WHITE);
 
         turnCounter.render(batch, turn);
-
+        Assets.font.draw(batch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 3, 16);
         batch.end();
     }
 
