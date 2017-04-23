@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.accessors.Vector3Accessor;
 
@@ -55,6 +56,8 @@ public class Player extends GameObject {
             tileOffset += tile.height * 2;
         }
 
+        displayResourceGather(2);
+
         animation = Assets.womanWalkSide;
         this.row = row;
         this.col = col;
@@ -71,6 +74,24 @@ public class Player extends GameObject {
                     animation = Assets.womanWalkDown;
                 }
             })
-            .start(Assets.tween);
+                .start(Assets.tween);
+
+    }
+
+    public void displayResourceGather(int numResourcesGathered)
+    {
+        TextureRegion icon = getResourceIcon();
+        if (icon == null) return;
+        Rectangle resourcePos = getResourceBounds();
+        world.resIndicators.add(new ResourceIndicator(icon, resourcePos, numResourcesGathered));
+    }
+
+    public TextureRegion getResourceIcon() {
+        Tile tile = getTile(row, col);
+        return tile.top_tex;
+    }
+
+    public Rectangle getResourceBounds() {
+        return new Rectangle(position.x, position.y, 15, 15);
     }
 }

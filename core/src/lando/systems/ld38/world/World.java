@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
 import lando.systems.ld38.ui.EndTurnButton;
 import lando.systems.ld38.utils.Assets;
+import java.util.ArrayList;
 
 /**
  * Created by dsgraham on 4/22/17.
@@ -32,6 +33,8 @@ public class World {
     public Array<Player> players;
     public Water water;
     public EndTurnButton endTurnButton;
+
+    public final ArrayList<ResourceIndicator> resIndicators = new ArrayList<ResourceIndicator>(10);
 
     private OpenSimplexNoise osn;
 
@@ -59,6 +62,17 @@ public class World {
         for (Player player : players) {
             player.update(dt);
         }
+
+        for (ResourceIndicator resIndicator : resIndicators) {
+            resIndicator.update(dt);
+        }
+
+        for (int i = resIndicators.size() - 1; i >= 0; i--) {
+            resIndicators.get(i).update(dt);
+            if (resIndicators.get(i).isComplete()) {
+                resIndicators.remove(i);
+            }
+        }
     }
 
     public void render(SpriteBatch batch){
@@ -78,6 +92,10 @@ public class World {
         }
 
         endTurnButton.render(batch);
+
+        for (ResourceIndicator resIndicator : resIndicators) {
+            resIndicator.render(batch);
+        }
     }
 
     public void renderPickBuffer(SpriteBatch batch) {

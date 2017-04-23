@@ -81,7 +81,7 @@ public class Tile extends GameObject {
     public static float heightScale = 4;
 
     public Type type;
-    TextureRegion top_tex;
+    public TextureRegion top_tex;
     TextureRegion bottom_tex;
     Decoration decoration;
     Color pickColor;
