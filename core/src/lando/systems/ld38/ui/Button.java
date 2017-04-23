@@ -22,6 +22,7 @@ public class Button {
     private static final float TOOLTIP_TEXT_PADDING_X = 8f;
     private static final float TOOLTIP_TEXT_PADDING_Y = 8f;
     private static final float TOOLTIP_TEXT_SCALE = 0.3f;
+    private static final float TOOLTIP_SHOW_DELAY = 0.5f;
 
     private float tooltipBackgroundHeight;
     private float tooltipBackgroundWidth;
@@ -40,6 +41,8 @@ public class Button {
     private Color textColor = Color.WHITE;
     private float textX;
     private float textY;
+    private float timeHovered = 0;
+    private boolean showTooltip = false;
 
 
     // Constructors ----------------------------------------------------------------------------------------------------
@@ -107,9 +110,7 @@ public class Button {
         }
     }
 
-    private float timeHovered = 0;
-    private static final float TOOLTIP_SHOW_DELAY = 0.5f;
-    private boolean showTooltip = false;
+
 
     public void update(float dt) {
         boolean isTouching = checkForTouch(input.getX(), input.getY());
