@@ -12,6 +12,7 @@ import lando.systems.ld38.utils.Assets;
 
 public class Tile extends GameObject {
     enum Type {Clay, Dirt, Grass, Sand, Snow, Stone, Ocean}
+    public static float heightScale = 3;
 
     public Type type;
     TextureRegion top_tex;
@@ -20,11 +21,12 @@ public class Tile extends GameObject {
 
     public float heightOffset;
 
+
     public Tile(World world, int col, int row, float height) {
         super(world, col, row, height);
         type = Type.Ocean;
         pickColor = Tile.getColorFromPosition(row, col);
-        heightOffset = this.height * 2;
+        heightOffset = this.height * heightScale;
     }
 
     public void setType(Type type){
