@@ -72,6 +72,12 @@ public class World {
         }
     }
 
+    public void renderPickBuffer(SpriteBatch batch) {
+        for (Tile tile : tiles) {
+            tile.renderPickBuffer(batch);
+        }
+    }
+
     public Array<Tile> getNeighbors(int row, int col){
         return new Array<Tile>();
     }

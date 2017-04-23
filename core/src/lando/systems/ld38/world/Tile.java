@@ -12,13 +12,16 @@ import lando.systems.ld38.utils.Assets;
 
 public class Tile extends GameObject {
     enum Type {Clay, Dirt, Grass, Sand, Snow, Stone, Ocean}
+
     public Type type;
     TextureRegion top_tex;
     TextureRegion bottom_tex;
+    Color pickColor;
 
     public Tile(World world, int col, int row, float height) {
         super(world, col, row, height);
         type = Type.Ocean;
+        pickColor = Tile.getColorFromPosition(row, col);
     }
 
     public void setType(Type type){
@@ -51,17 +54,41 @@ public class Tile extends GameObject {
         }
     }
 
-    public void render(SpriteBatch batch, float x, float y, float width, float height){
+    public void render(SpriteBatch batch, float x, float y, float width, float height) {
+        render(batch, x, y, width, height, false);
+    }
+
+    public void render(SpriteBatch batch, float x, float y, float width, float height, boolean asPickBuffer){
         if (type == Type.Ocean) return;
         float heightOffset = this.height * 2;
         float a = Math.max(this.height / World.WORLD_MAX_HEIGHT, 0);
-        for (int yOffset = 0; yOffset < heightOffset; yOffset++)  {
-
-            batch.draw(bottom_tex, x, y + yOffset, tileWidth, tileHeight);
+        if (!asPickBuffer) {
+            for (int yOffset = 0; yOffset < heightOffset; yOffset++) {
+                batch.draw(bottom_tex, x, y + yOffset, tileWidth, tileHeight);
+            }
         }
 
-        batch.draw(top_tex, x, y + heightOffset, tileWidth, tileHeight);
-
+        if (asPickBuffer) {
+            batch.setColor(pickColor);
+            batch.draw(Assets.white_hex, x, y + heightOffset, tileWidth, tileHeight);
+        } else {
+            batch.draw(top_tex, x, y + heightOffset, tileWidth, tileHeight);
+        }
         batch.setColor(Color.WHITE);
     }
+
+    public void renderPickBuffer(SpriteBatch batch) {
+        float x = col * tileWidth;
+        float y = row * tileHeight * .75f;
+        if (row % 2 == 0) x += tileWidth / 2f;
+        render(batch, x, y, tileWidth, tileHeight, true);
+    }
+
+    public static Color getColorFromPosition(int row, int col) {
+        return new Color(
+                (col * (255 / World.WORLD_WIDTH)) / 255f,
+                (row * (255 / World.WORLD_WIDTH)) / 255f,
+                0f, 1f);
+    }
+
 }

@@ -2,25 +2,23 @@ package lando.systems.ld38.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.Player;
 import lando.systems.ld38.world.TurnCounter;
 import lando.systems.ld38.world.UserResources;
-import lando.systems.ld38.world.Tile;
 import lando.systems.ld38.world.World;
-import sun.font.GlyphLayout;
 
 /**
  * Created by Brian on 4/16/2017
@@ -31,6 +29,8 @@ public class GameScreen extends BaseScreen {
     public World world;
     public UserResources resources;
     public TurnCounter turnCounter;
+    public FrameBuffer pickBuffer;
+    public TextureRegion pickRegion;
 
     public boolean alternate = true;
     public int turn;
@@ -52,6 +52,9 @@ public class GameScreen extends BaseScreen {
         debugTex = Assets.whitePixel;
         turn = 0;
         turnActions = new Array<TurnAction>();
+        pickBuffer = new FrameBuffer(Pixmap.Format.RGB888, Config.gameWidth, Config.gameHeight, false, false);
+        pickRegion = new TextureRegion(pickBuffer.getColorBufferTexture());
+        pickRegion.flip(false, true);
 
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
@@ -123,20 +126,32 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
-
         batch.begin();
-
-        world.render(batch);
-
+        {
+            world.render(batch);
+        }
         batch.end();
+        pickBuffer.begin();
+        {
+            Gdx.gl.glClearColor(0f, 0f, 1f, 0f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            batch.begin();
+            world.renderPickBuffer(batch);
+            batch.end();
+        }
+        pickBuffer.end();
 
         batch.setProjectionMatrix(hudCamera.combined);
         batch.begin();
-        resources.render(batch);
-        batch.setColor(Color.WHITE);
+        {
+            resources.render(batch);
+            batch.setColor(Color.WHITE);
+            turnCounter.render(batch, turn);
+            Assets.font.draw(batch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 3, 16);
 
-        turnCounter.render(batch, turn);
-        Assets.font.draw(batch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 3, 16);
+            batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
+        }
         batch.end();
     }
 
