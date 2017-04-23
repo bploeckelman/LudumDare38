@@ -9,28 +9,36 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld38.turns.ActionType;
+import lando.systems.ld38.turns.ActionTypeMove;
+import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.accessors.Vector3Accessor;
 
 public class Player extends GameObject {
     public TextureRegion tex;
+    public TextureRegion faceTex;
     public float timer = 0f;
 
     public boolean walkRight = false;
     public Animation<TextureRegion> animation;
 
-    public Player(World world) {
+    public Player(World world, int row, int col) {
         super(world);
         animation = Assets.womanWalkDown;
         tex = animation.getKeyFrame(timer);
-
+        faceTex = Assets.head_female_dark;
+        this.row = row;
+        this.col = col;
         float tileOffset = 0f;
         Tile tile = getTile(row, col);
 
         if (tile != null) {
             tileOffset += tile.height * Tile.heightScale;
         }
-        position.z = position.y + tileOffset + (tileHeight * .25f);
+        position.x = getX(row, col);
+        position.y = getY(row);
+        position.z = tileOffset + (tileHeight * .25f);
     }
 
     @Override
@@ -107,5 +115,16 @@ public class Player extends GameObject {
 
     public Rectangle getResourceBounds() {
         return new Rectangle(position.x, position.y, 15, 15);
+    }
+
+    public void renderHud(SpriteBatch batch, float x, float y, TurnAction action){
+        batch.draw(faceTex, x, y, 25, 25);
+        if (action != null){
+            if (action.action instanceof ActionTypeMove){
+                batch.draw(Assets.arrow, x + 30, y, 25, 25);
+            }
+        }
+        // TODO draw action icon here
+
     }
 }

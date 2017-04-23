@@ -49,11 +49,11 @@ public class World {
 
         players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
 
-        Player player = new Player(this);
-        player.row = 10;
-        player.col = 10;
-        player.moveTo(player.row, player.col);
+        Player player = new Player(this, 10, 10);
         players.add(player);
+
+        Player player2 = new Player(this, 11, 10);
+        players.add(player2);
 
         adjacentTiles = new Array<Tile>();
     }

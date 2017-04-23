@@ -19,6 +19,8 @@ import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.Button;
 import lando.systems.ld38.ui.EndTurnButton;
+import lando.systems.ld38.ui.OptionButton;
+import lando.systems.ld38.ui.PlayerSelectionHud;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.*;
@@ -36,6 +38,7 @@ public class GameScreen extends BaseScreen {
     public TurnCounter turnCounter;
     public Array<Tile> adjacentTiles;
     public EndTurnButton endTurnButton;
+    public PlayerSelectionHud playerSelection;
 
     public FrameBuffer pickBuffer;
     public TextureRegion pickRegion;
@@ -73,7 +76,7 @@ public class GameScreen extends BaseScreen {
         pickColor = new Color();
 
         endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
-
+        playerSelection = new PlayerSelectionHud(this);
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
         Gdx.input.setInputProcessor(this);
@@ -88,6 +91,7 @@ public class GameScreen extends BaseScreen {
         time += dt;
         world.update(dt);
         endTurnButton.update(dt);
+        playerSelection.update(dt);
 
         if (Gdx.input.justTouched()) {
             Player character = world.players.first();
@@ -227,6 +231,7 @@ public class GameScreen extends BaseScreen {
         batch.setProjectionMatrix(hudCamera.combined);
         batch.begin();
         {
+            playerSelection.render(batch);
             resources.render(batch);
             turnCounter.render(batch, turn);
             endTurnButton.render(batch);
