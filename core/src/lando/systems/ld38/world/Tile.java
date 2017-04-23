@@ -18,10 +18,13 @@ public class Tile extends GameObject {
     TextureRegion bottom_tex;
     Color pickColor;
 
+    public float heightOffset;
+
     public Tile(World world, int col, int row, float height) {
         super(world, col, row, height);
         type = Type.Ocean;
         pickColor = Tile.getColorFromPosition(row, col);
+        heightOffset = this.height * 2;
     }
 
     public void setType(Type type){
@@ -60,8 +63,7 @@ public class Tile extends GameObject {
 
     public void render(SpriteBatch batch, float x, float y, float width, float height, boolean asPickBuffer){
         if (type == Type.Ocean) return;
-        float heightOffset = this.height * 2;
-        float a = Math.max(this.height / World.WORLD_MAX_HEIGHT, 0);
+
         if (asPickBuffer) {
             batch.setColor(pickColor);
             for (int yOffset = 0; yOffset < heightOffset; yOffset++) {

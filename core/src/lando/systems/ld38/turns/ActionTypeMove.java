@@ -16,8 +16,7 @@ public class ActionTypeMove extends ActionType {
 
     @Override
     public void doAction() {
-        turnAction.character.col = toCol;
-        turnAction.character.row = toRow;
+        turnAction.character.moveTo(toRow, toCol);
     }
 
 }
