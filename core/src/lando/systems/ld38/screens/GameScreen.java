@@ -99,6 +99,7 @@ public class GameScreen extends BaseScreen {
         time += dt;
         world.update(dt);
         endTurnButton.update(dt);
+//        testingButton.update(dt);
         playerSelection.update(dt);
 
 //        if (Gdx.input.justTouched()) {
@@ -301,7 +302,7 @@ public class GameScreen extends BaseScreen {
             resources.render(batch);
             turnCounter.render(batch, turn);
             endTurnButton.render(batch);
-            testingButton.render(batch);
+//            testingButton.render(batch);
             Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
 
             // Draw pick region stuff

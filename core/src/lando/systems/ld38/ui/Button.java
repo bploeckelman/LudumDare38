@@ -92,7 +92,7 @@ public class Button {
         }
         // Tooltip
         if (tooltip != null && !tooltip.equals("")) {
-            if (checkForTouch(input.getX(), input.getY())) {
+            if (showTooltip) {
                 float tX = input.getX();
                 float tY = Config.gameHeight - input.getY();
                 Assets.woodPanel.draw(batch, tX, tY, tooltipBackgroundWidth, tooltipBackgroundHeight);
@@ -105,6 +105,20 @@ public class Button {
                         Assets.fancyFont);
             }
         }
+    }
+
+    private float timeHovered = 0;
+    private static final float TOOLTIP_SHOW_DELAY = 0.5f;
+    private boolean showTooltip = false;
+
+    public void update(float dt) {
+        boolean isTouching = checkForTouch(input.getX(), input.getY());
+        if (isTouching) {
+            timeHovered += dt;
+        } else {
+            timeHovered = 0;
+        }
+        showTooltip = timeHovered >= TOOLTIP_SHOW_DELAY;
     }
 
 
