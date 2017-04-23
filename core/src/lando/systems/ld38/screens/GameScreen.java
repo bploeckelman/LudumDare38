@@ -61,7 +61,7 @@ public class GameScreen extends BaseScreen {
 
     public Button testingButton;
 
-    private ActionManager actionManager = new ActionManager();
+    public ActionManager actionManager = new ActionManager();
 
     public GameScreen() {
         super();
@@ -178,6 +178,8 @@ public class GameScreen extends BaseScreen {
 
         return false;
     }
+
+
 
     private boolean handleMove(GridPoint2 location) {
         Tile tile = world.getTile(location);
