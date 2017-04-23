@@ -3,6 +3,7 @@ package lando.systems.ld38.world;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.utils.Assets;
 
@@ -72,11 +73,20 @@ public class Tile extends GameObject {
         }
 
         batch.setColor(texColor);
-        for (int yOffset = -10; yOffset < heightOffset; yOffset += 2) {
-            if (asPickBuffer || (aboveWater && yOffset > waterHeight) || (!aboveWater && yOffset <= waterHeight)) {
+
+        if (!aboveWater || asPickBuffer){
+            float maxHeight = Math.max(waterHeight, heightOffset);
+            for (int yOffset = -10; yOffset < maxHeight; yOffset += 20) {
+                    batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
+            }
+        }
+        if (aboveWater || asPickBuffer){
+            for (int yOffset = (int)waterHeight; yOffset < heightOffset; yOffset += 20) {
                 batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
             }
         }
+
+
         if (asPickBuffer || (aboveWater && heightOffset > waterHeight) || (!aboveWater && heightOffset <= waterHeight)) {
             batch.draw(topTex, x, y + heightOffset, tileWidth, tileHeight);
             if (!asPickBuffer && shadow_tex != null){
