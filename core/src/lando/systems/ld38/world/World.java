@@ -12,12 +12,12 @@ import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
 public class World {
 
 
-    public static final int WORLD_WIDTH = 18;
+    public static final int WORLD_WIDTH = 20;
 
     private static final float HEIGHT_NOISE_HEIGHT = 5f;
     private static final float HEIGHT_NOISE_SCALE = 0.6f;
     private static final float ISLAND_BACK_HEIGHT = 5f;
-    private static final float ISLAND_FRONT_HEIGHT = 0f;
+    private static final float ISLAND_FRONT_HEIGHT = -1f;
     private static final long HEIGHT_NOISE_SEED = 23203423489124l;
 
     // Computed --------------------------------------------------------------------------------------------------------
@@ -93,6 +93,8 @@ public class World {
                     // Only add tiles if they're above sea level
                     if (thisHeight > 0) {
                         tiles.add(new Tile(col, row, thisHeight));
+                    } else {
+                        tiles.add(new Tile(col, row, thisHeight));
                     }
                 }
             }
@@ -129,6 +131,13 @@ public class World {
         float noiseHeight = HEIGHT_NOISE_HEIGHT * noisePercent;
         int quantHeight = (int) ((basicHeight + noiseHeight));
         return quantHeight;
+    }
+
+    public Tile getTile(int row, int col){
+        for (Tile tile : tiles){
+            if (tile.row == row && tile.col == col) return tile;
+        }
+        return null;
     }
 
 
