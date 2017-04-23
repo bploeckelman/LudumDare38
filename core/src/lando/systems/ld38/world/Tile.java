@@ -63,25 +63,21 @@ public class Tile extends GameObject {
 
     public void render(SpriteBatch batch, float x, float y, float width, float height, boolean asPickBuffer){
         if (type == Type.Ocean) return;
-
+        TextureRegion bottomTex = bottom_tex;
+        TextureRegion topTex = top_tex;
+        Color texColor = Color.WHITE;
         if (asPickBuffer) {
-            batch.setColor(pickColor);
-            for (int yOffset = 0; yOffset < heightOffset; yOffset++) {
-                batch.draw(Assets.white_hex, x, y + yOffset, tileWidth, tileHeight);
-            }
-            batch.setColor(Color.WHITE);
-        } else {
-            for (int yOffset = 0; yOffset < heightOffset; yOffset++) {
-                batch.draw(bottom_tex, x, y + yOffset, tileWidth, tileHeight);
-            }
+            texColor = pickColor;
+            bottomTex = Assets.white_hex;
+            topTex = Assets.white_hex;
         }
 
-        if (asPickBuffer) {
-            batch.setColor(pickColor);
-            batch.draw(Assets.white_hex, x, y + heightOffset, tileWidth, tileHeight);
-        } else {
-            batch.draw(top_tex, x, y + heightOffset, tileWidth, tileHeight);
+        batch.setColor(texColor);
+        for (int yOffset = 0; yOffset < heightOffset; yOffset++) {
+            batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
         }
+        batch.draw(topTex, x, y + heightOffset, tileWidth, tileHeight);
+
         batch.setColor(Color.WHITE);
     }
 
