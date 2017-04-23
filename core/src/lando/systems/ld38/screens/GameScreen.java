@@ -104,7 +104,8 @@ public class GameScreen extends BaseScreen {
             return false;
         }
 
-        float newZoom = camera.zoom + (amount * zoomScale);
+        // Change zoom in smaller increments when zoomed in
+        float newZoom = camera.zoom + (amount * zoomScale * camera.zoom);
 
         if (newZoom < minZoom || newZoom > maxZoom) {
             return false;
