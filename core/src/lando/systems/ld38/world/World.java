@@ -55,6 +55,8 @@ public class World {
         Player player2 = new Player(this, 11, 10);
         players.add(player2);
 
+        players.add(new Player(this, 10,11));
+
         adjacentTiles = new Array<Tile>();
     }
 

@@ -16,18 +16,20 @@ import lando.systems.ld38.utils.accessors.Vector3Accessor;
 
 public class Player extends GameObject {
     enum Type {
-        BF(Assets.bfWalkDown, Assets.bfWalkUp, Assets.bfWalkSide),
-        WF(Assets.wfWalkDown, Assets.wfWalkUp, Assets.wfWalkSide),
-        BM(Assets.bmWalkDown, Assets.bmWalkUp, Assets.bmWalkSide),
-        WM(Assets.wmWalkDown, Assets.wmWalkUp, Assets.wmWalkSide);
+        BF(Assets.bfWalkDown, Assets.bfWalkUp, Assets.bfWalkSide, Assets.head_female_dark),
+        WF(Assets.wfWalkDown, Assets.wfWalkUp, Assets.wfWalkSide, Assets.head_female_white),
+        BM(Assets.bmWalkDown, Assets.bmWalkUp, Assets.bmWalkSide, Assets.head_male_dark),
+        WM(Assets.wmWalkDown, Assets.wmWalkUp, Assets.wmWalkSide, Assets.head_male_white);
 
         public Animation<TextureRegion> down;
         public Animation<TextureRegion> up;
         public Animation<TextureRegion> side;
-        Type(Animation<TextureRegion> down, Animation<TextureRegion> up, Animation<TextureRegion> side) {
+        public TextureRegion head;
+        Type(Animation<TextureRegion> down, Animation<TextureRegion> up, Animation<TextureRegion> side, TextureRegion head) {
             this.down = down;
             this.up = up;
             this.side = side;
+            this.head = head;
         }
     }
 
@@ -44,7 +46,7 @@ public class Player extends GameObject {
         type = new Array<Type>(Type.values()).random();
         animation = type.down;
         tex = animation.getKeyFrame(timer);
-        faceTex = Assets.head_female_dark;
+        faceTex = type.head;
         this.row = row;
         this.col = col;
         float tileOffset = 0f;
