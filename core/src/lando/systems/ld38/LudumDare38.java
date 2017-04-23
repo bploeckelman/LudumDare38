@@ -33,6 +33,7 @@ public class LudumDare38 extends ApplicationAdapter {
         Assets.tween.update(dt);
         screen.update(dt);
         screen.render(batch);
+//        Gdx.app.log("Render Calls", "" + batch.renderCalls);
     }
 
     @Override

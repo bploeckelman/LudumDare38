@@ -203,7 +203,7 @@ public class GameScreen extends BaseScreen {
             batch.draw(Assets.whitePixel, hudCamera.viewportWidth - 100 - 50, 0, 50, 50);
             batch.setColor(Color.WHITE);
 
-            batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
+//            batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
 
             endTurnButton.render(batch);
         }
