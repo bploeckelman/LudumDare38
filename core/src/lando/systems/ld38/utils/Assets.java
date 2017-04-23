@@ -65,9 +65,18 @@ public class Assets {
     public static TextureRegion shadowUL;
     public static TextureRegion shadowUR;
     public static TextureRegion shadowU;
-    public static Animation<TextureRegion> womanWalkUp;
-    public static Animation<TextureRegion> womanWalkDown;
-    public static Animation<TextureRegion> womanWalkSide;
+    public static Animation<TextureRegion> bfWalkUp;
+    public static Animation<TextureRegion> bfWalkDown;
+    public static Animation<TextureRegion> bfWalkSide;
+    public static Animation<TextureRegion> wfWalkUp;
+    public static Animation<TextureRegion> wfWalkDown;
+    public static Animation<TextureRegion> wfWalkSide;
+    public static Animation<TextureRegion> wmWalkUp;
+    public static Animation<TextureRegion> wmWalkDown;
+    public static Animation<TextureRegion> wmWalkSide;
+    public static Animation<TextureRegion> bmWalkUp;
+    public static Animation<TextureRegion> bmWalkDown;
+    public static Animation<TextureRegion> bmWalkSide;
     public static Animation<TextureRegion> totemAnim;
 
     public static TextureRegion cow;
@@ -175,9 +184,18 @@ public class Assets {
         water_bumpmap.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         turn_counter_background = mgr.get("images/turn_counter_background.png", Texture.class);
 
-        womanWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_up"), Animation.PlayMode.LOOP);
-        womanWalkDown = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_down"), Animation.PlayMode.LOOP);
-        womanWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_side"), Animation.PlayMode.LOOP);
+        bfWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("bf_walk_up"), Animation.PlayMode.LOOP);
+        bfWalkDown = new Animation<TextureRegion>(.15f, atlas.findRegions("bf_walk_down"), Animation.PlayMode.LOOP);
+        bfWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("bf_walk_side"), Animation.PlayMode.LOOP);
+        wfWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("wf_walk_up"), Animation.PlayMode.LOOP);
+        wfWalkDown = new Animation<TextureRegion>(.15f, atlas.findRegions("wf_walk_down"), Animation.PlayMode.LOOP);
+        wfWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("wf_walk_side"), Animation.PlayMode.LOOP);
+        wmWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("wm_walk_up"), Animation.PlayMode.LOOP);
+        wmWalkDown = new Animation<TextureRegion>(.15f, atlas.findRegions("wm_walk_down"), Animation.PlayMode.LOOP);
+        wmWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("wm_walk_side"), Animation.PlayMode.LOOP);
+        bmWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("bm_walk_up"), Animation.PlayMode.LOOP);
+        bmWalkDown = new Animation<TextureRegion>(.15f, atlas.findRegions("bm_walk_down"), Animation.PlayMode.LOOP);
+        bmWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("bm_walk_side"), Animation.PlayMode.LOOP);
 
         totemAnim = new Animation<TextureRegion>(0.15f, atlas.findRegions("totem"), Animation.PlayMode.NORMAL);
 

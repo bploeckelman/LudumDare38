@@ -3,29 +3,46 @@ package lando.systems.ld38.world;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import lando.systems.ld38.turns.ActionType;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.accessors.Vector3Accessor;
 
 public class Player extends GameObject {
+    enum Type {
+        BF(Assets.bfWalkDown, Assets.bfWalkUp, Assets.bfWalkSide),
+        WF(Assets.wfWalkDown, Assets.wfWalkUp, Assets.wfWalkSide),
+        BM(Assets.bmWalkDown, Assets.bmWalkUp, Assets.bmWalkSide),
+        WM(Assets.wmWalkDown, Assets.wmWalkUp, Assets.wmWalkSide);
+
+        public Animation<TextureRegion> down;
+        public Animation<TextureRegion> up;
+        public Animation<TextureRegion> side;
+        Type(Animation<TextureRegion> down, Animation<TextureRegion> up, Animation<TextureRegion> side) {
+            this.down = down;
+            this.up = up;
+            this.side = side;
+        }
+    }
+
     public TextureRegion tex;
     public TextureRegion faceTex;
     public float timer = 0f;
 
     public boolean walkRight = false;
+    public Type type;
     public Animation<TextureRegion> animation;
 
     public Player(World world, int row, int col) {
         super(world);
-        animation = Assets.womanWalkDown;
+        type = new Array<Type>(Type.values()).random();
+        animation = type.down;
         tex = animation.getKeyFrame(timer);
         faceTex = Assets.head_female_dark;
         this.row = row;
@@ -74,11 +91,11 @@ public class Player extends GameObject {
         float yDiff = from.y > to.y ? from.y - to.y : to.y - from.y;
 
         if (yDiff > xDiff && yDir == -1) {
-            animation = Assets.womanWalkDown;
+            animation = type.down;
         } else if (yDiff > xDiff && yDir == 1) {
-            animation = Assets.womanWalkUp;
+            animation = type.up;
         } else if (yDiff < xDiff) {
-            animation = Assets.womanWalkSide;
+            animation = type.side;
             walkRight = xDir == 1;
         }
 
@@ -91,12 +108,12 @@ public class Player extends GameObject {
             .target(newX, newY, tileOffset)
             .setCallback(new TweenCallback() {
                 @Override
-                public void onEvent(int type, BaseTween<?> source) {
+                public void onEvent(int eventType, BaseTween<?> source) {
                     walkRight = false;
-                    animation = Assets.womanWalkDown;
+                    animation = type.down;
                 }
             })
-                .start(Assets.tween);
+            .start(Assets.tween);
 
     }
 
