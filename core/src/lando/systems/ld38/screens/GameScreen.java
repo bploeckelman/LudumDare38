@@ -95,6 +95,10 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             endTurn();
         }
+
+        if (pickPixmap != null){
+            pickPixmap.dispose();
+        }
     }
 
     @Override
