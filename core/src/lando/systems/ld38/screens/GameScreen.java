@@ -15,7 +15,6 @@ import lando.systems.ld38.managers.ActionManager;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.EndTurnButton;
-import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.*;
@@ -121,13 +120,7 @@ public class GameScreen extends BaseScreen {
         cameraTouchStart.set(camera.position);
         touchStart.set(screenX, screenY, 0);
 
-        selectPlayer(screenX, screenY);
-
         return true;
-    }
-
-    public GridPoint2 getGridPosition() {
-        return getGridPosition(Gdx.input.getX(), Gdx.input.getY());
     }
 
     public GridPoint2 getGridPosition(int screenX, int screenY) {
@@ -152,6 +145,8 @@ public class GameScreen extends BaseScreen {
         if (endTurnButton.checkForTouch(screenX, screenY)) {
             endTurnButton.handleTouch();
             endTurn();
+        } else {
+            selectPlayer(screenX, screenY);
         }
 
         return false;

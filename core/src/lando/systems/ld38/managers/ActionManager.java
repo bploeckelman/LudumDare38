@@ -54,7 +54,7 @@ public class ActionManager {
         float x = position.x + (player.tileWidth / 2);
         float y = position.y + player.tileHeight + 10;
 
-        Rectangle buttonBounds = new Rectangle(x, y, 100, 20);
+        Rectangle buttonBounds = new Rectangle(x, y, 20, 20);
         optionButtons.add(new OptionButton("Move", buttonBounds, camera));
         if (tile != null) {
             optionButtons.add(new OptionButton("Build", buttonBounds, camera));
