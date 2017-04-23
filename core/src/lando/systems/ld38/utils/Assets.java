@@ -53,6 +53,10 @@ public class Assets {
     public static TextureRegion head_male_white;
     public static TextureRegion head_female_dark;
     public static TextureRegion head_female_white;
+    public static TextureRegion arrow;
+    public static TextureRegion hammer;
+    public static TextureRegion questionmark;
+    public static TextureRegion wait;
     public static Texture water_hex;
     public static TextureRegion select_hex;
     public static TextureRegion white_hex;
@@ -153,6 +157,12 @@ public class Assets {
         head_male_white = atlas.findRegion("head_male_white");
         head_female_dark = atlas.findRegion("head_female_dark");
         head_female_white = atlas.findRegion("head_female_white");
+
+        // Actions
+        arrow = atlas.findRegion("arrow");
+        hammer = atlas.findRegion("hammer");
+        questionmark = atlas.findRegion("questionmark");
+        wait = atlas.findRegion("wait");
 
         woodPanel = new NinePatch(atlas.findRegion("wood_border"), 7,7,7,7);
 

@@ -107,7 +107,7 @@ public class Tile extends GameObject {
             batch.draw(Assets.select_hex, x, y + heightOffset, Tile.tileWidth, Tile.tileHeight);
         }
         if (!decoration.equals(Decoration.None) && !asPickBuffer && aboveWater && heightOffset > waterHeight) {
-            batch.draw(decoration.tex, x, y + heightOffset, tileWidth, tileHeight);
+            batch.draw(decoration.tex, x, y + heightOffset + (tileHeight * .35f), tileWidth, tileHeight);
         }
 
         batch.setColor(Color.WHITE);
