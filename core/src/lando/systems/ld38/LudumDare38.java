@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld38.screens.BaseScreen;
 import lando.systems.ld38.screens.GameScreen;
 import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.utils.SoundManager;
 
 public class LudumDare38 extends ApplicationAdapter {
 
@@ -17,6 +18,7 @@ public class LudumDare38 extends ApplicationAdapter {
     @Override
     public void create () {
         Assets.load();
+        SoundManager.load(false);
         float progress = 0f;
         do {
             progress = Assets.update();

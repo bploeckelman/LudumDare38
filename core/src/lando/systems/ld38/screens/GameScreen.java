@@ -23,6 +23,7 @@ import lando.systems.ld38.ui.EndTurnButton;
 import lando.systems.ld38.ui.PlayerSelectionHud;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
+import lando.systems.ld38.utils.SoundManager;
 import lando.systems.ld38.world.*;
 
 //import static com.sun.glass.ui.gtk.GtkApplication.screen;
@@ -91,6 +92,7 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+        SoundManager.update(dt);
 
         time += dt;
         world.update(dt);
@@ -125,6 +127,14 @@ public class GameScreen extends BaseScreen {
 
         actionManager.update(dt);
         updateCamera();
+
+        // NOTE: Sound DEBUG
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) SoundManager.playSound(SoundManager.SoundOptions.button_select);
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) SoundManager.playSound(SoundManager.SoundOptions.ladder);
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) SoundManager.playSound(SoundManager.SoundOptions.ocean_waves);
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) SoundManager.playSound(SoundManager.SoundOptions.player_move);
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.G)) SoundManager.playSound(SoundManager.SoundOptions.resource_collected);
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) SoundManager.playSound(SoundManager.SoundOptions.seagull);
     }
 
     @Override
