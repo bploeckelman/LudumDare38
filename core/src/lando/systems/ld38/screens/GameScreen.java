@@ -151,8 +151,8 @@ public class GameScreen extends BaseScreen {
                 float y = selectedTile.row * Tile.tileHeight * .75f;
                 if (selectedTile.row % 2 == 0) x += Tile.tileWidth / 2f;
                 float heightOffset = selectedTile.height * 2;
-                batch.setColor(Color.MAGENTA);
-                batch.draw(Assets.white_hex, x, y + heightOffset, Tile.tileWidth, Tile.tileHeight);
+                batch.setColor(Color.CYAN);
+                batch.draw(Assets.select_hex, x, y + heightOffset, Tile.tileWidth, Tile.tileHeight);
                 batch.setColor(Color.WHITE);
             }
         }

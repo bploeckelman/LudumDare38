@@ -50,6 +50,7 @@ public class Assets {
     public static TextureRegion stone_hex;
     public static TextureRegion stone_bottom;
     public static Texture water_hex;
+    public static Texture select_hex;
     public static Texture white_hex;
     public static Texture water_bumpmap;
     public static Texture turn_counter_background;
@@ -74,6 +75,7 @@ public class Assets {
         mgr = new AssetManager();
         mgr.load("images/blank-hex.png", Texture.class, nearestParams);
         mgr.load("images/white-hex.png", Texture.class, nearestParams);
+        mgr.load("images/select-hex.png", Texture.class, nearestParams);
         mgr.load("images/water-bump.png", Texture.class, nearestParams);
         mgr.load("images/turn_counter_background.png", Texture.class, nearestParams);
 
@@ -102,6 +104,7 @@ public class Assets {
         whitePixel = atlas.findRegion("white");
         blank_hex = mgr.get("images/blank-hex.png", Texture.class);
         white_hex = mgr.get("images/white-hex.png", Texture.class);
+        select_hex = mgr.get("images/select-hex.png", Texture.class);
 
         clay_hex = atlas.findRegion("clay_top");
         dirt_hex = atlas.findRegion("dirt_top");
