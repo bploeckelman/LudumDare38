@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
+import lando.systems.ld38.ui.EndTurnButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.*;
@@ -29,6 +31,7 @@ public class GameScreen extends BaseScreen {
     public UserResources resources;
     public TurnCounter turnCounter;
     public Array<Tile> adjacentTiles;
+    public EndTurnButton endTurnButton;
 
     public FrameBuffer pickBuffer;
     public TextureRegion pickRegion;
@@ -62,6 +65,8 @@ public class GameScreen extends BaseScreen {
         pickRegion.flip(false, true);
         pickPixmap = null;
         pickColor = new Color();
+
+        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(20, 20, 100, 30));
 
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
@@ -139,17 +144,13 @@ public class GameScreen extends BaseScreen {
         touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
-        if (world.endTurnButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
-            System.out.println("button was clicked");
-            return true;
+        if (endTurnButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            endTurn();
         }
 //        if (resetProgressBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
 //            showConfirmDlg = !showConfirmDlg;
 //            return true;
 //        }
-
-
-
         return false;
     }
 
@@ -203,6 +204,8 @@ public class GameScreen extends BaseScreen {
             batch.setColor(Color.WHITE);
 
             batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
+
+            endTurnButton.render(batch);
         }
         batch.end();
     }

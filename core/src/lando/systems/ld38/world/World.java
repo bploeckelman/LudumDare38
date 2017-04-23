@@ -36,7 +36,6 @@ public class World {
     public Array<Tile> tiles;
     public Array<Player> players;
     public Water water;
-    public EndTurnButton endTurnButton;
 
     public final ArrayList<ResourceIndicator> resIndicators = new ArrayList<ResourceIndicator>(10);
 
@@ -50,8 +49,6 @@ public class World {
 
         generateWorldTiles();
         bounds = new Rectangle(0, 0,(Tile.tileWidth) * WORLD_WIDTH ,Tile.tileHeight * WORLD_WIDTH * .75f);
-
-        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(20, 20, 100, 30));
 
         players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
 
@@ -100,8 +97,6 @@ public class World {
         for (Player player : players) {
             player.render(batch, water.waterHeight, true);
         }
-
-        endTurnButton.render(batch);
 
         for (ResourceIndicator resIndicator : resIndicators) {
             resIndicator.render(batch);
