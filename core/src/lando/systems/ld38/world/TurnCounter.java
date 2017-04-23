@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Align;
 import lando.systems.ld38.screens.GameScreen;
 import lando.systems.ld38.utils.Assets;
 
@@ -13,7 +14,6 @@ import lando.systems.ld38.utils.Assets;
  */
 public class TurnCounter {
     private SpriteBatch batch;
-    private BitmapFont font;
     private ShapeRenderer shapeRenderer;
 
     private int width = 50;
@@ -23,28 +23,23 @@ public class TurnCounter {
 
     public TurnCounter() {
         batch = new SpriteBatch();
-        font = new BitmapFont(Gdx.files.internal("fonts/vinque.fnt"), // generated with http://kvazars.com/littera/
-                Gdx.files.internal("fonts/vinque.png"), false);
         shapeRenderer = new ShapeRenderer();
     }
 
     public void render(SpriteBatch batch, int turn) {
-
         float turnCounterX = x - 70;
         float turnCounterY = y - 70;
-        batch.draw(Assets.turn_counter_background, turnCounterX, turnCounterY, 50, 50);
+        batch.draw(Assets.turn_counter_background, turnCounterX, turnCounterY, 56, 56);
 
-        BitmapFont turnCounterLabelFont = new BitmapFont();
-        turnCounterLabelFont.getData().setScale(0.8f);
-        turnCounterLabelFont.draw(batch, "TURN", turnCounterX + 10, turnCounterY + 12);
+        Assets.drawString(batch, "TURN", turnCounterX + 12, turnCounterY + 14, Color.WHITE, .25f, Assets.font);
 
-        BitmapFont turnCounterFont = new BitmapFont();
-        turnCounterFont.getData().setScale(2.5f);
-        Assets.layout.setText(turnCounterFont, String.valueOf(turn));
         float layoutCenter = Assets.layout.width / 2;
 
-        turnCounterFont.draw(batch, String.valueOf(turn), turnCounterX + 25 - layoutCenter, turnCounterY + 45);
-
+        batch.setShader(Assets.fontShader);
+        Assets.fancyFont.getData().setScale(0.8f);
+        Assets.fancyFont.setColor(Color.WHITE);
+        Assets.fancyFont.draw(batch, String.valueOf(turn), turnCounterX + 25, turnCounterY + 51, 0, Align.center, false);
+        batch.setShader(null);
     }
 
 }

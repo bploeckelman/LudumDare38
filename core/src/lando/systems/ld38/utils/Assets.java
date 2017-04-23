@@ -29,6 +29,7 @@ public class Assets {
     public static ShapeRenderer shapes;
     public static GlyphLayout layout;
     public static BitmapFont font;
+    public static BitmapFont fancyFont;
     public static ShaderProgram fontShader;
     public static ShaderProgram waterShader;
 
@@ -130,6 +131,10 @@ public class Assets {
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
         font = new BitmapFont(Gdx.files.internal("fonts/ubuntu.fnt"), new TextureRegion(distText), false);
 
+        final Texture fancyDistText = new Texture(Gdx.files.internal("fonts/vinque.png"), true);
+        fancyDistText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
+        fancyFont = new BitmapFont(Gdx.files.internal("fonts/vinque.fnt"), new TextureRegion(fancyDistText), false);
+
         fontShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"),
                 Gdx.files.internal("shaders/dist.frag"));
         if (!fontShader.isCompiled()) {
@@ -149,6 +154,7 @@ public class Assets {
         batch.dispose();
         shapes.dispose();
         font.dispose();
+        fancyFont.dispose();
         mgr.clear();
     }
 
@@ -164,14 +170,14 @@ public class Assets {
         return shader;
     }
 
-    public static void drawString(SpriteBatch batch, String text, float x, float y, Color c, float scale){
+    public static void drawString(SpriteBatch batch, String text, float x, float y, Color c, float scale, BitmapFont font){
         batch.setShader(fontShader);
-        fontShader.setUniformf("u_scale", scale);
+        //fontShader.setUniformf("u_scale", scale);
         font.getData().setScale(scale);
         font.setColor(c);
         font.draw(batch, text, x, y);
         font.getData().setScale(1f);
-        fontShader.setUniformf("u_scale", 1f);
+        //fontShader.setUniformf("u_scale", 1f);
         font.getData().setScale(scale);
         batch.setShader(null);
     }

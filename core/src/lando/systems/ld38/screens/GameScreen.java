@@ -128,10 +128,9 @@ public class GameScreen extends BaseScreen {
 
         batch.end();
 
-        resources.render();
-
         batch.setProjectionMatrix(hudCamera.combined);
         batch.begin();
+        resources.render(batch);
         batch.setColor(Color.WHITE);
 
         turnCounter.render(batch, turn);
