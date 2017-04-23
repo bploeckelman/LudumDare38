@@ -5,7 +5,9 @@
 	<inherits name='aurelienribon.tweenengine' />
 
     <inherits name='lando.systems.ld38.GdxDefinition' />
-    
+
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld38.world.Decoration" />
+
     <collapse-all-properties />
     
 	<add-linker name="xsiframe"/>	

@@ -5,8 +5,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
-import lando.systems.ld38.ui.EndTurnButton;
-import lando.systems.ld38.utils.Assets;
 
 import java.util.ArrayList;
 
@@ -175,21 +173,21 @@ public class World {
         for (Tile tile : tiles) {
             relativeHeightAboveSeaLevel = tile.height <= 0 ? 0 : tile.height / maxTileHeight;
             // Clay, Dirt, Grass, Sand, Snow, Stone
-            Tile.Type type;
+            Type type;
             if (tile.height <= -1){
-                type = Tile.Type.Ocean;
+                type = Type.Ocean;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 1) {
-                type = Tile.Type.Sand;
+                type = Type.Sand;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 2) {
-                type = Tile.Type.Clay;
+                type = Type.Clay;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 3) {
-                type = Tile.Type.Grass;
+                type = Type.Grass;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 4) {
-                type = Tile.Type.Dirt;
+                type = Type.Dirt;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 5) {
-                type = Tile.Type.Stone;
+                type = Type.Stone;
             } else {
-                type = Tile.Type.Snow;
+                type = Type.Snow;
             }
             tile.setType(type);
             Tile ul = getUpperLeftTile(tile.row, tile.col);

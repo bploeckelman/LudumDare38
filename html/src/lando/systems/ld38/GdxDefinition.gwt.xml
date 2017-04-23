@@ -4,6 +4,8 @@
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='aurelienribon.tweenengine' />
 
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld38.world.Decoration" />
+
 	<inherits name='LudumDare38' />
 	<entry-point class='lando.systems.ld38.client.HtmlLauncher' />
 	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
