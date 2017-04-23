@@ -37,11 +37,11 @@ public class Player extends GameObject {
         tex = animation.getKeyFrame(timer);
     }
 
-    public void render(SpriteBatch batch, float x, float y, float width, float height) {
+    public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater) {
         if (walkRight) {
-            batch.draw(tex, x + width, y, -width, height);
+            batch.draw(tex, x + tileWidth, y, -tileWidth, tileHeight);
         } else {
-            batch.draw(tex, x, y, width, height);
+            batch.draw(tex, x, y, tileWidth, tileHeight);
         }
     }
 

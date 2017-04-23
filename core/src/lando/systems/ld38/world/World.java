@@ -58,17 +58,17 @@ public class World {
     public void render(SpriteBatch batch){
         for (int i = tiles.size-1; i >= 0; i--){
             Tile t = tiles.get(i);
-            if (t.height <= water.waterHeight) t.render(batch);
+            t.render(batch, water.waterHeight, false);
         }
         water.render(batch);
 
         for (int i = tiles.size-1; i >= 0; i--){
             Tile t = tiles.get(i);
-            if (t.height > water.waterHeight) t.render(batch);
+            t.render(batch, water.waterHeight, true);
         }
 
         for (Player player : players) {
-            player.render(batch);
+            player.render(batch, water.waterHeight, true);
         }
     }
 

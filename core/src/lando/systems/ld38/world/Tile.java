@@ -57,11 +57,11 @@ public class Tile extends GameObject {
         }
     }
 
-    public void render(SpriteBatch batch, float x, float y, float width, float height) {
-        render(batch, x, y, width, height, false);
+    public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater) {
+        render(batch, x, y, waterHeight, aboveWater, false);
     }
 
-    public void render(SpriteBatch batch, float x, float y, float width, float height, boolean asPickBuffer){
+    public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater, boolean asPickBuffer){
         if (type == Type.Ocean) return;
         TextureRegion bottomTex = bottom_tex;
         TextureRegion topTex = top_tex;
@@ -73,10 +73,14 @@ public class Tile extends GameObject {
         }
 
         batch.setColor(texColor);
-        for (int yOffset = 0; yOffset < heightOffset; yOffset++) {
-            batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
+        for (int yOffset = -10; yOffset < heightOffset; yOffset += 2) {
+            if (asPickBuffer || (aboveWater && yOffset > waterHeight) || (!aboveWater && yOffset <= waterHeight)) {
+                batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
+            }
         }
-        batch.draw(topTex, x, y + heightOffset, tileWidth, tileHeight);
+        if (asPickBuffer || (aboveWater && heightOffset > waterHeight) || (!aboveWater && heightOffset <= waterHeight)) {
+            batch.draw(topTex, x, y + heightOffset, tileWidth, tileHeight);
+        }
 
         batch.setColor(Color.WHITE);
     }
@@ -85,7 +89,7 @@ public class Tile extends GameObject {
         float x = col * tileWidth;
         float y = row * tileHeight * .75f;
         if (row % 2 == 0) x += tileWidth / 2f;
-        render(batch, x, y, tileWidth, tileHeight, true);
+        render(batch, x, y, 0, true, true);
     }
 
     public static Color getColorFromPosition(int row, int col) {

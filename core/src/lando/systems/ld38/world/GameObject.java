@@ -46,11 +46,11 @@ public abstract class GameObject {
 
     }
 
-    public void render(SpriteBatch batch) {
-        render(batch, position.x, position.y + position.z, tileWidth, tileHeight);
+    public void render(SpriteBatch batch, float waterHeight, boolean aboveWater) {
+        render(batch, position.x, position.y + position.z, waterHeight, aboveWater);
     }
 
-    protected abstract void render(SpriteBatch batch, float x, float y, float width, float height);
+    protected abstract void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater);
 
     public Tile getTile() {
         return getTile(row, col);
