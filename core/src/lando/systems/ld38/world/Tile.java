@@ -17,7 +17,7 @@ public class Tile extends GameObject {
     TextureRegion bottom_tex;
 
     public Tile(World world, int col, int row, float height) {
-        super(col, row, height);
+        super(world, col, row, height);
         type = Type.Ocean;
     }
 

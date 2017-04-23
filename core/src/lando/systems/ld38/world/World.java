@@ -14,8 +14,8 @@ public class World {
 
     public static final int WORLD_WIDTH = 30;
 
-    private static final float HEIGHT_NOISE_HEIGHT = 8f;
-    private static final float HEIGHT_NOISE_SCALE = 0.3f;
+    private static final float HEIGHT_NOISE_HEIGHT = 5f;
+    private static final float HEIGHT_NOISE_SCALE = 0.4f;
     private static final float ISLAND_BACK_HEIGHT = 10f;
     private static final float ISLAND_FRONT_HEIGHT = -2f;
     private static final long HEIGHT_NOISE_SEED = 23203423489124l;
@@ -100,7 +100,7 @@ public class World {
                         tiles.add(new Tile(this, col, row, thisHeight));
                     }
                 }
-                tiles.add(new Tile(col, row, -10));
+                tiles.add(new Tile(this, col, row, -10));
             }
         }
         // Now, assign biomes.
