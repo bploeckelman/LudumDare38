@@ -120,7 +120,7 @@ public class Assets {
         snow_bottom = atlas.findRegion("snow_bottom");
         stone_bottom = atlas.findRegion("stone_bottom");
 
-        water_bumpmap = mgr.get("images/water-bump.png", Texture.class);
+        water_bumpmap = mgr.get("images/water-bump.png", Texture.class);  // NEVER MOVE THIS INTO THE ATLAS!!!!!
         water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         turn_counter_background = mgr.get("images/turn_counter_background.png", Texture.class);
 
