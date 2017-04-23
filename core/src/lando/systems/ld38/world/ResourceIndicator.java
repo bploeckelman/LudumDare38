@@ -54,12 +54,10 @@ public class ResourceIndicator {
         batch.setColor(last);
 
         if (_time > 0.5f) {
-            Color lastFont = Assets.font.getColor();
-
             Assets.font.setColor(_color);
             Assets.font.draw(batch,  _count, _bounds.x - 20,  _bounds.y + _bounds.height - 2);
 
-            Assets.font.setColor(lastFont);
+            Assets.font.setColor(Color.WHITE);
         }
 
     }

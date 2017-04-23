@@ -69,6 +69,15 @@ public class Assets {
     public static TextureRegion palmtree;
     public static TextureRegion raft;
 
+    public static TextureRegion food;
+    public static TextureRegion iron;
+    public static TextureRegion gold;
+    public static TextureRegion wood;
+    public static TextureRegion clay;
+    public static TextureRegion sand;
+
+    public static NinePatch woodPanel;
+
     public static boolean initialized;
 
     public static void load() {
@@ -128,6 +137,15 @@ public class Assets {
         snow_bottom = atlas.findRegion("snow_bottom");
         stone_bottom = atlas.findRegion("stone_bottom");
 
+        food = atlas.findRegion("steak");
+        iron = atlas.findRegion("iron");
+        gold = atlas.findRegion("gold");
+        wood = atlas.findRegion("wood");
+        sand = atlas.findRegion("wood");
+        clay = atlas.findRegion("wood");
+
+        woodPanel = new NinePatch(atlas.findRegion("wood_border"), 7,7,7,7);
+
         shadowU = atlas.findRegion("shadow_u");
         shadowUR = atlas.findRegion("shadow_ur");
         shadowUL = atlas.findRegion("shadow_ul");
@@ -152,6 +170,7 @@ public class Assets {
         final Texture distText = new Texture(Gdx.files.internal("fonts/ubuntu.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
         font = new BitmapFont(Gdx.files.internal("fonts/ubuntu.fnt"), new TextureRegion(distText), false);
+        font.getData().setScale(.3f);
 
         final Texture fancyDistText = new Texture(Gdx.files.internal("fonts/vinque.png"), true);
         fancyDistText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
@@ -194,7 +213,7 @@ public class Assets {
 
     public static void drawString(SpriteBatch batch, String text, float x, float y, Color c, float scale, BitmapFont font){
         batch.setShader(fontShader);
-        fontShader.setUniformf("u_scale", 1f/scale);
+        fontShader.setUniformf("u_scale", scale);
         font.getData().setScale(scale);
         font.setColor(c);
         font.draw(batch, text, x, y);

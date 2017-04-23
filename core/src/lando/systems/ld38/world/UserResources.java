@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import lando.systems.ld38.utils.Assets;
 
@@ -11,33 +12,37 @@ import lando.systems.ld38.utils.Assets;
  * Created by aeharding on 4/22/17.
  */
 public class UserResources {
-    private ShapeRenderer shapeRenderer;
 
+    public int food = 5;
+    public int sand = 0;
+    public int iron = 0;
     public int gold = 1;
     public int wood = 2;
     public int clay = 3;
 
-    private int width = 100;
-    private int height = 25;
-    private int x = 0;
+    private int width = 450;
+    private int height = 35;
+    private int margin = 10;
+    private float tileSize;
+    private float x = 0;
     private int y = Gdx.graphics.getHeight();
 
     public UserResources() {
-        shapeRenderer = new ShapeRenderer();
+
     }
 
     public void render(SpriteBatch batch) {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(.34f, .21f, .12f, 0));
-        shapeRenderer.rect(this.x, this.y - this.height, this.width, this.height);
-        shapeRenderer.end();
+        tileSize = height - (margin *2);
+        x = (Gdx.graphics.getWidth() - width) /2f;
+        y = Gdx.graphics.getHeight() - height;
+        Assets.woodPanel.draw(batch, x, y, width, height);
+        float spacing = (width - 40) / 6f;
+        float offset = 20;
+        drawResource(batch, offset, Assets.food, food);
+//        batch.draw(Assets.food, x + offset, y + margin, tileSize, tileSize);
+    }
 
-        int inset = 2;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(new Color(.66f, .4f, .23f, 0));
-        shapeRenderer.rect(this.x + inset, this.y - this.height + inset, this.width - (inset * 2), this.height - (inset * 2));
-        shapeRenderer.end();
-
-        Assets.drawString(batch, Integer.toString(this.gold) + "  " + Integer.toString(this.wood) + "  " + Integer.toString(clay), this.x + 8, this.y - 4, Color.WHITE, .45f, Assets.fancyFont);
+    private void drawResource(SpriteBatch batch, float offset, TextureRegion region, int amount){
+        batch.draw(region, x + offset, y+margin, tileSize, tileSize);
     }
 }

@@ -25,7 +25,7 @@ const vec4 shadowColor = vec4(0,0,0,1.);
 //}
 
 void main() {
-    float smoothing = 0.75 / (5. * u_scale);
+    float smoothing = 0.5 / (8. * u_scale);
     float distance = texture2D(u_texture, v_texCoord).a;
     float alpha = smoothstep(0.5 - smoothing, 0.5 + smoothing, distance);
     vec4 text = vec4(v_color.rgb, v_color.a * alpha);
