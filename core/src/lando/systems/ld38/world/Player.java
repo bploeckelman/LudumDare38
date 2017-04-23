@@ -53,7 +53,7 @@ public class Player extends GameObject {
         Tile tile = getTile(row, col);
 
         if (tile != null) {
-            tileOffset += tile.height * 2;
+            tileOffset += tile.height * Tile.heightScale;
         }
 
         // temp for viewing the resource gather
