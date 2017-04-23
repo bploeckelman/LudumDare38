@@ -74,19 +74,7 @@ public class ActionMenu {
     }
 
     public void update(float dt) {
-//        if (displayState == DisplayState.show) return;
-//
-//        if (displayState == DisplayState.grow) {
-//            scale += dt / movementSpeed;
-//        } else {
-//            scale -= dt / movementSpeed;
-//        }
-//
-//        // up 0, left 1, right, 2
-//        int direction = 0;
-//        for (OptionButton button : options) {
-//            move(button, scale, direction++);
-//        }
+
     }
 
     public void render(SpriteBatch batch) {
@@ -95,44 +83,6 @@ public class ActionMenu {
         }
     }
 
-    public void move(OptionButton button, float scale, int direction) {
-        if (scale < 0.001) {
-            scale = 0.001f;
-            if (displayState == DisplayState.shrink) {
-                displayState = DisplayState.hide;
-            }
-        }
-
-        if (scale > 1f) {
-            scale = 1f;
-            if (displayState == DisplayState.grow) {
-                displayState = DisplayState.show;
-            }
-        }
-
-        float dw = button.width * scale;
-        float dh = button.height * scale;
-
-        float x = button.origX;
-        float y = button.origY;
-
-        switch (direction) {
-            case 0:
-                x = button.origX - (dw /2);
-                y +=  20 * scale;
-                break;
-            case 1:
-                y = button.origY - (dh /2);
-                x -= (20 * scale + dw);
-                break;
-            case 2:
-                x += 20 * scale;
-                y = button.origY - (dh /2);
-                break;
-        }
-
-        button.bounds.set(x, y, dw, dh);
-    }
 
     public boolean isComplete() {
         return displayState == DisplayState.hide;
