@@ -53,10 +53,10 @@ public class ActionManager {
         Array<OptionButton> optionButtons = new Array<OptionButton>(3);
 
         Tile tile = player.world.getTile(player.row, player.col);
-        Vector3 position = tile.position;
+        Vector3 position = player.position;
 
         float x = position.x + (player.tileWidth / 2);
-        float y = position.y + player.tileHeight * 2;
+        float y = position.y + position.z + player.tileHeight/2;
 
         Rectangle buttonBounds = new Rectangle(x, y, 20, 20);
         optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, camera));

@@ -1,8 +1,15 @@
 package lando.systems.ld38.ui;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Elastic;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.turns.PendingAction;
+import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.utils.accessors.RectangleAccessor;
 import lando.systems.ld38.world.Player;
 
 /**
@@ -15,7 +22,6 @@ public class ActionMenu {
     public PendingAction pendingAction = new PendingAction();
 
     float scale = 0f;
-    float sw, sh;
 
     enum DisplayState { grow, show, shrink, hide }
 
@@ -27,29 +33,60 @@ public class ActionMenu {
         this.options = options;
         pendingAction.player = player;
 
-        OptionButton button = options.first();
-        sw = 1f / button.bounds.width;
-        sh = 1f / button.bounds.height;
+        float buttonSpread = 30;
+        float dir = 90;
+        float dr = 360 / options.size;
+        for (OptionButton btn : options){
+            float x = btn.origX + (MathUtils.cosDeg(dir) * buttonSpread) - btn.width/2;
+            float y = btn.origY + (MathUtils.sinDeg(dir) * buttonSpread) - btn.height/2;
+
+
+            btn.bounds.set(btn.origX, btn.origY, 0, 0);
+            Tween.to(btn.bounds, RectangleAccessor.XYWH, 1f)
+                    .target(x, y, btn.width, btn.height)
+                    .ease(Elastic.OUT)
+                    .setCallback(new TweenCallback() {
+                        @Override
+                        public void onEvent(int i, BaseTween<?> baseTween) {
+                            displayState = DisplayState.show;
+                        }
+                    })
+                    .start(Assets.tween);
+            dir += dr;
+        }
     }
 
     public void hide() {
         displayState = DisplayState.shrink;
+        for (OptionButton btn : options){
+            Tween.to(btn.bounds, RectangleAccessor.XYWH, .5f)
+                    .target(btn.origX, btn.origY, 0, 0)
+                    .setCallback(new TweenCallback() {
+                        @Override
+                        public void onEvent(int i, BaseTween<?> baseTween) {
+                            displayState = DisplayState.hide;
+                        }
+                    })
+                    .start(Assets.tween);
+
+        }
+
     }
 
     public void update(float dt) {
-        if (displayState == DisplayState.show) return;
-
-        if (displayState == DisplayState.grow) {
-            scale += dt / movementSpeed;
-        } else {
-            scale -= dt / movementSpeed;
-        }
-
-        // up 0, left 1, right, 2
-        int direction = 0;
-        for (OptionButton button : options) {
-            move(button, scale, direction++);
-        }
+//        if (displayState == DisplayState.show) return;
+//
+//        if (displayState == DisplayState.grow) {
+//            scale += dt / movementSpeed;
+//        } else {
+//            scale -= dt / movementSpeed;
+//        }
+//
+//        // up 0, left 1, right, 2
+//        int direction = 0;
+//        for (OptionButton button : options) {
+//            move(button, scale, direction++);
+//        }
     }
 
     public void render(SpriteBatch batch) {
