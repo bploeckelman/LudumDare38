@@ -68,7 +68,7 @@ public class ActionManager {
         playerOptions.add(new ActionMenu(player, optionButtons));
     }
 
-    public PendingAction handleTouch(World world, GridPoint2 location, int screenX, int screenY, OrthographicCamera camera) {
+    public PendingAction handleTouch(int screenX, int screenY) {
 
         for (ActionMenu menu : playerOptions) {
             if (menu.handleTouch(screenX, screenY)) {
@@ -80,16 +80,6 @@ public class ActionManager {
             }
         }
 
-        Array<Player> players = world.getPlayers(location);
-        if (players.size == 0) {
-            showOptions(null, camera);
-        } else {
-            // will have to z order players on moveTo and grab top player - when going to the player from the character
-            // menu, reorder that player on top
-            Player player = players.get(0);
-
-            showOptions(player, camera);
-        }
-        return new PendingAction();
+        return null;
     }
 }

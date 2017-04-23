@@ -165,6 +165,24 @@ public class GameScreen extends BaseScreen {
         return true;
     }
 
+    public void showOptions(Player player) {
+        selectedPlayer = player;
+        clearMovement();
+        actionManager.showOptions(player, camera);
+    }
+
+    private boolean handlePlayerAction(int screenX, int screenY) {
+        PendingAction pendingAction = actionManager.handleTouch(screenX, screenY);
+        if (pendingAction != null) {
+            switch (pendingAction.action) {
+                case displayMoves:
+                    showMovement(selectedPlayer);
+                    break;
+            }
+        }
+        return (pendingAction != null);
+    }
+
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (cancelTouchUp) {
@@ -177,17 +195,16 @@ public class GameScreen extends BaseScreen {
             endTurn();
         } else {
             GridPoint2 location =  getGridPosition(screenX, screenY);
-            if (!handleMove(location)) {
-                clearMovement();
-                PendingAction action = actionManager.handleTouch(world, location, screenX, screenY, camera);
-                handleAction(action);
-            }
+            if (handleMove(location)) return true;
+            if (handlePlayerAction(screenX, screenY)) return true;
+
+            Array<Player> players = world.getPlayers(location);
+            Player player = (players.size > 0) ? players.get(0) : null;
+            showOptions(player);
         }
 
         return false;
     }
-
-
 
     private boolean handleMove(GridPoint2 location) {
         Tile tile = world.getTile(location);
@@ -200,17 +217,6 @@ public class GameScreen extends BaseScreen {
             return true;
         }
         return false;
-    }
-
-    private void handleAction(PendingAction action) {
-        selectedPlayer = action.player;
-
-        switch (action.action) {
-            case displayMoves:
-                showMovement(selectedPlayer);
-                break;
-        }
-
     }
 
     private void showMovement(Player player) {

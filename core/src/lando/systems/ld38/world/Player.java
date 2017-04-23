@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld38.turns.ActionTypeMove;
@@ -73,6 +74,10 @@ public class Player extends GameObject {
         } else {
             batch.draw(tex, x, y, tileWidth, tileHeight);
         }
+    }
+
+    public GridPoint2 getLocation() {
+        return new GridPoint2(col, row);
     }
 
     public void moveTo(final int row, final int col) {
