@@ -1,10 +1,12 @@
 package lando.systems.ld38.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
+import lando.systems.ld38.ui.EndTurnButton;
+import lando.systems.ld38.utils.Assets;
 
 /**
  * Created by dsgraham on 4/22/17.
@@ -29,6 +31,7 @@ public class World {
     public Array<Tile> tiles;
     public Array<Player> players;
     public Water water;
+    public EndTurnButton endTurnButton;
 
     private OpenSimplexNoise osn;
 
@@ -40,6 +43,8 @@ public class World {
 
         generateWorldTiles();
         bounds = new Rectangle(0, 0,(Tile.tileWidth) * WORLD_WIDTH ,Tile.tileHeight * WORLD_WIDTH * .75f);
+
+        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(20, 20, 100, 30));
 
         players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
 
@@ -71,6 +76,8 @@ public class World {
         for (Player player : players) {
             player.render(batch, water.waterHeight, true);
         }
+
+        endTurnButton.render(batch);
     }
 
     public void renderPickBuffer(SpriteBatch batch) {

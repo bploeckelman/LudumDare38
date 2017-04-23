@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -117,6 +118,28 @@ public class GameScreen extends BaseScreen {
            0, world.bounds.height);
         camera.update();
         return true;
+    }
+
+    private Vector2 touchPosScreen    = new Vector2();
+    private Vector3 touchPosUnproject = new Vector3();
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
+        touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
+
+        if (world.endTurnButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            System.out.println("button was clicked");
+            return true;
+        }
+//        if (resetProgressBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+//            showConfirmDlg = !showConfirmDlg;
+//            return true;
+//        }
+
+
+
+        return false;
     }
 
     @Override
