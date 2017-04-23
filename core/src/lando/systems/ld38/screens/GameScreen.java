@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld38.turns.ActionTypeMove;
@@ -20,6 +17,7 @@ import lando.systems.ld38.ui.EndTurnButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.*;
+import java.util.ArrayList;
 
 /**
  * Created by Brian on 4/16/2017
@@ -50,7 +48,7 @@ public class GameScreen extends BaseScreen {
     public static float maxZoom = 1.5f;
     public static float minZoom = 0.2f;
 
-    public GameScreen(){
+    public GameScreen() {
         super();
         debugTex = Assets.whitePixel;
         time = 0;
@@ -60,7 +58,7 @@ public class GameScreen extends BaseScreen {
         adjacentTiles = new Array<Tile>();
         turn = 0;
         turnActions = new Array<TurnAction>();
-        pickBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Config.gameWidth/pickMapScale, Config.gameHeight/pickMapScale, false, false);
+        pickBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Config.gameWidth / pickMapScale, Config.gameHeight / pickMapScale, false, false);
         pickRegion = new TextureRegion(pickBuffer.getColorBufferTexture());
         pickRegion.flip(false, true);
         pickPixmap = null;
@@ -114,7 +112,7 @@ public class GameScreen extends BaseScreen {
             }
         }
 
-        if (pickPixmap != null){
+        if (pickPixmap != null) {
             pickPixmap.dispose();
         }
     }
@@ -123,7 +121,27 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         cameraTouchStart.set(camera.position);
         touchStart.set(screenX, screenY, 0);
+
+//        // test
+//        GridPoint2 grid = getGridPosition(screenX, screenY);
+//
+//        Tile tile = world.getTile(grid.y, grid.x);
+//        ArrayList<Player> player = world.getPlayer(grid.y, grid.x);
+
         return true;
+    }
+
+    public GridPoint2 getGridPosition() {
+        return getGridPosition(Gdx.input.getX(), Gdx.input.getY());
+    }
+
+    public GridPoint2 getGridPosition(int screenX, int screenY) {
+        int x = screenX;
+        int y = Gdx.graphics.getHeight() - screenY;
+        pickColor.set(pickPixmap.getPixel(x / pickMapScale, y / pickMapScale));
+        int col = (int) (pickColor.r * (255f / 5f));
+        int row = (int) (pickColor.g * (255f / 5f));
+        return new GridPoint2(col, row);
     }
 
     @Override

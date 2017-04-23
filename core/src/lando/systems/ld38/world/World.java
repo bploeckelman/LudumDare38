@@ -1,6 +1,7 @@
 package lando.systems.ld38.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -207,6 +208,20 @@ public class World {
         float noiseHeight = HEIGHT_NOISE_HEIGHT * noisePercent;
         int quantHeight = (int) ((basicHeight + noiseHeight));
         return quantHeight;
+    }
+
+    public ArrayList<Player> getPlayer(int row, int col) {
+        ArrayList<Player> selectedPlayers = new ArrayList<Player>();
+        for(Player p : players) {
+            if (p.row == col && p.col == row) {
+                selectedPlayers.add(p);
+            }
+        }
+        return selectedPlayers;
+    }
+
+    public Tile getTile(GridPoint2 point) {
+        return getTile(point.y, point.x);
     }
 
     public Tile getTile(int row, int col){
