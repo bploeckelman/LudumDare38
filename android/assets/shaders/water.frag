@@ -14,16 +14,18 @@ varying vec2 v_texCoord;
 
 
 void main() {
-    vec2 sampleVec = v_texCoord;
+    vec2 scaledCoord = v_texCoord;
+    scaledCoord.x =  (scaledCoord.x - .5) * (1. - v_texCoord.y) * 2.;
+    vec2 sampleVec = scaledCoord;
     sampleVec.y -= u_time * .04;
     vec3 bump = normalize(2. * texture2D(u_texture, sampleVec).xyz - 1.);
 
-    vec2 sampleVec2 = v_texCoord * 2.;
+    vec2 sampleVec2 = scaledCoord * 2.;
     sampleVec2.y -= u_time * .05;
     sampleVec2.x -= u_time * .05;
     vec3 bump2 = normalize(2. * texture2D(u_texture, sampleVec2).xyz -1.);
 
-    vec2 sampleVec3 = v_texCoord * 4.;
+    vec2 sampleVec3 = scaledCoord * 4.;
     sampleVec3.y -= u_time * .05;
     sampleVec3.x += u_time * .01;
     vec3 bump3 = normalize(2. * texture2D(u_texture, sampleVec3).xyz -1.);

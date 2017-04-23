@@ -19,7 +19,8 @@ import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.*;
-import java.util.ArrayList;
+
+//import static com.sun.glass.ui.gtk.GtkApplication.screen;
 
 /**
  * Created by Brian on 4/16/2017
@@ -46,8 +47,8 @@ public class GameScreen extends BaseScreen {
 
     public Vector3 cameraTouchStart;
     public Vector3 touchStart;
-    public static float zoomScale = 0.05f;
-    public static float maxZoom = 1.5f;
+    public static float zoomScale = 0.15f;
+    public static float maxZoom = 1.6f;
     public static float minZoom = 0.2f;
 
     private ActionManager actionManager = new ActionManager();
@@ -68,7 +69,7 @@ public class GameScreen extends BaseScreen {
         pickPixmap = null;
         pickColor = new Color();
 
-        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(20, 20, 100, 30));
+        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
 
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
@@ -83,6 +84,7 @@ public class GameScreen extends BaseScreen {
 
         time += dt;
         world.update(dt);
+        endTurnButton.update(dt);
 
         if (Gdx.input.justTouched()) {
             Player character = world.players.first();
@@ -111,6 +113,7 @@ public class GameScreen extends BaseScreen {
         }
 
         actionManager.update(dt);
+        updateCamera();
     }
 
     @Override
@@ -138,51 +141,69 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        camera.position.x = MathUtils.clamp(cameraTouchStart.x + (touchStart.x - screenX) * camera.zoom,
-           0, world.bounds.width);
-        camera.position.y = MathUtils.clamp(cameraTouchStart.y + (screenY - touchStart.y) * camera.zoom,
-           0, world.bounds.height);
-        camera.update();
+        camera.position.x = cameraTouchStart.x + (touchStart.x - screenX) * camera.zoom;
+        camera.position.y = cameraTouchStart.y + (screenY - touchStart.y) * camera.zoom;
         return true;
     }
-
-    private Vector2 touchPosScreen    = new Vector2();
-    private Vector3 touchPosUnproject = new Vector3();
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
-        touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
-        if (endTurnButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+        if (endTurnButton.checkForTouch(screenX, screenY)) {
+            endTurnButton.handleTouch();
             endTurn();
         }
-//        if (resetProgressBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
-//            showConfirmDlg = !showConfirmDlg;
-//            return true;
-//        }
+
         return false;
     }
 
+
+    Vector3 tp = new Vector3();
     @Override
-    public boolean scrolled(int amount) {
-        if (amount == 0) {
-            return false;
-        }
+    public boolean scrolled (int change) {
+        camera.unproject(tp.set(Gdx.input.getX(), Gdx.input.getY(), 0 ));
+        float px = tp.x;
+        float py = tp.y;
+        camera.zoom += change * camera.zoom * zoomScale;
+        updateCamera();
 
-        // Change zoom in smaller increments when zoomed in
-        float newZoom = camera.zoom + (amount * zoomScale * camera.zoom);
-
-        camera.zoom = MathUtils.clamp(newZoom, minZoom, maxZoom);
+        camera.unproject(tp.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+        camera.position.add(px - tp.x, py- tp.y, 0);
         camera.update();
         return true;
     }
+
+    private void updateCamera(){
+        camera.zoom = MathUtils.clamp(camera.zoom, minZoom, maxZoom);
+        float minY = world.bounds.y + camera.viewportHeight/2 * camera.zoom;
+        float maxY = world.bounds.height - camera.viewportHeight/2 * camera.zoom;
+
+        float minX = world.bounds.x + camera.viewportWidth/2 * camera.zoom;
+        float maxX = world.bounds.x + world.bounds.width - camera.viewportWidth/2 * camera.zoom;
+
+        if (camera.viewportHeight * camera.zoom > world.bounds.height){
+            camera.position.y = world.bounds.height/2;
+        } else {
+            camera.position.y = MathUtils.clamp(camera.position.y, minY, maxY);
+        }
+
+
+        if (camera.viewportWidth * camera.zoom > world.bounds.width){
+            camera.position.x = world.bounds.x + world.bounds.width/2;
+        } else {
+            camera.position.x = MathUtils.clamp(camera.position.x, minX, maxX);
+        }
+
+        camera.update();
+    }
+
 
     @Override
     public void render(SpriteBatch batch) {
         Gdx.gl.glClearColor(Config.bgColor.r, Config.bgColor.g, Config.bgColor.b, Config.bgColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Draw world
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         {
@@ -190,11 +211,12 @@ public class GameScreen extends BaseScreen {
             actionManager.render(batch);
         }
         batch.end();
+
+        // Draw picking frame buffer
         pickBuffer.begin();
         {
             Gdx.gl.glClearColor(0f, 0f, 1f, 0f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
             batch.begin();
             world.renderPickBuffer(batch);
             batch.end();
@@ -202,21 +224,20 @@ public class GameScreen extends BaseScreen {
         pickPixmap = ScreenUtils.getFrameBufferPixmap(0, 0, pickBuffer.getWidth(), pickBuffer.getHeight());
         pickBuffer.end();
 
+        // Draw HUD
         batch.setProjectionMatrix(hudCamera.combined);
         batch.begin();
         {
             resources.render(batch);
-            batch.setColor(Color.WHITE);
             turnCounter.render(batch, turn);
-            Assets.font.draw(batch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 3, 16);
-
-            batch.setColor(pickColor);
-            batch.draw(Assets.whitePixel, hudCamera.viewportWidth - 100 - 50, 0, 50, 50);
-            batch.setColor(Color.WHITE);
-
-//            batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
-
             endTurnButton.render(batch);
+            Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
+
+            // Draw pick region stuff
+//            batch.setColor(pickColor);
+//            batch.draw(Assets.whitePixel, hudCamera.viewportWidth - 100 - 50, 0, 50, 50);
+//            batch.setColor(Color.WHITE);
+//            batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
         }
         batch.end();
     }

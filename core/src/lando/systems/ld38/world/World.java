@@ -45,7 +45,7 @@ public class World {
         osn = new OpenSimplexNoise(HEIGHT_NOISE_SEED);
 
         generateWorldTiles();
-        bounds = new Rectangle(0, 0,(Tile.tileWidth) * WORLD_WIDTH ,Tile.tileHeight * WORLD_WIDTH * .75f);
+        bounds = new Rectangle(-100, -100,(Tile.tileWidth) * WORLD_WIDTH + 200, Tile.tileHeight * WORLD_WIDTH * .75f + 200);
 
         players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
 
