@@ -167,6 +167,7 @@ public class GameScreen extends BaseScreen {
 
     public void showOptions(Player player) {
         selectedPlayer = player;
+        world.orderPlayer(player);
         clearMovement();
         actionManager.showOptions(player, camera);
     }

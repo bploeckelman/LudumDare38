@@ -81,6 +81,11 @@ public class World {
 //        }
     }
 
+    public void orderPlayer(Player player) {
+        players.removeValue(player, true);
+        players.add(player);
+    }
+
     public void render(SpriteBatch batch){
         for (int i = tiles.size-1; i >= 0; i--){
             Tile t = tiles.get(i);
