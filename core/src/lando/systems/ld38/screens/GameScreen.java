@@ -46,7 +46,7 @@ public class GameScreen extends BaseScreen {
     public Vector3 cameraTouchStart;
     public Vector3 touchStart;
     public static float zoomScale = 0.15f;
-    public static float maxZoom = 1.5f;
+    public static float maxZoom = 1.6f;
     public static float minZoom = 0.2f;
 
     public GameScreen() {
@@ -107,6 +107,8 @@ public class GameScreen extends BaseScreen {
         if (pickPixmap != null) {
             pickPixmap.dispose();
         }
+
+        updateCamera();
     }
 
     @Override
@@ -134,11 +136,8 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        camera.position.x = MathUtils.clamp(cameraTouchStart.x + (touchStart.x - screenX) * camera.zoom,
-           0, world.bounds.width);
-        camera.position.y = MathUtils.clamp(cameraTouchStart.y + (screenY - touchStart.y) * camera.zoom,
-           0, world.bounds.height);
-        camera.update();
+        camera.position.x = cameraTouchStart.x + (touchStart.x - screenX) * camera.zoom;
+        camera.position.y = cameraTouchStart.y + (screenY - touchStart.y) * camera.zoom;
         return true;
     }
 
@@ -161,19 +160,46 @@ public class GameScreen extends BaseScreen {
         return false;
     }
 
+
+    Vector3 tp = new Vector3();
     @Override
-    public boolean scrolled(int amount) {
-        if (amount == 0) {
-            return false;
-        }
+    public boolean scrolled (int change) {
+        camera.unproject(tp.set(Gdx.input.getX(), Gdx.input.getY(), 0 ));
+        float px = tp.x;
+        float py = tp.y;
+        camera.zoom += change * camera.zoom * zoomScale;
+        updateCamera();
 
-        // Change zoom in smaller increments when zoomed in
-        float newZoom = camera.zoom + (amount * zoomScale * camera.zoom);
-
-        camera.zoom = MathUtils.clamp(newZoom, minZoom, maxZoom);
+        camera.unproject(tp.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+        camera.position.add(px - tp.x, py- tp.y, 0);
         camera.update();
         return true;
     }
+
+    private void updateCamera(){
+        camera.zoom = MathUtils.clamp(camera.zoom, minZoom, maxZoom);
+        float minY = world.bounds.y + camera.viewportHeight/2 * camera.zoom;
+        float maxY = world.bounds.height - camera.viewportHeight/2 * camera.zoom;
+
+        float minX = world.bounds.x + camera.viewportWidth/2 * camera.zoom;
+        float maxX = world.bounds.x + world.bounds.width - camera.viewportWidth/2 * camera.zoom;
+
+        if (camera.viewportHeight * camera.zoom > world.bounds.height){
+            camera.position.y = world.bounds.height/2;
+        } else {
+            camera.position.y = MathUtils.clamp(camera.position.y, minY, maxY);
+        }
+
+
+        if (camera.viewportWidth * camera.zoom > world.bounds.width){
+            camera.position.x = world.bounds.x + world.bounds.width/2;
+        } else {
+            camera.position.x = MathUtils.clamp(camera.position.x, minX, maxX);
+        }
+
+        camera.update();
+    }
+
 
     @Override
     public void render(SpriteBatch batch) {

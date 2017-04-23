@@ -23,7 +23,7 @@ public class UserResources {
 
     private int width = 450;
     private int height = 35;
-    private int margin = 10;
+    private int margin = 8;
     private float tileSize;
     private float x = 0;
     private int y = Gdx.graphics.getHeight();
