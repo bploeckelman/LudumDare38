@@ -26,9 +26,9 @@ public class GameScreen extends BaseScreen {
 
     public TextureRegion debugTex;
     public World world;
-    public Tile selectedTile;
     public UserResources resources;
     public TurnCounter turnCounter;
+    public Array<Tile> adjacentTiles;
 
     public FrameBuffer pickBuffer;
     public TextureRegion pickRegion;
@@ -49,14 +49,14 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(){
         super();
+        debugTex = Assets.whitePixel;
         time = 0;
         world = new World();
         resources = new UserResources();
         turnCounter = new TurnCounter();
-        debugTex = Assets.whitePixel;
+        adjacentTiles = new Array<Tile>();
         turn = 0;
         turnActions = new Array<TurnAction>();
-        selectedTile = null;
         pickBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Config.gameWidth/pickMapScale, Config.gameHeight/pickMapScale, false, false);
         pickRegion = new TextureRegion(pickBuffer.getColorBufferTexture());
         pickRegion.flip(false, true);
@@ -77,12 +77,15 @@ public class GameScreen extends BaseScreen {
         time += dt;
         world.update(dt);
 
-        if (pickPixmap != null) {
-            int x = Gdx.input.getX();
-            int y = Gdx.graphics.getHeight() - Gdx.input.getY();
-            pickColor.set(pickPixmap.getPixel(x/pickMapScale, y/pickMapScale));
-            selectedTile = Tile.parsePickColorForTileInWorld(pickColor, world);
-        }
+//        if (pickPixmap != null) {
+//            int x = Gdx.input.getX();
+//            int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+//            pickColor.set(pickPixmap.getPixel(x/pickMapScale, y/pickMapScale));
+//            Tile selectedTile = Tile.parsePickColorForTileInWorld(pickColor, world);
+//            if (selectedTile != null) {
+//                selectedTile.isHighlighted = true;
+//            }
+//        }
 
         if (Gdx.input.justTouched()) {
             Player character = world.players.first();
@@ -96,6 +99,14 @@ public class GameScreen extends BaseScreen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             endTurn();
+            for (Tile tile : adjacentTiles) {
+                tile.isHighlighted = false;
+            }
+            adjacentTiles.clear();
+            adjacentTiles.addAll(world.getNeighbors(world.players.first().row, world.players.first().col));
+            for (Tile tile : adjacentTiles) {
+                tile.isHighlighted = true;
+            }
         }
 
         if (pickPixmap != null){
@@ -165,15 +176,6 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
             world.render(batch);
-            if (selectedTile != null) {
-                float x = selectedTile.col * Tile.tileWidth;
-                float y = selectedTile.row * Tile.tileHeight * .75f;
-                if (selectedTile.row % 2 == 0) x += Tile.tileWidth / 2f;
-                float heightOffset = selectedTile.height * Tile.heightScale;
-                batch.setColor(Color.CYAN);
-                batch.draw(Assets.select_hex, x, y + heightOffset, Tile.tileWidth, Tile.tileHeight);
-                batch.setColor(Color.WHITE);
-            }
         }
         batch.end();
         pickBuffer.begin();

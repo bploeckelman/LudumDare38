@@ -86,6 +86,7 @@ public class Tile extends GameObject {
     Decoration decoration;
     TextureRegion shadow_tex;
     Color pickColor;
+    public boolean isHighlighted;
 
     public float heightOffset;
 
@@ -96,6 +97,7 @@ public class Tile extends GameObject {
         pickColor = Tile.getColorFromPosition(row, col);
         heightOffset = this.height * heightScale;
         decoration = Decoration.None;
+        isHighlighted = false;
     }
 
     public void setType(Type type){
@@ -148,6 +150,17 @@ public class Tile extends GameObject {
                 batch.draw(shadow_tex, x, y +heightOffset, tileWidth, tileHeight);
                 batch.setColor(Color.WHITE);
             }
+//            if (!asPickBuffer) {
+//                float d = 1f * (heightOffset / (heightScale * World.WORLD_MAX_HEIGHT)) + 0.5f;
+//                d = MathUtils.clamp(d, 0.5f, 1f);
+//                batch.setColor(0f, 0f, 0f, 1f - d);
+//                batch.draw(Assets.white_hex, x, y + heightOffset, tileWidth, tileHeight);
+//                batch.setColor(Color.WHITE);
+//            }
+        }
+        if (isHighlighted && !asPickBuffer) {
+            batch.setColor(Color.CYAN);
+            batch.draw(Assets.select_hex, x, y + heightOffset, Tile.tileWidth, Tile.tileHeight);
         }
         if (!decoration.equals(Decoration.None) && !asPickBuffer && aboveWater && heightOffset > waterHeight) {
             batch.draw(decoration.tex, x, y + heightOffset, tileWidth, tileHeight);

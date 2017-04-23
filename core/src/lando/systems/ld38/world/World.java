@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
 import lando.systems.ld38.ui.EndTurnButton;
 import lando.systems.ld38.utils.Assets;
+
 import java.util.ArrayList;
 
 /**
@@ -28,6 +29,9 @@ public class World {
     private static final float ISLAND_RISE = ISLAND_BACK_HEIGHT - ISLAND_FRONT_HEIGHT;
     public static final float WORLD_MAX_HEIGHT = Math.max(ISLAND_BACK_HEIGHT, ISLAND_FRONT_HEIGHT) + HEIGHT_NOISE_HEIGHT;
     /* --------------------------------------------------------------------------------------------------------------- */
+
+    // TODO: this will be per selected character, this is placeholder for now
+    public Array<Tile> adjacentTiles;
 
     public Array<Tile> tiles;
     public Array<Player> players;
@@ -52,9 +56,12 @@ public class World {
         players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
 
         Player player = new Player(this);
-        player.row = 1;
-        player.col = 1;
+        player.row = 10;
+        player.col = 10;
+        player.moveTo(player.row, player.col);
         players.add(player);
+
+        adjacentTiles = new Array<Tile>();
     }
 
     public void update(float dt){
@@ -73,6 +80,9 @@ public class World {
                 resIndicators.remove(i);
             }
         }
+//        for (Tile t : tiles) {
+//            t.isHighlighted = false;
+//        }
     }
 
     public void render(SpriteBatch batch){
@@ -106,7 +116,24 @@ public class World {
     }
 
     public Array<Tile> getNeighbors(int row, int col){
-        return new Array<Tile>();
+        adjacentTiles.clear();
+
+        boolean even = (row % 2 == 0);
+        Tile left = getTile(row, col - 1);
+        Tile right = getTile(row, col + 1);
+        Tile upLeft = getTile(row + 1, col + (even ? 0 : -1));
+        Tile upRight = getTile(row + 1, col + (even ? 1 : 0));
+        Tile downLeft = getTile(row - 1, col + (even ? 0 : -1));
+        Tile downRight = getTile(row - 1, col + (even ? 1 : 0));
+
+        if (left != null) adjacentTiles.add(left);
+        if (right != null) adjacentTiles.add(right);
+        if (upLeft != null) adjacentTiles.add(upLeft);
+        if (upRight != null) adjacentTiles.add(upRight);
+        if (downLeft != null) adjacentTiles.add(downLeft);
+        if (downRight != null) adjacentTiles.add(downRight);
+
+        return adjacentTiles;
     }
 
     public Tile getUpperLeftTile(int row, int col){
