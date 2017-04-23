@@ -1,6 +1,7 @@
 package lando.systems.ld38.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,8 +18,8 @@ public class EndTurnButton extends Button {
     private float stateTime;
     private boolean animating;
 
-    public EndTurnButton(TextureRegion region, Rectangle bounds) {
-        super(region, bounds);
+    public EndTurnButton(TextureRegion region, Rectangle bounds, OrthographicCamera camera) {
+        super(region, bounds, camera);
         text = "End Turn";
         scale = 0.3f;
 

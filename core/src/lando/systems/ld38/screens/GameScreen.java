@@ -18,7 +18,8 @@ import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.*;
-import java.util.ArrayList;
+
+//import static com.sun.glass.ui.gtk.GtkApplication.screen;
 
 /**
  * Created by Brian on 4/16/2017
@@ -65,7 +66,7 @@ public class GameScreen extends BaseScreen {
         pickPixmap = null;
         pickColor = new Color();
 
-        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30));
+        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
 
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
@@ -141,22 +142,14 @@ public class GameScreen extends BaseScreen {
         return true;
     }
 
-    private Vector2 touchPosScreen    = new Vector2();
-    private Vector3 touchPosUnproject = new Vector3();
-
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        touchPosUnproject = hudCamera.unproject(new Vector3(screenX, screenY, 0));
-        touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
-        if (endTurnButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+        if (endTurnButton.checkForTouch(screenX, screenY)) {
             endTurnButton.handleTouch();
             endTurn();
         }
-//        if (resetProgressBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
-//            showConfirmDlg = !showConfirmDlg;
-//            return true;
-//        }
+
         return false;
     }
 
@@ -273,7 +266,7 @@ public class GameScreen extends BaseScreen {
         float x = player.position.x + 10;
         float y = player.position.y + 20;
         Rectangle buttonBounds = new Rectangle(x, y, 1, 1);
-        optionButtons.add(new OptionButton("Build", buttonBounds));
+        optionButtons.add(new OptionButton("Build", buttonBounds, camera));
 
 
 
