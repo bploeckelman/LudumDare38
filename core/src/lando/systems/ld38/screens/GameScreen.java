@@ -254,12 +254,14 @@ public class GameScreen extends BaseScreen {
     private void selectPlayer(int screenX, int screenY) {
         GridPoint2 location = getGridPosition(screenX, screenY);
         Array<Player> players = world.getPlayers(location);
-        if (players.size == 0) return;
+        if (players.size == 0) {
+            actionManager.showOptions(null, camera);
+        } else {
+            // will have to z order players on moveTo and grab top player - when going to the player from the character
+            // menu, reorder that player on top
+            Player player = players.get(0);
 
-        // will have to z order players on moveTo and grab top player - when going to the player from the character
-        // menu, reorder that player on top
-        Player player = players.get(0);
-
-        actionManager.showOptions(player);
+            actionManager.showOptions(player, camera);
+        }
     }
 }

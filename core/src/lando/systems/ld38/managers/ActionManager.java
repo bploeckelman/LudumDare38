@@ -1,7 +1,10 @@
 package lando.systems.ld38.managers;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.ui.ActionMenu;
 import lando.systems.ld38.ui.OptionButton;
@@ -31,7 +34,10 @@ public class ActionManager {
         }
     }
     
-    public void showOptions(Player player) {
+    public void showOptions(Player player, OrthographicCamera camera) {
+        for (ActionMenu menu : playerOptions) {
+            if (menu.player == player) return;
+        }
 
         for (ActionMenu menu : playerOptions) {
             menu.hide();
@@ -42,22 +48,19 @@ public class ActionManager {
         // determine available options from tile - for now, use all three
         Array<OptionButton> optionButtons = new Array<OptionButton>(3);
 
-        float x = player.position.x + 10;
-        float y = player.position.y + 20;
-
         Tile tile = player.world.getTile(player.row, player.col);
+        Vector3 position = tile.position;
+
+        float x = position.x + (player.tileWidth / 2);
+        float y = position.y + player.tileHeight + 10;
 
         Rectangle buttonBounds = new Rectangle(x, y, 100, 20);
-        optionButtons.add(new OptionButton("Move", buttonBounds));
+        optionButtons.add(new OptionButton("Move", buttonBounds, camera));
         if (tile != null) {
-            optionButtons.add(new OptionButton("Build", buttonBounds));
-            optionButtons.add(new OptionButton("Harvest", buttonBounds));
+            optionButtons.add(new OptionButton("Build", buttonBounds, camera));
+            optionButtons.add(new OptionButton("Harvest", buttonBounds, camera));
         }
 
         playerOptions.add(new ActionMenu(player, optionButtons));
-    }
-
-    public void hideOptions() {
-        showOptions(null);
     }
 }
