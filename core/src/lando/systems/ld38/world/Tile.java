@@ -11,13 +11,14 @@ import lando.systems.ld38.utils.Assets;
  */
 
 public class Tile extends GameObject {
-    enum Type {Clay, Dirt, Grass, Sand, Snow, Stone}
+    enum Type {Clay, Dirt, Grass, Sand, Snow, Stone, Ocean}
     public Type type;
     TextureRegion top_tex;
     TextureRegion bottom_tex;
 
     public Tile(World world, int col, int row, float height) {
-        super(world, col, row, height);
+        super(col, row, height);
+        type = Type.Ocean;
     }
 
     public void setType(Type type){
@@ -51,11 +52,14 @@ public class Tile extends GameObject {
     }
 
     public void render(SpriteBatch batch, float x, float y, float width, float height){
-
+        if (type == Type.Ocean) return;
         float heightOffset = this.height * 2;
         float a = Math.max(this.height / World.WORLD_MAX_HEIGHT, 0);
-        if (heightOffset > 0)
-            batch.draw(bottom_tex, x, y, tileWidth, tileHeight);
+        for (int yOffset = 0; yOffset < heightOffset; yOffset++)  {
+
+            batch.draw(bottom_tex, x, y + yOffset, tileWidth, tileHeight);
+        }
+
         batch.draw(top_tex, x, y + heightOffset, tileWidth, tileHeight);
 
         batch.setColor(Color.WHITE);

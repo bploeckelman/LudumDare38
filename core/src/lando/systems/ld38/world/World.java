@@ -12,12 +12,12 @@ import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
 public class World {
 
 
-    public static final int WORLD_WIDTH = 20;
+    public static final int WORLD_WIDTH = 30;
 
-    private static final float HEIGHT_NOISE_HEIGHT = 5f;
-    private static final float HEIGHT_NOISE_SCALE = 0.6f;
-    private static final float ISLAND_BACK_HEIGHT = 5f;
-    private static final float ISLAND_FRONT_HEIGHT = -1f;
+    private static final float HEIGHT_NOISE_HEIGHT = 8f;
+    private static final float HEIGHT_NOISE_SCALE = 0.3f;
+    private static final float ISLAND_BACK_HEIGHT = 10f;
+    private static final float ISLAND_FRONT_HEIGHT = -2f;
     private static final long HEIGHT_NOISE_SEED = 23203423489124l;
 
     // Computed --------------------------------------------------------------------------------------------------------
@@ -85,8 +85,8 @@ public class World {
         // Create the tiles.
         for (int row = 0; row < WORLD_WIDTH; row++){
             for (int col = 0; col < WORLD_WIDTH; col++){
-                float adjustedRow = (col % 2 == 0) ? row + 0.5f : row;
-                float dist = c.dst(col,adjustedRow);
+                float adjustedCol = (row % 2 == 0) ? col + 0.5f : col;
+                float dist = c.dst(adjustedCol,row);
                 // Inside the island perimeter?
                 if (dist <= r) {
                     thisHeight = getTileHeight(col,row);
@@ -100,6 +100,7 @@ public class World {
                         tiles.add(new Tile(this, col, row, thisHeight));
                     }
                 }
+                tiles.add(new Tile(col, row, -10));
             }
         }
         // Now, assign biomes.
@@ -109,7 +110,9 @@ public class World {
             relativeHeightAboveSeaLevel = tile.height <= 0 ? 0 : tile.height / maxTileHeight;
             // Clay, Dirt, Grass, Sand, Snow, Stone
             Tile.Type type;
-            if (relativeHeightAboveSeaLevel <= typeStep * 1) {
+            if (tile.height <= -1){
+                type = Tile.Type.Ocean;
+            } else if (relativeHeightAboveSeaLevel <= typeStep * 1) {
                 type = Tile.Type.Sand;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 2) {
                 type = Tile.Type.Clay;

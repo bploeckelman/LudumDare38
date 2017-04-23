@@ -40,7 +40,7 @@ public class GameScreen extends BaseScreen {
     public Vector3 cameraTouchStart;
     public Vector3 touchStart;
     public static float zoomScale = 0.05f;
-    public static float maxZoom = 1f;
+    public static float maxZoom = 1.5f;
     public static float minZoom = 0.2f;
 
     public GameScreen(){
