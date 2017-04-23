@@ -100,7 +100,7 @@ public class GameScreen extends BaseScreen {
         world.update(dt);
         endTurnButton.update(dt);
 //        testingButton.update(dt);
-        playerSelection.update(dt);
+ //       playerSelection.update(dt);
 
 //        if (Gdx.input.justTouched()) {
 //            Player character = world.players.first();
@@ -190,13 +190,14 @@ public class GameScreen extends BaseScreen {
             return false;
         }
 
+        if (playerSelection.handleTouch(screenX, screenY)) return false;
         if (endTurnButton.checkForTouch(screenX, screenY)) {
             endTurnButton.handleTouch();
             endTurn();
         } else {
             GridPoint2 location =  getGridPosition(screenX, screenY);
-            if (handleMove(location)) return true;
-            if (handlePlayerAction(screenX, screenY)) return true;
+            if (handleMove(location)) return false;
+            if (handlePlayerAction(screenX, screenY)) return false;
 
             Array<Player> players = world.getPlayers(location);
             Player player = (players.size > 0) ? players.get(0) : null;

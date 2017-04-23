@@ -44,10 +44,10 @@ public class PlayerSelectionHud {
         }
     }
 
-    public void update(float dt){
+    public boolean handleTouch(int screenX, int screenY) {
         screenPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         screenPos = gameScreen.hudCamera.unproject(screenPos);
-        if (Gdx.input.justTouched() && bounds.contains(screenPos.x, screenPos.y)){
+        if (bounds.contains(screenPos.x, screenPos.y)){
             for(PlayerHud hud : playerHuds){
                 if (hud.bounds.contains(screenPos.x, screenPos.y)){
                     Player p = hud.player;
@@ -57,7 +57,9 @@ public class PlayerSelectionHud {
                             .start(Assets.tween);
                 }
             }
+            return true;
         }
+        return false;
     }
 
     public void render(SpriteBatch batch){
