@@ -192,6 +192,7 @@ public class GameScreen extends BaseScreen {
         }
         turnActions.clear();
         ++turn;
+        world.endTurn();
     }
 
 }

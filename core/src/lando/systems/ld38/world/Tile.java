@@ -12,7 +12,7 @@ import lando.systems.ld38.utils.Assets;
 
 public class Tile extends GameObject {
     enum Type {Clay, Dirt, Grass, Sand, Snow, Stone, Ocean}
-    public static float heightScale = 3;
+    public static float heightScale = 4;
 
     public Type type;
     TextureRegion top_tex;
@@ -75,7 +75,7 @@ public class Tile extends GameObject {
         }
 
         batch.setColor(texColor);
-        for (int yOffset = -10; yOffset < heightOffset; yOffset += 2) {
+        for (int yOffset = -10; yOffset < heightOffset; yOffset += 1) {
             if (asPickBuffer || (aboveWater && yOffset > waterHeight) || (!aboveWater && yOffset <= waterHeight)) {
                 batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
             }

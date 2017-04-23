@@ -34,5 +34,5 @@ void main() {
 
     float shininess = pow (max (dot (light, totalwave), 0.0), 2.0);
 
-    gl_FragColor = lamberFactor * vec4( 0.5, 0.6, 1., .8);
+    gl_FragColor = lamberFactor * vec4( 0.5, 0.6, 1., .9);
 }

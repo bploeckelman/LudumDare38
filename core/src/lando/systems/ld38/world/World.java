@@ -19,6 +19,7 @@ public class World {
     private static final float ISLAND_BACK_HEIGHT = 10f;
     private static final float ISLAND_FRONT_HEIGHT = -2f;
     private static final long HEIGHT_NOISE_SEED = 23203423489124l;
+    private static final float WATER_RISE_RATE = .333f;
 
     // Computed --------------------------------------------------------------------------------------------------------
     private static final float ISLAND_RISE = ISLAND_BACK_HEIGHT - ISLAND_FRONT_HEIGHT;
@@ -154,5 +155,7 @@ public class World {
 
     }
 
-
+    public void endTurn(){
+        water.waterHeight += WATER_RISE_RATE;
+    }
 }
