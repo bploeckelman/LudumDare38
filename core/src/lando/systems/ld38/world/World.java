@@ -73,8 +73,9 @@ public class World {
     }
 
     public void renderPickBuffer(SpriteBatch batch) {
-        for (Tile tile : tiles) {
-            tile.renderPickBuffer(batch);
+        for (int i = tiles.size-1; i >= 0; i--){
+            Tile t = tiles.get(i);
+            t.renderPickBuffer(batch);
         }
     }
 

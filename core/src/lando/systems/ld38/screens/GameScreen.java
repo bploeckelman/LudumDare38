@@ -11,14 +11,12 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
-import lando.systems.ld38.world.Player;
-import lando.systems.ld38.world.TurnCounter;
-import lando.systems.ld38.world.UserResources;
-import lando.systems.ld38.world.World;
+import lando.systems.ld38.world.*;
 
 /**
  * Created by Brian on 4/16/2017
@@ -27,10 +25,14 @@ public class GameScreen extends BaseScreen {
 
     public TextureRegion debugTex;
     public World world;
+    public Tile selectedTile;
     public UserResources resources;
     public TurnCounter turnCounter;
+
     public FrameBuffer pickBuffer;
     public TextureRegion pickRegion;
+    public Pixmap pickPixmap;
+    public Color pickColor;
 
     public boolean alternate = true;
     public int turn;
@@ -52,9 +54,12 @@ public class GameScreen extends BaseScreen {
         debugTex = Assets.whitePixel;
         turn = 0;
         turnActions = new Array<TurnAction>();
-        pickBuffer = new FrameBuffer(Pixmap.Format.RGB888, Config.gameWidth, Config.gameHeight, false, false);
+        selectedTile = null;
+        pickBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Config.gameWidth, Config.gameHeight, false, false);
         pickRegion = new TextureRegion(pickBuffer.getColorBufferTexture());
         pickRegion.flip(false, true);
+        pickPixmap = null;
+        pickColor = new Color();
 
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
@@ -69,6 +74,13 @@ public class GameScreen extends BaseScreen {
 
         time += dt;
         world.update(dt);
+
+        if (pickPixmap != null) {
+            int x = Gdx.input.getX();
+            int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+            pickColor.set(pickPixmap.getPixel(x, y));
+            selectedTile = Tile.parsePickColorForTileInWorld(pickColor, world);
+        }
 
         if (Gdx.input.justTouched()) {
             Player character = world.players.first();
@@ -129,6 +141,15 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
             world.render(batch);
+            if (selectedTile != null) {
+                float x = selectedTile.col * Tile.tileWidth;
+                float y = selectedTile.row * Tile.tileHeight * .75f;
+                if (selectedTile.row % 2 == 0) x += Tile.tileWidth / 2f;
+                float heightOffset = selectedTile.height * 2;
+                batch.setColor(Color.MAGENTA);
+                batch.draw(Assets.white_hex, x, y + heightOffset, Tile.tileWidth, Tile.tileHeight);
+                batch.setColor(Color.WHITE);
+            }
         }
         batch.end();
         pickBuffer.begin();
@@ -140,6 +161,7 @@ public class GameScreen extends BaseScreen {
             world.renderPickBuffer(batch);
             batch.end();
         }
+        pickPixmap = ScreenUtils.getFrameBufferPixmap(0, 0, pickBuffer.getWidth(), pickBuffer.getHeight());
         pickBuffer.end();
 
         batch.setProjectionMatrix(hudCamera.combined);
@@ -149,6 +171,10 @@ public class GameScreen extends BaseScreen {
             batch.setColor(Color.WHITE);
             turnCounter.render(batch, turn);
             Assets.font.draw(batch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 3, 16);
+
+            batch.setColor(pickColor);
+            batch.draw(Assets.whitePixel, hudCamera.viewportWidth - 100 - 50, 0, 50, 50);
+            batch.setColor(Color.WHITE);
 
             batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
         }

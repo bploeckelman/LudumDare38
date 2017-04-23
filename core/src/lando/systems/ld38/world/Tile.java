@@ -62,7 +62,13 @@ public class Tile extends GameObject {
         if (type == Type.Ocean) return;
         float heightOffset = this.height * 2;
         float a = Math.max(this.height / World.WORLD_MAX_HEIGHT, 0);
-        if (!asPickBuffer) {
+        if (asPickBuffer) {
+            batch.setColor(pickColor);
+            for (int yOffset = 0; yOffset < heightOffset; yOffset++) {
+                batch.draw(Assets.white_hex, x, y + yOffset, tileWidth, tileHeight);
+            }
+            batch.setColor(Color.WHITE);
+        } else {
             for (int yOffset = 0; yOffset < heightOffset; yOffset++) {
                 batch.draw(bottom_tex, x, y + yOffset, tileWidth, tileHeight);
             }
@@ -86,9 +92,15 @@ public class Tile extends GameObject {
 
     public static Color getColorFromPosition(int row, int col) {
         return new Color(
-                (col * (255 / World.WORLD_WIDTH)) / 255f,
-                (row * (255 / World.WORLD_WIDTH)) / 255f,
+                (col * 5f) / 255f,
+                (row * 5f) / 255f,
                 0f, 1f);
+    }
+
+    public static Tile parsePickColorForTileInWorld(Color pickColor, World world) {
+        int col = (int) (pickColor.r * (255f / 5f));
+        int row = (int) (pickColor.g * (255f / 5f));
+        return world.getTile(row, col);
     }
 
 }
