@@ -19,7 +19,6 @@ import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.Button;
 import lando.systems.ld38.ui.EndTurnButton;
-import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.ui.PlayerSelectionHud;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
@@ -57,6 +56,8 @@ public class GameScreen extends BaseScreen {
     public static float maxZoom = 1.6f;
     public static float minZoom = 0.2f;
 
+    public Button testingButton;
+
     private ActionManager actionManager = new ActionManager();
 
     public GameScreen() {
@@ -77,6 +78,7 @@ public class GameScreen extends BaseScreen {
 
         endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
         playerSelection = new PlayerSelectionHud(this);
+        testingButton = new Button(Assets.whitePixel, new Rectangle(50,50,50,50), hudCamera, "text", "Tooltip");
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
         Gdx.input.setInputProcessor(this);
@@ -235,6 +237,7 @@ public class GameScreen extends BaseScreen {
             resources.render(batch);
             turnCounter.render(batch, turn);
             endTurnButton.render(batch);
+//            testingButton.render(batch);
             Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
 
             // Draw pick region stuff

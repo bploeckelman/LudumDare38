@@ -2,10 +2,8 @@ package lando.systems.ld38.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.particles.ResourceData;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -49,21 +47,21 @@ public class Button {
 
     private float tooltipBackgroundHeight;
     private float tooltipBackgroundWidth;
-    private float tooltipTextOffsetY = 0f;
-    private GlyphLayout tooltipTextGlyphLayout;
+    private float tooltipTextOffsetY;
 
-    private static final float TOOLTIP_TEXT_OFFSET_Y = 24f; // Catches characters with ligatures below the baseline
-    private static final float TOOLTIP_TEXT_PADDING_X = 18f; // Padding for all 4 sides around the text
-    private static final float TOOLTIP_TEXT_PADDING_Y = 4f; // Padding for all 4 sides around the text
-    private static final float TOOLTIP_TEXT_SCALE = 0.34f; // Padding for all 4 sides around the text
-    private static final float TOOLTIP_TEXT_OFFSET_X = TOOLTIP_TEXT_PADDING_X * TOOLTIP_TEXT_SCALE;
+    private static final float TOOLTIP_TEXT_OFFSET_Y = 3f; // Catches characters with ligatures below the baseline
+    private static final float TOOLTIP_TEXT_PADDING_X = 8f;
+    private static final float TOOLTIP_TEXT_PADDING_Y = 8f;
+    private static final float TOOLTIP_TEXT_SCALE = 0.3f;
 
     public void setTooltip(String tooltip) {
         this.tooltip = tooltip;
-        tooltipTextGlyphLayout = new GlyphLayout(Assets.fancyFont, tooltip);
-        tooltipBackgroundHeight = tooltipTextGlyphLayout.height + (TOOLTIP_TEXT_PADDING_Y * 2) + TOOLTIP_TEXT_OFFSET_Y;
-        tooltipBackgroundWidth = tooltipTextGlyphLayout.width + (TOOLTIP_TEXT_PADDING_X * 2);
-        tooltipTextOffsetY = (tooltipTextGlyphLayout.height + TOOLTIP_TEXT_PADDING_Y + TOOLTIP_TEXT_OFFSET_Y) * TOOLTIP_TEXT_SCALE;
+        Assets.fancyFont.getData().setScale(TOOLTIP_TEXT_SCALE);
+        Assets.layout.setText(Assets.fancyFont, tooltip);
+        tooltipBackgroundHeight = Assets.layout.height + (TOOLTIP_TEXT_PADDING_Y * 2);
+        tooltipBackgroundWidth = Assets.layout.width + (TOOLTIP_TEXT_PADDING_X * 2);
+        tooltipTextOffsetY = (Assets.layout.height + TOOLTIP_TEXT_PADDING_Y + TOOLTIP_TEXT_OFFSET_Y);
+        Assets.fancyFont.getData().setScale(1f);
     }
 
 
@@ -75,10 +73,10 @@ public class Button {
         if (tooltip != null && checkForTouch(input.getX(), input.getY())) {
             float tX = input.getX();
             float tY = Config.gameHeight - input.getY();
-            Assets.woodPanel.draw(batch, tX, tY, tooltipBackgroundWidth * TOOLTIP_TEXT_SCALE, tooltipBackgroundHeight * TOOLTIP_TEXT_SCALE);
+            Assets.woodPanel.draw(batch, tX, tY, tooltipBackgroundWidth, tooltipBackgroundHeight);
             Assets.drawString(batch,
                     tooltip,
-                    tX + TOOLTIP_TEXT_OFFSET_X,
+                    tX + TOOLTIP_TEXT_PADDING_X,
                     tY + tooltipTextOffsetY,
                     Color.WHITE,
                     TOOLTIP_TEXT_SCALE,
