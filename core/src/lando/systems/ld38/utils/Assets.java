@@ -37,18 +37,18 @@ public class Assets {
 
     public static Texture whitePixel;
     public static Texture blank_hex;
-    public static Texture clay_hex;
-    public static Texture clay_bottom;
-    public static Texture dirt_hex;
-    public static Texture dirt_bottom;
-    public static Texture grass_hex;
-    public static Texture grass_bottom;
-    public static Texture sand_hex;
-    public static Texture sand_bottom;
-    public static Texture snow_hex;
-    public static Texture snow_bottom;
-    public static Texture stone_hex;
-    public static Texture stone_bottom;
+    public static TextureRegion clay_hex;
+    public static TextureRegion clay_bottom;
+    public static TextureRegion dirt_hex;
+    public static TextureRegion dirt_bottom;
+    public static TextureRegion grass_hex;
+    public static TextureRegion grass_bottom;
+    public static TextureRegion sand_hex;
+    public static TextureRegion sand_bottom;
+    public static TextureRegion snow_hex;
+    public static TextureRegion snow_bottom;
+    public static TextureRegion stone_hex;
+    public static TextureRegion stone_bottom;
     public static Texture water_hex;
     public static Texture water_bumpmap;
     public static Texture turn_counter_background;
@@ -69,18 +69,6 @@ public class Assets {
         mgr = new AssetManager();
         mgr.load("images/white-pixel.png", Texture.class, nearestParams);
         mgr.load("images/blank-hex.png", Texture.class, nearestParams);
-        mgr.load("images/clay_top.png", Texture.class, nearestParams);
-        mgr.load("images/dirt_top.png", Texture.class, nearestParams);
-        mgr.load("images/grass_top.png", Texture.class, nearestParams);
-        mgr.load("images/sand_top.png", Texture.class, nearestParams);
-        mgr.load("images/snow_top.png", Texture.class, nearestParams);
-        mgr.load("images/stone_top.png", Texture.class, nearestParams);
-        mgr.load("images/clay_bottom.png", Texture.class, nearestParams);
-        mgr.load("images/dirt_bottom.png", Texture.class, nearestParams);
-        mgr.load("images/grass_bottom.png", Texture.class, nearestParams);
-        mgr.load("images/sand_bottom.png", Texture.class, nearestParams);
-        mgr.load("images/snow_bottom.png", Texture.class, nearestParams);
-        mgr.load("images/stone_bottom.png", Texture.class, nearestParams);
         mgr.load("images/water-bump.png", Texture.class, nearestParams);
         mgr.load("images/turn_counter_background.png", Texture.class, nearestParams);
 
@@ -108,19 +96,20 @@ public class Assets {
 
         whitePixel = mgr.get("images/white-pixel.png", Texture.class);
         blank_hex = mgr.get("images/blank-hex.png", Texture.class);
-        clay_hex = mgr.get("images/clay_top.png", Texture.class);
-        dirt_hex = mgr.get("images/dirt_top.png", Texture.class);
-        grass_hex = mgr.get("images/grass_top.png", Texture.class);
-        sand_hex = mgr.get("images/sand_top.png", Texture.class);
-        snow_hex = mgr.get("images/snow_top.png", Texture.class);
-        stone_hex = mgr.get("images/stone_top.png", Texture.class);
 
-        clay_bottom = mgr.get("images/clay_bottom.png", Texture.class);
-        dirt_bottom = mgr.get("images/dirt_bottom.png", Texture.class);
-        grass_bottom = mgr.get("images/grass_bottom.png", Texture.class);
-        sand_bottom = mgr.get("images/sand_bottom.png", Texture.class);
-        snow_bottom = mgr.get("images/snow_bottom.png", Texture.class);
-        stone_bottom = mgr.get("images/stone_bottom.png", Texture.class);
+        clay_hex = atlas.findRegion("clay_top");
+        dirt_hex = atlas.findRegion("dirt_top");
+        grass_hex = atlas.findRegion("grass_top");
+        sand_hex = atlas.findRegion("sand_top");
+        snow_hex = atlas.findRegion("snow_top");
+        stone_hex = atlas.findRegion("stone_top");
+
+        clay_bottom = atlas.findRegion("clay_bottom");
+        dirt_bottom = atlas.findRegion("dirt_bottom");
+        grass_bottom = atlas.findRegion("grass_bottom");
+        sand_bottom = atlas.findRegion("sand_bottom");
+        snow_bottom = atlas.findRegion("snow_bottom");
+        stone_bottom = atlas.findRegion("stone_bottom");
 
         water_bumpmap = mgr.get("images/water-bump.png", Texture.class);
         water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);

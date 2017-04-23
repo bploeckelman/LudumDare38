@@ -3,6 +3,7 @@ package lando.systems.ld38.world;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld38.utils.Assets;
 
 /**
@@ -12,8 +13,8 @@ import lando.systems.ld38.utils.Assets;
 public class Tile extends GameObject {
     enum Type {Clay, Dirt, Grass, Sand, Snow, Stone}
     public Type type;
-    Texture top_tex;
-    Texture bottom_tex;
+    TextureRegion top_tex;
+    TextureRegion bottom_tex;
 
     public Tile(int col, int row, float height) {
         super(col, row, height);
