@@ -10,7 +10,7 @@ public class Water {
     public float waterHeight;
     public float time;
     public World world;
-    float waterBound = 400;
+    float waterBound = 500;
 
     public Water(World world){
         time = 0;

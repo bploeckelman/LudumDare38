@@ -36,9 +36,11 @@ public class TurnCounter {
         float layoutCenter = Assets.layout.width / 2;
 
         batch.setShader(Assets.fontShader);
+        Assets.fontShader.setUniformf("u_scale", .8f);
         Assets.fancyFont.getData().setScale(0.8f);
         Assets.fancyFont.setColor(Color.WHITE);
         Assets.fancyFont.draw(batch, String.valueOf(turn), turnCounterX + 25, turnCounterY + 51, 0, Align.center, false);
+        Assets.fontShader.setUniformf("u_scale", 1.0f);
         batch.setShader(null);
     }
 

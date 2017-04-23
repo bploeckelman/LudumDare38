@@ -13,6 +13,7 @@ public class DesktopLauncher {
 //		config.vSyncEnabled = false;
 //		config.foregroundFPS = 0;
 //		config.backgroundFPS = 0;
+		config.samples = 8;
 		new LwjglApplication(new LudumDare38(), config);
 	}
 }

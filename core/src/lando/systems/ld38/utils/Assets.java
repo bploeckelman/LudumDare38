@@ -194,12 +194,12 @@ public class Assets {
 
     public static void drawString(SpriteBatch batch, String text, float x, float y, Color c, float scale, BitmapFont font){
         batch.setShader(fontShader);
-        //fontShader.setUniformf("u_scale", scale);
+        fontShader.setUniformf("u_scale", 1f/scale);
         font.getData().setScale(scale);
         font.setColor(c);
         font.draw(batch, text, x, y);
         font.getData().setScale(1f);
-        //fontShader.setUniformf("u_scale", 1f);
+        fontShader.setUniformf("u_scale", 1f);
         font.getData().setScale(scale);
         batch.setShader(null);
     }
