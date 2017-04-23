@@ -109,6 +109,16 @@ public class World {
         return new Array<Tile>();
     }
 
+    public Tile getUpperLeftTile(int row, int col){
+        int offset = row % 2 == 1 ? -1 : 0;
+        return getTile(row +1, col + offset);
+    }
+
+    public Tile getUpperRightTile(int row, int col){
+        int offset = row % 2 == 1 ? 0 : 1;
+        return getTile(row +1, col + offset);
+    }
+
     private void generateWorldTiles() {
         float r = ((World.WORLD_WIDTH - 1) / 2); // sub 1 because we're zero indexing the tiles
         Vector2 c = new Vector2(r,r);
@@ -160,6 +170,12 @@ public class World {
                 type = Tile.Type.Snow;
             }
             tile.setType(type);
+            Tile ul = getUpperLeftTile(tile.row, tile.col);
+            Tile ur = getUpperRightTile(tile.row, tile.col);
+            int shadowmap = 0;
+            if (ul != null && ul.height > tile.height) shadowmap += 1;
+            if (ur != null && ur.height > tile.height) shadowmap += 2;
+            tile.addShadow(shadowmap);
         }
     }
 

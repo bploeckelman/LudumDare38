@@ -54,7 +54,9 @@ public class Assets {
     public static TextureRegion white_hex;
     public static Texture water_bumpmap;
     public static Texture turn_counter_background;
-
+    public static TextureRegion shadowUL;
+    public static TextureRegion shadowUR;
+    public static TextureRegion shadowU;
     public static Animation<TextureRegion> womanWalkUp;
     public static Animation<TextureRegion> womanWalkDown;
     public static Animation<TextureRegion> womanWalkSide;
@@ -125,6 +127,10 @@ public class Assets {
         sand_bottom = atlas.findRegion("sand_bottom");
         snow_bottom = atlas.findRegion("snow_bottom");
         stone_bottom = atlas.findRegion("stone_bottom");
+
+        shadowU = atlas.findRegion("shadow_u");
+        shadowUR = atlas.findRegion("shadow_ur");
+        shadowUL = atlas.findRegion("shadow_ul");
 
         water_bumpmap = mgr.get("images/water-bump.png", Texture.class);  // NEVER MOVE THIS INTO THE ATLAS!!!!!
         water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);

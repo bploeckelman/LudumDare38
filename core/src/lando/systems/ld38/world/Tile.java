@@ -84,6 +84,7 @@ public class Tile extends GameObject {
     public TextureRegion top_tex;
     TextureRegion bottom_tex;
     Decoration decoration;
+    TextureRegion shadow_tex;
     Color pickColor;
 
     public float heightOffset;
@@ -102,6 +103,21 @@ public class Tile extends GameObject {
         this.top_tex = type.top_tex;
         this.bottom_tex = type.bottom_tex;
         this.decoration = type.availableDecorations.random();
+    }
+
+    public void addShadow(int type){
+        shadow_tex = null;
+        switch (type){
+            case 1:
+                shadow_tex = Assets.shadowUL;
+                break;
+            case 2:
+                shadow_tex = Assets.shadowUR;
+                break;
+            case 3:
+                shadow_tex = Assets.shadowU;
+                break;
+        }
     }
 
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater) {
@@ -127,6 +143,11 @@ public class Tile extends GameObject {
         }
         if (asPickBuffer || (aboveWater && heightOffset > waterHeight) || (!aboveWater && heightOffset <= waterHeight)) {
             batch.draw(topTex, x, y + heightOffset, tileWidth, tileHeight);
+            if (!asPickBuffer && shadow_tex != null){
+                batch.setColor(0,0,0,.7f);
+                batch.draw(shadow_tex, x, y +heightOffset, tileWidth, tileHeight);
+                batch.setColor(Color.WHITE);
+            }
         }
         if (!decoration.equals(Decoration.None) && !asPickBuffer && aboveWater && heightOffset > waterHeight) {
             batch.draw(decoration.tex, x, y + heightOffset, tileWidth, tileHeight);
