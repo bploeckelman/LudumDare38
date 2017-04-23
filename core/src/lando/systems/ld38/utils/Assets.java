@@ -35,7 +35,7 @@ public class Assets {
 
     public static TextureAtlas atlas;
 
-    public static Texture whitePixel;
+    public static TextureRegion whitePixel;
     public static Texture blank_hex;
     public static TextureRegion clay_hex;
     public static TextureRegion clay_bottom;
@@ -53,6 +53,10 @@ public class Assets {
     public static Texture water_bumpmap;
     public static Texture turn_counter_background;
 
+    public static Animation<TextureRegion> womanWalkUp;
+    public static Animation<TextureRegion> womanWalkDown;
+    public static Animation<TextureRegion> womanWalkSide;
+
     public static boolean initialized;
 
     public static void load() {
@@ -67,7 +71,6 @@ public class Assets {
         nearestParams.magFilter = Texture.TextureFilter.Nearest;
 
         mgr = new AssetManager();
-        mgr.load("images/white-pixel.png", Texture.class, nearestParams);
         mgr.load("images/blank-hex.png", Texture.class, nearestParams);
         mgr.load("images/water-bump.png", Texture.class, nearestParams);
         mgr.load("images/turn_counter_background.png", Texture.class, nearestParams);
@@ -94,7 +97,7 @@ public class Assets {
         if (initialized) return 1f;
         initialized = true;
 
-        whitePixel = mgr.get("images/white-pixel.png", Texture.class);
+        whitePixel = atlas.findRegion("white");
         blank_hex = mgr.get("images/blank-hex.png", Texture.class);
 
         clay_hex = atlas.findRegion("clay_top");
@@ -115,6 +118,9 @@ public class Assets {
         water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         turn_counter_background = mgr.get("images/turn_counter_background.png", Texture.class);
 
+        womanWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_up"), Animation.PlayMode.LOOP);
+        womanWalkDown = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_down"), Animation.PlayMode.LOOP);
+        womanWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_side"), Animation.PlayMode.LOOP);
 
         final Texture distText = new Texture(Gdx.files.internal("fonts/ubuntu.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);

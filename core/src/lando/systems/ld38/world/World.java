@@ -42,7 +42,7 @@ public class World {
 
         players = new Array<Player>(WORLD_WIDTH * WORLD_WIDTH);
 
-        Player player = new Player();
+        Player player = new Player(this);
         player.row = 1;
         player.col = 1;
         players.add(player);
@@ -50,6 +50,9 @@ public class World {
 
     public void update(float dt){
         water.update(dt);
+        for (Player player : players) {
+            player.update(dt);
+        }
     }
 
     public void render(SpriteBatch batch){
@@ -92,9 +95,9 @@ public class World {
                     }
                     // Only add tiles if they're above sea level
                     if (thisHeight > 0) {
-                        tiles.add(new Tile(col, row, thisHeight));
+                        tiles.add(new Tile(this, col, row, thisHeight));
                     } else {
-                        tiles.add(new Tile(col, row, thisHeight));
+                        tiles.add(new Tile(this, col, row, thisHeight));
                     }
                 }
             }

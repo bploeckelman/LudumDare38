@@ -16,8 +16,8 @@ public class Tile extends GameObject {
     TextureRegion top_tex;
     TextureRegion bottom_tex;
 
-    public Tile(int col, int row, float height) {
-        super(col, row, height);
+    public Tile(World world, int col, int row, float height) {
+        super(world, col, row, height);
     }
 
     public void setType(Type type){

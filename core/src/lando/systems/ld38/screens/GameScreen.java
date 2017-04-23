@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
@@ -26,7 +27,7 @@ import sun.font.GlyphLayout;
  */
 public class GameScreen extends BaseScreen {
 
-    public Texture debugTex;
+    public TextureRegion debugTex;
     public World world;
     public UserResources resources;
     public TurnCounter turnCounter;

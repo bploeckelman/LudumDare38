@@ -1,16 +1,32 @@
 package lando.systems.ld38.world;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld38.utils.Assets;
 
-/**
- * Created by Brian on 4/22/2017.
- */
 public class Player extends GameObject {
+    public TextureRegion tex;
+    public float timer = 0f;
+
+    public Player(World world) {
+        super(world);
+        tex = Assets.womanWalkSide.getKeyFrame(timer);
+    }
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+        timer += dt;
+        tex = Assets.womanWalkDown.getKeyFrame(timer);
+    }
 
     public void render(SpriteBatch batch, float x, float y, float width, float height) {
-        batch.setColor(Color.RED);
-        batch.draw(Assets.whitePixel, x, y, width, height);
+        Tile tile = getTile();
+
+        if (tile == null) {
+            batch.draw(tex, x, y, width, height);
+        } else {
+            batch.draw(tex, x, y + (tile.height * 2) + (tileHeight * .25f), width, height);
+        }
     }
 }
