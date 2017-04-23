@@ -6,12 +6,11 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.ld38.turns.ActionType;
-import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.Actions;
 import lando.systems.ld38.turns.PendingAction;
 import lando.systems.ld38.ui.ActionMenu;
 import lando.systems.ld38.ui.OptionButton;
+import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.world.Player;
 import lando.systems.ld38.world.Tile;
 import lando.systems.ld38.world.World;
@@ -60,10 +59,10 @@ public class ActionManager {
         float y = position.y + player.tileHeight * 2;
 
         Rectangle buttonBounds = new Rectangle(x, y, 20, 20);
-        optionButtons.add(new OptionButton("Move", buttonBounds, Actions.displayMoves, camera));
+        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, camera));
         if (tile != null) {
-            optionButtons.add(new OptionButton("Build", buttonBounds, Actions.displayBuild, camera));
-            optionButtons.add(new OptionButton("Harvest", buttonBounds, Actions.harvest, camera));
+            optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, camera));
+            optionButtons.add(new OptionButton(Assets.wait, buttonBounds, Actions.harvest, camera));
         }
 
         playerOptions.add(new ActionMenu(player, optionButtons));
