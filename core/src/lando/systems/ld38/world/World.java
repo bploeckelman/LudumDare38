@@ -106,8 +106,9 @@ public class World {
                     } else {
                         tiles.add(new Tile(this, col, row, thisHeight));
                     }
+                }  else {
+                    tiles.add(new Tile(this, col, row, -10));
                 }
-                tiles.add(new Tile(this, col, row, -10));
             }
         }
         // Now, assign biomes.
@@ -147,10 +148,10 @@ public class World {
     }
 
     public Tile getTile(int row, int col){
-        for (Tile tile : tiles){
-            if (tile.row == row && tile.col == col) return tile;
-        }
-        return null;
+        int index = col + row * WORLD_WIDTH;
+        if (index < 0 || index >= tiles.size) return null;
+        return tiles.get(index);
+
     }
 
 
