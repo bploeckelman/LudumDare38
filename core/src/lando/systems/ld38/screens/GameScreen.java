@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import lando.systems.ld38.managers.ActionManager;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.EndTurnButton;
@@ -48,6 +49,8 @@ public class GameScreen extends BaseScreen {
     public static float zoomScale = 0.05f;
     public static float maxZoom = 1.5f;
     public static float minZoom = 0.2f;
+
+    private ActionManager actionManager = new ActionManager();
 
     public GameScreen() {
         super();
@@ -106,6 +109,8 @@ public class GameScreen extends BaseScreen {
         if (pickPixmap != null) {
             pickPixmap.dispose();
         }
+
+        actionManager.update(dt);
     }
 
     @Override
@@ -182,6 +187,7 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
             world.render(batch);
+            actionManager.render(batch);
         }
         batch.end();
         pickBuffer.begin();
@@ -232,26 +238,7 @@ public class GameScreen extends BaseScreen {
         // will have to z order players on moveTo and grab top player - when going to the player from the character
         // menu, reorder that player on top
         Player player = players.get(0);
-        
-        Tile tile = world.getTile(location);
-        showOptions(player, tile);
-    }
 
-    private void showOptions(Player player, Tile tile) {
-        // determine available options from tile - for now, use all three
-        Array<OptionButton> optionButtons = new Array<OptionButton>(3);
-
-        float x = player.position.x + 10;
-        float y = player.position.y + 20;
-        Rectangle buttonBounds = new Rectangle(x, y, 1, 1);
-        optionButtons.add(new OptionButton("Build", buttonBounds));
-
-
-
-
-    }
-
-    private void hideOptions(Player player) {
-
+        actionManager.showOptions(player);
     }
 }
