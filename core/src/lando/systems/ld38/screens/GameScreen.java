@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.EndTurnButton;
+import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.world.*;
@@ -226,10 +227,31 @@ public class GameScreen extends BaseScreen {
     private void selectPlayer(int screenX, int screenY) {
         GridPoint2 location = getGridPosition(screenX, screenY);
         Array<Player> players = world.getPlayers(location);
-        Player player = players.first();
-        if (player == null) return;
+        if (players.size == 0) return;
 
+        // will have to z order players on moveTo and grab top player - when going to the player from the character
+        // menu, reorder that player on top
+        Player player = players.get(0);
+        
         Tile tile = world.getTile(location);
+        showOptions(player, tile);
+    }
+
+    private void showOptions(Player player, Tile tile) {
+        // determine available options from tile - for now, use all three
+        Array<OptionButton> optionButtons = new Array<OptionButton>(3);
+
+        float x = player.position.x + 10;
+        float y = player.position.y + 20;
+        Rectangle buttonBounds = new Rectangle(x, y, 1, 1);
+        optionButtons.add(new OptionButton("Build", buttonBounds));
+
+
+
+
+    }
+
+    private void hideOptions(Player player) {
 
     }
 }

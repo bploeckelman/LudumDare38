@@ -13,6 +13,8 @@ public class Button {
 
     public final TextureRegion region;
     public final Rectangle bounds;
+    public String text;
+    public String tooltip;
 
     public boolean active;
 //    public boolean drawNinePatch;
