@@ -60,6 +60,7 @@ public class Assets {
     public static Animation<TextureRegion> womanWalkUp;
     public static Animation<TextureRegion> womanWalkDown;
     public static Animation<TextureRegion> womanWalkSide;
+    public static Animation<TextureRegion> totemAnim;
 
     public static TextureRegion cow;
     public static TextureRegion gold_mine;
@@ -158,6 +159,8 @@ public class Assets {
         womanWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_up"), Animation.PlayMode.LOOP);
         womanWalkDown = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_down"), Animation.PlayMode.LOOP);
         womanWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_side"), Animation.PlayMode.LOOP);
+
+        totemAnim = new Animation<TextureRegion>(0.15f, atlas.findRegions("totem"), Animation.PlayMode.NORMAL);
 
         cow = atlas.findRegion("cow");
         gold_mine = atlas.findRegion("gold_mine");

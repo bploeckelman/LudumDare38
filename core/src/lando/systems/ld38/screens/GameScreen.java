@@ -45,7 +45,7 @@ public class GameScreen extends BaseScreen {
 
     public Vector3 cameraTouchStart;
     public Vector3 touchStart;
-    public static float zoomScale = 0.05f;
+    public static float zoomScale = 0.15f;
     public static float maxZoom = 1.5f;
     public static float minZoom = 0.2f;
 
@@ -65,7 +65,7 @@ public class GameScreen extends BaseScreen {
         pickPixmap = null;
         pickColor = new Color();
 
-        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(20, 20, 100, 30));
+        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30));
 
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
@@ -80,6 +80,7 @@ public class GameScreen extends BaseScreen {
 
         time += dt;
         world.update(dt);
+        endTurnButton.update(dt);
 
         if (Gdx.input.justTouched()) {
             Player character = world.players.first();
@@ -150,6 +151,7 @@ public class GameScreen extends BaseScreen {
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
 
         if (endTurnButton.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
+            endTurnButton.handleTouch();
             endTurn();
         }
 //        if (resetProgressBtn.checkForTouch(touchPosScreen.x, touchPosScreen.y)) {
@@ -178,17 +180,19 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClearColor(Config.bgColor.r, Config.bgColor.g, Config.bgColor.b, Config.bgColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // Draw world
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         {
             world.render(batch);
         }
         batch.end();
+
+        // Draw picking frame buffer
         pickBuffer.begin();
         {
             Gdx.gl.glClearColor(0f, 0f, 1f, 0f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
             batch.begin();
             world.renderPickBuffer(batch);
             batch.end();
@@ -196,21 +200,20 @@ public class GameScreen extends BaseScreen {
         pickPixmap = ScreenUtils.getFrameBufferPixmap(0, 0, pickBuffer.getWidth(), pickBuffer.getHeight());
         pickBuffer.end();
 
+        // Draw HUD
         batch.setProjectionMatrix(hudCamera.combined);
         batch.begin();
         {
             resources.render(batch);
-            batch.setColor(Color.WHITE);
             turnCounter.render(batch, turn);
-            Assets.font.draw(batch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 3, 16);
-
-            batch.setColor(pickColor);
-            batch.draw(Assets.whitePixel, hudCamera.viewportWidth - 100 - 50, 0, 50, 50);
-            batch.setColor(Color.WHITE);
-
-//            batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
-
             endTurnButton.render(batch);
+            Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
+
+            // Draw pick region stuff
+//            batch.setColor(pickColor);
+//            batch.draw(Assets.whitePixel, hudCamera.viewportWidth - 100 - 50, 0, 50, 50);
+//            batch.setColor(Color.WHITE);
+//            batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
         }
         batch.end();
     }

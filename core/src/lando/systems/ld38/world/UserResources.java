@@ -50,7 +50,7 @@ public class UserResources {
         drawResource(batch, offset, Assets.iron, iron);
         offset += spacing;
         drawResource(batch, offset, Assets.gold, gold);
-
+        batch.setColor(Color.WHITE);
     }
 
     private void drawResource(SpriteBatch batch, float offset, TextureRegion region, int amount){
