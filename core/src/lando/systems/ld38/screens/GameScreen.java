@@ -79,9 +79,9 @@ public class GameScreen extends BaseScreen {
         pickPixmap = null;
         pickColor = new Color();
 
-        endTurnButton = new EndTurnButton(Assets.whitePixel, new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
+        endTurnButton = new EndTurnButton(new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
         playerSelection = new PlayerSelectionHud(this);
-        testingButton = new Button(Assets.whitePixel, new Rectangle(50,50,50,50), hudCamera, "text", "Tooltip");
+//        testingButton = new Button(Assets.whitePixel, new Rectangle(50,50,50,50), hudCamera, "Too much Text!", "Tooltip");
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
         Gdx.input.setInputProcessor(this);
@@ -294,7 +294,7 @@ public class GameScreen extends BaseScreen {
             resources.render(batch);
             turnCounter.render(batch, turn);
             endTurnButton.render(batch);
-//            testingButton.render(batch);
+            testingButton.render(batch);
             Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
 
             // Draw pick region stuff
