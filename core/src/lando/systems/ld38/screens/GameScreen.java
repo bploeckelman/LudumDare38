@@ -59,6 +59,8 @@ public class GameScreen extends BaseScreen {
     public static float maxZoom = 1.6f;
     public static float minZoom = 0.2f;
 
+    public boolean cancelTouchUp = false;
+
     public Button testingButton;
 
     public ActionManager actionManager = new ActionManager();
@@ -158,11 +160,16 @@ public class GameScreen extends BaseScreen {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         camera.position.x = cameraTouchStart.x + (touchStart.x - screenX) * camera.zoom;
         camera.position.y = cameraTouchStart.y + (screenY - touchStart.y) * camera.zoom;
+        cancelTouchUp = true;
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (cancelTouchUp) {
+            cancelTouchUp = false;
+            return false;
+        }
 
         if (endTurnButton.checkForTouch(screenX, screenY)) {
             endTurnButton.handleTouch();
