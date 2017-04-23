@@ -94,6 +94,19 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+        float movementDt = 200 * dt * camera.zoom;
+        if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            camera.translate(0, movementDt);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)){
+            camera.translate(0, -movementDt);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)){
+            camera.translate(-movementDt, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)){
+            camera.translate(movementDt, 0);
+        }
         SoundManager.update(dt);
 
         time += dt;
