@@ -59,6 +59,14 @@ public class Assets {
     public static Animation<TextureRegion> womanWalkDown;
     public static Animation<TextureRegion> womanWalkSide;
 
+    public static TextureRegion cow;
+    public static TextureRegion gold_mine;
+    public static TextureRegion hut;
+    public static TextureRegion iron_mine;
+    public static TextureRegion ladder;
+    public static TextureRegion palmtree;
+    public static TextureRegion raft;
+
     public static boolean initialized;
 
     public static void load() {
@@ -126,6 +134,14 @@ public class Assets {
         womanWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_up"), Animation.PlayMode.LOOP);
         womanWalkDown = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_down"), Animation.PlayMode.LOOP);
         womanWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_side"), Animation.PlayMode.LOOP);
+
+        cow = atlas.findRegion("cow");
+        gold_mine = atlas.findRegion("gold_mine");
+        hut = atlas.findRegion("hut");
+        iron_mine = atlas.findRegion("iron_mine");
+        ladder = atlas.findRegion("ladder");
+        palmtree = atlas.findRegion("palmtree");
+        raft = atlas.findRegion("raft");
 
         final Texture distText = new Texture(Gdx.files.internal("fonts/ubuntu.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);

@@ -1,9 +1,9 @@
 package lando.systems.ld38.world;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.utils.Assets;
 
 /**
@@ -11,12 +11,79 @@ import lando.systems.ld38.utils.Assets;
  */
 
 public class Tile extends GameObject {
-    enum Type {Clay, Dirt, Grass, Sand, Snow, Stone, Ocean}
+    enum Decoration {
+        None(),
+        Tree(Assets.palmtree),
+        Cow(Assets.cow),
+        IronMine(Assets.iron_mine),
+        GoldMine(Assets.gold_mine);
+
+        public TextureRegion tex;
+
+        Decoration() {}
+        Decoration(TextureRegion tex) {
+            this.tex = tex;
+        }
+    }
+
+    enum Type {
+        Clay(Assets.clay_hex, Assets.clay_bottom),
+        Dirt(Assets.dirt_hex, Assets.dirt_bottom, new Array<Decoration>(new Decoration[]{
+            Decoration.None,
+            Decoration.Tree,
+            Decoration.Cow,
+            Decoration.IronMine,
+            Decoration.GoldMine
+        })),
+        Grass(Assets.grass_hex, Assets.grass_bottom, new Array<Decoration>(new Decoration[]{
+            Decoration.None,
+            Decoration.Tree,
+            Decoration.Cow
+        })),
+        Sand(Assets.sand_hex, Assets.sand_bottom, new Array<Decoration>(new Decoration[]{
+            Decoration.None,
+            Decoration.Tree
+        })),
+        Snow(Assets.snow_hex, Assets.snow_bottom, new Array<Decoration>(new Decoration[]{
+            Decoration.None,
+            Decoration.GoldMine
+        })),
+        Stone(Assets.stone_hex, Assets.stone_bottom, new Array<Decoration>(new Decoration[]{
+            Decoration.None,
+            Decoration.IronMine
+        })),
+        Ocean();
+
+        public TextureRegion top_tex;
+        public TextureRegion bottom_tex;
+        public Array<Decoration> availableDecorations;
+
+        Type() {
+            availableDecorations = new Array<Decoration>(new Decoration[]{
+                Decoration.None
+            });
+        }
+
+        Type(TextureRegion top, TextureRegion bottom) {
+            top_tex = top;
+            bottom_tex = bottom;
+            availableDecorations = new Array<Decoration>(new Decoration[]{
+                Decoration.None
+            });
+        }
+
+        Type(TextureRegion top, TextureRegion bottom, Array<Decoration> availableDecorations) {
+            top_tex = top;
+            bottom_tex = bottom;
+            this.availableDecorations = availableDecorations;
+        }
+    }
     public static float heightScale = 4;
 
     public Type type;
     TextureRegion top_tex;
     TextureRegion bottom_tex;
+    Decoration decoration;
     Color pickColor;
 
     public float heightOffset;
@@ -27,36 +94,14 @@ public class Tile extends GameObject {
         type = Type.Ocean;
         pickColor = Tile.getColorFromPosition(row, col);
         heightOffset = this.height * heightScale;
+        decoration = Decoration.None;
     }
 
     public void setType(Type type){
         this.type = type;
-        switch (type){
-            case Clay:
-                top_tex = Assets.clay_hex;
-                bottom_tex = Assets.clay_bottom;
-                break;
-            case Dirt:
-                top_tex = Assets.dirt_hex;
-                bottom_tex = Assets.dirt_bottom;
-                break;
-            case Grass:
-                top_tex = Assets.grass_hex;
-                bottom_tex = Assets.grass_bottom;
-                break;
-            case Sand:
-                top_tex = Assets.sand_hex;
-                bottom_tex = Assets.sand_bottom;
-                break;
-            case Snow:
-                top_tex = Assets.snow_hex;
-                bottom_tex = Assets.snow_bottom;
-                break;
-            case Stone:
-                top_tex = Assets.stone_hex;
-                bottom_tex = Assets.stone_bottom;
-                break;
-        }
+        this.top_tex = type.top_tex;
+        this.bottom_tex = type.bottom_tex;
+        this.decoration = type.availableDecorations.random();
     }
 
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater) {
@@ -82,6 +127,9 @@ public class Tile extends GameObject {
         }
         if (asPickBuffer || (aboveWater && heightOffset > waterHeight) || (!aboveWater && heightOffset <= waterHeight)) {
             batch.draw(topTex, x, y + heightOffset, tileWidth, tileHeight);
+        }
+        if (!decoration.equals(Decoration.None) && !asPickBuffer && aboveWater && heightOffset > waterHeight) {
+            batch.draw(decoration.tex, x, y + heightOffset, tileWidth, tileHeight);
         }
 
         batch.setColor(Color.WHITE);
