@@ -56,7 +56,8 @@ public class Player extends GameObject {
             tileOffset += tile.height * 2;
         }
 
-        displayResourceGather(2);
+        // temp for viewing the resource gather
+        displayResourceGather(1);
 
         animation = Assets.womanWalkSide;
         this.row = row;
