@@ -18,6 +18,7 @@ import lando.systems.ld38.managers.ActionManager;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.Button;
+import lando.systems.ld38.turns.*;
 import lando.systems.ld38.ui.EndTurnButton;
 import lando.systems.ld38.ui.PlayerSelectionHud;
 import lando.systems.ld38.utils.Assets;
@@ -38,6 +39,7 @@ public class GameScreen extends BaseScreen {
     public Array<Tile> adjacentTiles;
     public EndTurnButton endTurnButton;
     public PlayerSelectionHud playerSelection;
+    public Player selectedPlayer;
 
     public FrameBuffer pickBuffer;
     public TextureRegion pickRegion;
@@ -95,26 +97,26 @@ public class GameScreen extends BaseScreen {
         endTurnButton.update(dt);
         playerSelection.update(dt);
 
-        if (Gdx.input.justTouched()) {
-            Player character = world.players.first();
-            int toCol = character.col + (alternate ? 1 : 0);
-            int toRow = character.row + (alternate ? 0 : 1);
-            TurnAction turnAction = new TurnAction();
-            turnAction.character = character;
-            turnAction.action = new ActionTypeMove(turnAction, toCol, toRow);
-            turnActions.add(turnAction);
-            alternate = !alternate;
-        }
+//        if (Gdx.input.justTouched()) {
+//            Player character = world.players.first();
+//            int toCol = character.col + (alternate ? 1 : 0);
+//            int toRow = character.row + (alternate ? 0 : 1);
+//            TurnAction turnAction = new TurnAction();
+//            turnAction.character = character;
+//            turnAction.action = new ActionTypeMove(turnAction, toCol, toRow);
+//            turnActions.add(turnAction);
+//            alternate = !alternate;
+//        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             endTurn();
-            for (Tile tile : adjacentTiles) {
-                tile.isHighlighted = false;
-            }
-            adjacentTiles.clear();
-            adjacentTiles.addAll(world.getNeighbors(world.players.first().row, world.players.first().col));
-            for (Tile tile : adjacentTiles) {
-                tile.isHighlighted = true;
-            }
+//            for (Tile tile : adjacentTiles) {
+//                tile.isHighlighted = false;
+//            }
+//            adjacentTiles.clear();
+//            adjacentTiles.addAll(world.getNeighbors(world.players.first().row, world.players.first().col));
+//            for (Tile tile : adjacentTiles) {
+//                tile.isHighlighted = true;
+//            }
         }
 
         if (pickPixmap != null) {
@@ -156,10 +158,53 @@ public class GameScreen extends BaseScreen {
             endTurnButton.handleTouch();
             endTurn();
         } else {
-            selectPlayer(screenX, screenY);
+            GridPoint2 location =  getGridPosition(screenX, screenY);
+            if (!handleMove(location)) {
+                clearMovement();
+                PendingAction action = actionManager.handleTouch(world, location, screenX, screenY, camera);
+                handleAction(action);
+            }
         }
 
         return false;
+    }
+
+    private boolean handleMove(GridPoint2 location) {
+        Tile tile = world.getTile(location);
+        if (adjacentTiles.contains(tile, true)) {
+            TurnAction turnAction = new TurnAction();
+            turnAction.character = selectedPlayer;
+            turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
+            turnActions.add(turnAction);
+            clearMovement();
+            return true;
+        }
+        return false;
+    }
+
+    private void handleAction(PendingAction action) {
+        selectedPlayer = action.player;
+
+        switch (action.action) {
+            case displayMoves:
+                showMovement(selectedPlayer);
+                break;
+        }
+
+    }
+
+    private void showMovement(Player player) {
+        adjacentTiles.addAll(world.getNeighbors(player.row, player.col));
+        for (Tile tile : adjacentTiles) {
+            tile.isHighlighted = true;
+        }
+    }
+
+    private void clearMovement() {
+        for (Tile tile : adjacentTiles) {
+            tile.isHighlighted = false;
+        }
+        adjacentTiles.clear();
     }
 
 
@@ -256,19 +301,5 @@ public class GameScreen extends BaseScreen {
         turnActions.clear();
         ++turn;
         world.endTurn();
-    }
-
-    private void selectPlayer(int screenX, int screenY) {
-        GridPoint2 location = getGridPosition(screenX, screenY);
-        Array<Player> players = world.getPlayers(location);
-        if (players.size == 0) {
-            actionManager.showOptions(null, camera);
-        } else {
-            // will have to z order players on moveTo and grab top player - when going to the player from the character
-            // menu, reorder that player on top
-            Player player = players.get(0);
-
-            actionManager.showOptions(player, camera);
-        }
     }
 }

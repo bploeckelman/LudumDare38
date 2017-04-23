@@ -2,6 +2,7 @@ package lando.systems.ld38.ui;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
+import lando.systems.ld38.turns.Actions;
 import lando.systems.ld38.utils.Assets;
 
 /**
@@ -10,10 +11,13 @@ import lando.systems.ld38.utils.Assets;
 public class OptionButton extends Button {
     public float origX, origY, width, height;
 
-    public OptionButton(String text, Rectangle bounds, OrthographicCamera camera) {
+    public Actions action;
+
+    public OptionButton(String text, Rectangle bounds, Actions action, OrthographicCamera camera) {
         super(Assets.whitePixel, bounds, camera);
 
         this.text = text;
+        this.action = action;
 
         origX = bounds.x;
         origY = bounds.y;
