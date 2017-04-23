@@ -33,6 +33,7 @@ public class GameScreen extends BaseScreen {
     public TextureRegion pickRegion;
     public Pixmap pickPixmap;
     public Color pickColor;
+    public int pickMapScale = 4;
 
     public boolean alternate = true;
     public int turn;
@@ -55,7 +56,7 @@ public class GameScreen extends BaseScreen {
         turn = 0;
         turnActions = new Array<TurnAction>();
         selectedTile = null;
-        pickBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Config.gameWidth, Config.gameHeight, false, false);
+        pickBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Config.gameWidth/pickMapScale, Config.gameHeight/pickMapScale, false, false);
         pickRegion = new TextureRegion(pickBuffer.getColorBufferTexture());
         pickRegion.flip(false, true);
         pickPixmap = null;
@@ -78,7 +79,7 @@ public class GameScreen extends BaseScreen {
         if (pickPixmap != null) {
             int x = Gdx.input.getX();
             int y = Gdx.graphics.getHeight() - Gdx.input.getY();
-            pickColor.set(pickPixmap.getPixel(x, y));
+            pickColor.set(pickPixmap.getPixel(x/pickMapScale, y/pickMapScale));
             selectedTile = Tile.parsePickColorForTileInWorld(pickColor, world);
         }
 
