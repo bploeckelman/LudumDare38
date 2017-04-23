@@ -76,12 +76,12 @@ public class Tile extends GameObject {
 
         if (!aboveWater || asPickBuffer){
             float maxHeight = Math.max(waterHeight, heightOffset);
-            for (int yOffset = -10; yOffset < maxHeight; yOffset += 20) {
+            for (int yOffset = -10; yOffset < maxHeight; yOffset += 10) {
                     batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
             }
         }
         if (aboveWater || asPickBuffer){
-            for (int yOffset = (int)waterHeight; yOffset < heightOffset; yOffset += 20) {
+            for (int yOffset = (int)waterHeight; yOffset < heightOffset; yOffset += 10) {
                 batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
             }
         }
