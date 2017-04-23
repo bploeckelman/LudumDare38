@@ -58,7 +58,7 @@ public class GameScreen extends BaseScreen {
         time = 0;
         world = new World();
         resources = new UserResources();
-        turnCounter = new TurnCounter();
+        turnCounter = new TurnCounter(hudCamera);
         adjacentTiles = new Array<Tile>();
         turn = 0;
         turnActions = new Array<TurnAction>();

@@ -49,6 +49,10 @@ public class Assets {
     public static TextureRegion snow_bottom;
     public static TextureRegion stone_hex;
     public static TextureRegion stone_bottom;
+    public static TextureRegion head_male_dark;
+    public static TextureRegion head_male_white;
+    public static TextureRegion head_female_dark;
+    public static TextureRegion head_female_white;
     public static Texture water_hex;
     public static TextureRegion select_hex;
     public static TextureRegion white_hex;
@@ -144,6 +148,11 @@ public class Assets {
         wood = atlas.findRegion("wood");
         sand = atlas.findRegion("wood");
         clay = atlas.findRegion("wood");
+
+        head_male_dark = atlas.findRegion("head_male_dark");
+        head_male_white = atlas.findRegion("head_male_white");
+        head_female_dark = atlas.findRegion("head_female_dark");
+        head_female_white = atlas.findRegion("head_female_white");
 
         woodPanel = new NinePatch(atlas.findRegion("wood_border"), 7,7,7,7);
 

@@ -14,6 +14,8 @@ import lando.systems.ld38.utils.Assets;
  */
 public class UserResources {
 
+    private static final float MARGIN_TOP = 10f;
+
     public int food = 5;
     public int sand = 0;
     public int iron = 0;
@@ -36,7 +38,7 @@ public class UserResources {
         tileSize = height - (margin *2);
         x = (Gdx.graphics.getWidth() - width) /2f;
         y = Gdx.graphics.getHeight() - height;
-        Assets.woodPanel.draw(batch, x, y, width, height);
+        Assets.woodPanel.draw(batch, x, y - MARGIN_TOP, width, height);
         float spacing = (width - 40) / 6f;
         float offset = 20;
         drawResource(batch, offset, Assets.food, food);
@@ -54,7 +56,7 @@ public class UserResources {
     }
 
     private void drawResource(SpriteBatch batch, float offset, TextureRegion region, int amount){
-        batch.draw(region, x + offset, y+margin, tileSize, tileSize);
-        Assets.drawString(batch, "" + amount, x + offset + tileSize + 5, y + height - 6, Color.WHITE, .3f, Assets.fancyFont);
+        batch.draw(region, x + offset, y+margin - MARGIN_TOP, tileSize, tileSize);
+        Assets.drawString(batch, "" + amount, x + offset + tileSize + 5, y + height - 6 - MARGIN_TOP, Color.WHITE, .3f, Assets.fancyFont);
     }
 }
