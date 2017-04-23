@@ -33,7 +33,7 @@ public class GameScreen extends BaseScreen {
     public TextureRegion pickRegion;
     public Pixmap pickPixmap;
     public Color pickColor;
-    public int pickMapScale = 4;
+    public int pickMapScale = 8;
 
     public boolean alternate = true;
     public int turn;

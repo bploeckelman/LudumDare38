@@ -75,7 +75,7 @@ public class Tile extends GameObject {
         }
 
         batch.setColor(texColor);
-        for (int yOffset = -10; yOffset < heightOffset; yOffset += 1) {
+        for (int yOffset = -10; yOffset < heightOffset; yOffset += 2) {
             if (asPickBuffer || (aboveWater && yOffset > waterHeight) || (!aboveWater && yOffset <= waterHeight)) {
                 batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
             }

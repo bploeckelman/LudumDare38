@@ -15,12 +15,12 @@ varying vec2 v_texCoord;
 
 void main() {
     vec2 sampleVec = v_texCoord;
-    sampleVec.y -= u_time * .06;
+    sampleVec.y -= u_time * .04;
     vec3 bump = normalize(2. * texture2D(u_texture, sampleVec).xyz - 1.);
 
     vec2 sampleVec2 = v_texCoord * 2.;
     sampleVec2.y -= u_time * .05;
-    sampleVec2.x -= u_time * .01;
+    sampleVec2.x -= u_time * .05;
     vec3 bump2 = normalize(2. * texture2D(u_texture, sampleVec2).xyz -1.);
 
     vec2 sampleVec3 = v_texCoord * 4.;

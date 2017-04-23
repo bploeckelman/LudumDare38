@@ -120,6 +120,7 @@ public class Assets {
 
         water_bumpmap = mgr.get("images/water-bump.png", Texture.class);  // NEVER MOVE THIS INTO THE ATLAS!!!!!
         water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        water_bumpmap.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         turn_counter_background = mgr.get("images/turn_counter_background.png", Texture.class);
 
         womanWalkUp = new Animation<TextureRegion>(.15f, atlas.findRegions("walk_up"), Animation.PlayMode.LOOP);
