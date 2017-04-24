@@ -21,7 +21,6 @@ public class UserResources {
     public int iron = 0;
     public int gold = 1;
     public int wood = 2;
-    public int clay = 3;
 
     private int width = 450;
     private int height = 35;
@@ -46,8 +45,6 @@ public class UserResources {
         drawResource(batch, offset, Assets.wood, wood);
         offset += spacing;
         drawResource(batch, offset, Assets.sand, sand);
-        offset += spacing;
-        drawResource(batch, offset, Assets.clay, clay);
         offset += spacing;
         drawResource(batch, offset, Assets.iron, iron);
         offset += spacing;

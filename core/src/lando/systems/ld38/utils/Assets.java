@@ -91,7 +91,6 @@ public class Assets {
     public static TextureRegion iron;
     public static TextureRegion gold;
     public static TextureRegion wood;
-    public static TextureRegion clay;
     public static TextureRegion sand;
 
     public static NinePatch woodPanel;
@@ -161,7 +160,6 @@ public class Assets {
         gold = atlas.findRegion("gold");
         wood = atlas.findRegion("wood");
         sand = atlas.findRegion("wood");
-        clay = atlas.findRegion("wood");
 
         head_male_dark = atlas.findRegion("head_male_dark");
         head_male_white = atlas.findRegion("head_male_white");
