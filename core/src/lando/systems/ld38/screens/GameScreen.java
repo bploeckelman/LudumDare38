@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -28,8 +29,6 @@ import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.utils.SoundManager;
 import lando.systems.ld38.utils.accessors.CameraAccessor;
 import lando.systems.ld38.world.*;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 //import static com.sun.glass.ui.gtk.GtkApplication.screen;
 
@@ -64,6 +63,7 @@ public class GameScreen extends BaseScreen {
     public static float zoomScale = 0.15f;
     public static float maxZoom = 1.6f;
     public static float minZoom = 0.2f;
+    public static float DRAG_DELTA = 10f;
 
     public boolean cancelTouchUp = false;
 
@@ -126,26 +126,8 @@ public class GameScreen extends BaseScreen {
 //        testingButton.update(dt);
  //       playerSelection.update(dt);
 
-//        if (Gdx.input.justTouched()) {
-//            Player character = world.players.first();
-//            int toCol = character.col + (alternate ? 1 : 0);
-//            int toRow = character.row + (alternate ? 0 : 1);
-//            TurnAction turnAction = new TurnAction();
-//            turnAction.character = character;
-//            turnAction.action = new ActionTypeMove(turnAction, toCol, toRow);
-//            turnActions.add(turnAction);
-//            alternate = !alternate;
-//        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             endTurn();
-//            for (Tile tile : adjacentTiles) {
-//                tile.isHighlighted = false;
-//            }
-//            adjacentTiles.clear();
-//            adjacentTiles.addAll(world.getNeighbors(world.players.first().row, world.players.first().col));
-//            for (Tile tile : adjacentTiles) {
-//                tile.isHighlighted = true;
-//            }
         }
 
         if (pickPixmap != null) {
@@ -203,7 +185,9 @@ public class GameScreen extends BaseScreen {
 
         camera.position.x = cameraTouchStart.x + (touchStart.x - screenX) * camera.zoom;
         camera.position.y = cameraTouchStart.y + (screenY - touchStart.y) * camera.zoom;
-        cancelTouchUp = true;
+        if (cameraTouchStart.dst(camera.position) > DRAG_DELTA) {
+            cancelTouchUp = true;
+        }
         return true;
     }
 
@@ -277,9 +261,7 @@ public class GameScreen extends BaseScreen {
             if (turnActions.get(i).player == turnAction.player) {
                 TurnAction removeAction = turnActions.get(i);
                 if (removeAction.action instanceof ActionTypeMove) {
-                    ActionTypeMove moveAction = (ActionTypeMove) turnActions.get(i).action;
-                    Tile moveToTile = world.getTile(moveAction.toRow, moveAction.toCol);
-                    moveToTile.isMoveTarget = false;
+                    ((ActionTypeMove) turnActions.get(i).action).getMoveToTile(world).isMoveTarget = false;
                 }
                 removeAction.player.getResources().add(removeAction.cost);
                 turnActions.removeIndex(i);
@@ -287,9 +269,7 @@ public class GameScreen extends BaseScreen {
         }
 
         if (turnAction.action instanceof ActionTypeMove) {
-            ActionTypeMove moveAction = (ActionTypeMove) turnAction.action;
-            Tile moveToTile = world.getTile(moveAction.toRow, moveAction.toCol);
-            moveToTile.isMoveTarget = true;
+            ((ActionTypeMove) turnAction.action).getMoveToTile(world).isMoveTarget = true;
         }
         turnActions.add(turnAction);
     }
@@ -384,6 +364,25 @@ public class GameScreen extends BaseScreen {
             actionManager.render(batch);
         }
         batch.end();
+
+        // Draw unnecessary bullshit
+        Assets.shapes.setProjectionMatrix(camera.combined);
+        Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
+        Assets.shapes.setColor(Color.GREEN);
+        for (TurnAction turnAction : turnActions) {
+            if (turnAction.action instanceof ActionTypeMove) {
+                Tile moveToTile = ((ActionTypeMove) turnAction.action).getMoveToTile(world);
+                Tile playerTile = turnAction.player.getTile();
+                Assets.shapes.rectLine(
+                        playerTile.position.x + Tile.tileWidth  / 2f,
+                        playerTile.position.y + Tile.tileHeight / 2f + playerTile.position.z + playerTile.heightOffset - 5f,
+                        moveToTile.position.x + Tile.tileWidth  / 2f,
+                        moveToTile.position.y + Tile.tileHeight / 2f + moveToTile.position.z + moveToTile.heightOffset,
+                        2f);
+            }
+        }
+        Assets.shapes.setColor(Color.WHITE);
+        Assets.shapes.end();
 
         // Draw picking frame buffer
         pickBuffer.begin();

@@ -1,5 +1,8 @@
 package lando.systems.ld38.turns;
 
+import lando.systems.ld38.world.Tile;
+import lando.systems.ld38.world.World;
+
 /**
  * Created by Brian on 4/22/2017
  */
@@ -17,6 +20,10 @@ public class ActionTypeMove extends ActionType {
     @Override
     public void doAction() {
         turnAction.player.moveTo(toRow, toCol);
+    }
+
+    public Tile getMoveToTile(World world) {
+        return world.getTile(toRow, toCol);
     }
 
 }
