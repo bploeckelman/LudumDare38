@@ -114,9 +114,9 @@ public class Tile extends GameObject {
         if (!decoration.equals(Decoration.None) && !asPickBuffer && aboveWater && heightOffset > waterHeight) {
             batch.draw(decoration.tex, x, y + heightOffset + (tileHeight * .35f), tileWidth, tileHeight);
         }
-        if (isInaccessible && overlayObjectTex != null) {
+        if (isInaccessible && overlayObjectTex != null && !asPickBuffer) {
             batch.draw(overlayObjectTex, x, y + heightOffset, tileWidth, tileHeight);
-        } else if (item != null) {
+        } else if (item != null && !asPickBuffer) {
             batch.draw(item, x, y + heightOffset, tileWidth, tileHeight);
         }
 
