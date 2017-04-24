@@ -22,7 +22,7 @@ public class Button {
     private static final float TOOLTIP_TEXT_PADDING_X = 8f;
     private static final float TOOLTIP_TEXT_PADDING_Y = 8f;
     private static final float TOOLTIP_TEXT_SCALE = 0.3f;
-    private static final float TOOLTIP_SHOW_DELAY = 0.5f;
+    private static final float TOOLTIP_SHOW_DELAY = 0.3f;
 
     private float tooltipBackgroundHeight;
     private float tooltipBackgroundWidth;

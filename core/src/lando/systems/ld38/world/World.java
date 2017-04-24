@@ -274,7 +274,7 @@ public class World {
         water.waterHeight += WATER_RISE_RATE;
         for (Player p : players){
             Tile t = getTile(p.row, p.col);
-            if (t.heightOffset < water.waterHeight){
+            if (t.item != Assets.raft && t.heightOffset < water.waterHeight){
                 p.kill();
             }
         }
