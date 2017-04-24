@@ -1,19 +1,13 @@
 package lando.systems.ld38.ui;
 
-import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.screens.GameScreen;
-import lando.systems.ld38.turns.ActionType;
-import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.utils.Assets;
-import lando.systems.ld38.utils.accessors.CameraAccessor;
 import lando.systems.ld38.world.Player;
-import lando.systems.ld38.world.World;
 
 /**
  * Created by dsgraham on 4/23/17.
@@ -64,5 +58,14 @@ public class PlayerSelectionHud {
         for(PlayerHud p : playerHuds){
             p.render(batch);
         }
+    }
+
+    public PlayerHud getPlayerHudByPlayer(Player player) {
+        for (PlayerHud playerHud : playerHuds) {
+            if (playerHud.player == player) {
+                return playerHud;
+            }
+        }
+        return null;
     }
 }

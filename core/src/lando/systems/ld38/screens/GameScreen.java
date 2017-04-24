@@ -309,6 +309,8 @@ public class GameScreen extends BaseScreen {
     }
 
     private void addAction(TurnAction turnAction) {
+
+        // Find and cancel an existing turnAction for the player
         for (int i = turnActions.size - 1; i >= 0; i--) {
             if (turnActions.get(i).player == turnAction.player) {
                 TurnAction removeAction = turnActions.get(i);
@@ -329,6 +331,7 @@ public class GameScreen extends BaseScreen {
         if (turnAction.action instanceof ActionTypeMove) {
             turnAction.action.getTargetTile(world).isMoveTarget = true;
         }
+
         if (turnAction.action instanceof ActionTypeBuild) {
             turnAction.action.getTargetTile(world).isBuildTarget = true;
         }
@@ -336,6 +339,11 @@ public class GameScreen extends BaseScreen {
             turnAction.action.getTargetTile(world).isWaitTarget = true;
         }
         turnActions.add(turnAction);
+        // find the player hud
+        PlayerHud playerHud = playerSelection.getPlayerHudByPlayer(turnAction.player);
+        if (playerHud != null) {
+            playerHud.setTurnAction(turnAction);
+        }
     }
 
     private void showMovement(Player player, TextureRegion asset) {

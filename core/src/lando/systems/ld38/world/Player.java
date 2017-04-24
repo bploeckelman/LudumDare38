@@ -11,11 +11,11 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.turns.ActionTypeBuild;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.ActionTypeWait;
 import lando.systems.ld38.turns.TurnAction;
-import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.accessors.Vector3Accessor;
 
@@ -51,11 +51,15 @@ public class Player extends GameObject {
         position.x = getX(row, col);
         position.y = getY(row);
         position.z = tileOffset + (tileHeight * .25f);
+        setTurnAction(null);
     }
 
     public UserResources getResources() {
         return world.getResources();
     }
+
+
+    // Renders and Updates ---------------------------------------------------------------------------------------------
 
     @Override
     public void update(float dt) {
@@ -83,6 +87,62 @@ public class Player extends GameObject {
         batch.draw(faceTex, position.x - 19 + tileWidth/2, (position.y + position.z + tileHeight) + 18, 38, 38);
         batch.setColor(Color.WHITE);
     }
+
+    private TurnAction turnAction;
+    private TextureRegion turnActionRegion;
+    private Vector2 turnActionRegionDimensions = new Vector2(0,0);
+    private Vector2 turnActionRegionOffset = new Vector2(0,0);
+
+    public void setTurnAction(TurnAction turnAction) {
+        this.turnAction = turnAction;
+        if (turnAction != null){
+            if (turnAction.action instanceof ActionTypeMove){
+                turnActionRegion = Assets.arrow;
+                turnActionRegionDimensions.set(25,25);
+                turnActionRegionOffset.set(30, 0);
+            } else if (turnAction.action instanceof ActionTypeWait) {
+                Tile t = world.getTile(row, col);
+                TextureRegion region = Assets.wait;
+                switch (t.decoration){
+                    case Tree:
+                        turnActionRegion = Assets.axe;
+                        break;
+                    case Cow:
+                        turnActionRegion = Assets.shotgun;
+                        break;
+                    case IronMine:
+                    case GoldMine:
+                        turnActionRegion = Assets.pickaxe;
+                        break;
+                    case Sand:
+                        turnActionRegion = Assets.shovel;
+                        break;
+                    case Hut:
+                        turnActionRegion = Assets.heart;
+                        break;
+                }
+                turnActionRegionDimensions.set(25,25);
+                turnActionRegionOffset.set(30, 0);
+            } else if (turnAction.action instanceof ActionTypeBuild) {
+                turnActionRegion = Assets.hammer;
+                turnActionRegionDimensions.set(25,25);
+                turnActionRegionOffset.set(30, 0);
+            }
+            // TODO draw more action icon here
+        } else {
+            turnActionRegion = Assets.questionmark;
+            turnActionRegionDimensions.set(25,25);
+            turnActionRegionOffset.set(30, 0);
+        }
+    }
+
+    public void renderHud(SpriteBatch batch, float x, float y){
+        batch.draw(faceTex, x, y, 25, 25);
+        batch.draw(turnActionRegion, x + turnActionRegionOffset.x, y + turnActionRegionOffset.y, turnActionRegionDimensions.x, turnActionRegionDimensions.y);
+    }
+
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     public GridPoint2 getLocation() {
         return new GridPoint2(col, row);
@@ -140,43 +200,6 @@ public class Player extends GameObject {
         Rectangle resourcePos =  new Rectangle(position.x, position.y + position.z + (offset * (size + 2)), size, size);
         world.resIndicators.add(new ResourceIndicator(icon, resourcePos, numResourcesGathered));
     }
-
-    public void renderHud(SpriteBatch batch, float x, float y, TurnAction action){
-        batch.draw(faceTex, x, y, 25, 25);
-        if (action != null){
-            if (action.action instanceof ActionTypeMove){
-                batch.draw(Assets.arrow, x + 30, y, 25, 25);
-            } else if (action.action instanceof ActionTypeWait) {
-                Tile t = world.getTile(row, col);
-                TextureRegion region = Assets.wait;
-                switch (t.decoration){
-                    case Tree:
-                        region = Assets.axe;
-                        break;
-                    case Cow:
-                        region = Assets.shotgun;
-                        break;
-                    case IronMine:
-                    case GoldMine:
-                        region = Assets.pickaxe;
-                        break;
-                    case Sand:
-                        region = Assets.shovel;
-                        break;
-                    case Hut:
-                        region = Assets.heart;
-                        break;
-                }
-                batch.draw(region, x + 30, y, 25, 25);
-            } else if (action.action instanceof ActionTypeBuild) {
-                batch.draw(Assets.hammer, x + 30, y, 25, 25);
-            }
-            // TODO draw more action icon here
-        } else {
-            batch.draw(Assets.questionmark, x + 30, y, 25, 25);
-        }
-    }
-
 
     public void kill(){
         // TODO something fancy here?

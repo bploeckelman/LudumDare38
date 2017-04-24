@@ -10,9 +10,11 @@ import lando.systems.ld38.world.Player;
  * Created by dsgraham on 4/23/17.
  */
 public class PlayerHud {
+
     public Rectangle bounds;
     public GameScreen screen;
     public Player player;
+//    private TurnAction actionRef = null;
 
     public PlayerHud(GameScreen screen, Player p, float y){
         this.bounds = new Rectangle(20, y, 65, 30);
@@ -25,13 +27,14 @@ public class PlayerHud {
 
     }
 
-    public void render(SpriteBatch batch){
+    public void setTurnAction(TurnAction actionRef) {
+        System.out.println("setTurnAction!");
+//        this.actionRef = actionRef;
+        this.player.setTurnAction(actionRef);
+    }
 
-        TurnAction actionRef = null;
-        for (TurnAction action : screen.turnActions ){
-            if (action.player == player) actionRef = action;
-        }
-        player.renderHud(batch, bounds.x, bounds.y, actionRef);
+    public void render(SpriteBatch batch){
+        player.renderHud(batch, bounds.x, bounds.y);
     }
 
 }
