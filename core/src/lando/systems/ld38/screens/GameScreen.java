@@ -146,9 +146,8 @@ public class GameScreen extends BaseScreen {
         world.update(dt);
         endTurnButton.update(dt);
         resources.update(dt);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            endTurn();
-        }
+
+        handleKeyBindings();
 
         if (pickPixmap != null) {
             pickPixmap.dispose();
@@ -613,6 +612,15 @@ public class GameScreen extends BaseScreen {
                     }
                 }))
                 .start(Assets.tween);
+    }
+
+    private void handleKeyBindings() {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            playerSelection.selectNext();
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            endTurn();
+        }
     }
 
 

@@ -19,6 +19,8 @@ public class PlayerSelectionHud {
     float segmentHeight = 30;
     Array<PlayerHud> playerHuds;
 
+    private int selectedIndex = -1;
+
     public PlayerSelectionHud (GameScreen screen){
         this.gameScreen = screen;
         bounds = new Rectangle();
@@ -40,18 +42,36 @@ public class PlayerSelectionHud {
         }
     }
 
+    public void selectNext() {
+        int index = ++selectedIndex;
+        if (index >= playerHuds.size) {
+            index = 0;
+        }
+
+        if (playerHuds.size > index) {
+            selectPlayer(playerHuds.get(index).player, index);
+        }
+    }
+
     public boolean handleTouch(int screenX, int screenY) {
         screenPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         screenPos = gameScreen.hudCamera.unproject(screenPos);
         if (bounds.contains(screenPos.x, screenPos.y)){
+            int index = 0;
             for(PlayerHud hud : playerHuds){
                 if (hud.bounds.contains(screenPos.x, screenPos.y)){
-                    Player p = hud.player;
-                    gameScreen.zoomToPlayer(p);                }
+                    selectPlayer(hud.player, index);
+                }
+                index++;
             }
             return true;
         }
         return false;
+    }
+
+    private void selectPlayer(Player player, int index) {
+        gameScreen.zoomToPlayer(player);
+        selectedIndex = index;
     }
 
     public void render(SpriteBatch batch){
