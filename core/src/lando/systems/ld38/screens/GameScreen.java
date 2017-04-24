@@ -150,7 +150,7 @@ public class GameScreen extends BaseScreen {
         actionManager.update(dt);
         updateCamera();
 
-        if (!modal.isActive && Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+        if (!modal.isActive && Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
             float w = hudCamera.viewportWidth * (2f / 3f);
             float h = hudCamera.viewportHeight * (2f / 3f);
             modal.set("Busey ipsum dolor sit amet. Go with the feeling of the nature. Take it easy. Know why you're here. And remember to balance your internal energy with the environment.Sometimes horses cough and fart at the same time, so stay out of the range of its butt muscle because a horses butt muscle is thick.",
