@@ -95,6 +95,7 @@ public class Assets {
     public static TextureRegion sand;
 
     public static NinePatch woodPanel;
+    public static NinePatch ninePatch;
 
     public static boolean initialized;
 
@@ -174,6 +175,7 @@ public class Assets {
         wait = atlas.findRegion("wait");
 
         woodPanel = new NinePatch(atlas.findRegion("wood_border"), 7,7,7,7);
+        ninePatch = new NinePatch(atlas.findRegion("ninepatch"), 6,6,6,6);
 
         shadowU = atlas.findRegion("shadow_u");
         shadowUR = atlas.findRegion("shadow_ur");
@@ -257,6 +259,18 @@ public class Assets {
         font.getData().setScale(scale);
         font.setColor(c);
         font.draw(batch, text, x, y);
+        font.getData().setScale(1f);
+        fontShader.setUniformf("u_scale", 1f);
+        font.getData().setScale(scale);
+        batch.setShader(null);
+    }
+
+    public static void drawString(SpriteBatch batch, String text, float x, float y, Color c, float scale, BitmapFont font, float targetWidth, int halign){
+        batch.setShader(fontShader);
+        fontShader.setUniformf("u_scale", scale);
+        font.getData().setScale(scale);
+        font.setColor(c);
+        font.draw(batch, text, x, y, targetWidth, halign, true);
         font.getData().setScale(1f);
         fontShader.setUniformf("u_scale", 1f);
         font.getData().setScale(scale);

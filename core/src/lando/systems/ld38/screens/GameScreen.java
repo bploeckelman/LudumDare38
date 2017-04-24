@@ -20,6 +20,7 @@ import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.Button;
 import lando.systems.ld38.turns.*;
 import lando.systems.ld38.ui.EndTurnButton;
+import lando.systems.ld38.ui.Modal;
 import lando.systems.ld38.ui.PlayerSelectionHud;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
@@ -37,6 +38,7 @@ public class GameScreen extends BaseScreen {
     public World world;
     public UserResources resources;
     public TurnCounter turnCounter;
+    public Modal modal;
     public Array<Tile> adjacentTiles;
     public EndTurnButton endTurnButton;
     public PlayerSelectionHud playerSelection;
@@ -80,6 +82,7 @@ public class GameScreen extends BaseScreen {
         pickRegion.flip(false, true);
         pickPixmap = null;
         pickColor = new Color();
+        modal = new Modal();
 
         endTurnButton = new EndTurnButton(new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
         playerSelection = new PlayerSelectionHud(this);
@@ -94,18 +97,21 @@ public class GameScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
-        float movementDt = 200 * dt * camera.zoom;
-        if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            camera.translate(0, movementDt);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)){
-            camera.translate(0, -movementDt);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            camera.translate(-movementDt, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            camera.translate(movementDt, 0);
+
+        if (!modal.isActive) {
+            float movementDt = 200 * dt * camera.zoom;
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                camera.translate(0, movementDt);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                camera.translate(0, -movementDt);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                camera.translate(-movementDt, 0);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                camera.translate(movementDt, 0);
+            }
         }
         SoundManager.update(dt);
 
@@ -144,6 +150,16 @@ public class GameScreen extends BaseScreen {
         actionManager.update(dt);
         updateCamera();
 
+        if (!modal.isActive && Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            float w = hudCamera.viewportWidth * (2f / 3f);
+            float h = hudCamera.viewportHeight * (2f / 3f);
+            modal.set("Busey ipsum dolor sit amet. Go with the feeling of the nature. Take it easy. Know why you're here. And remember to balance your internal energy with the environment.Sometimes horses cough and fart at the same time, so stay out of the range of its butt muscle because a horses butt muscle is thick.",
+                    hudCamera.viewportWidth / 2f - w / 2f,
+                    hudCamera.viewportHeight / 2f - h / 2f,
+                    w, h);
+            modal.isActive = true;
+            modal.scale = 0.3f;
+        }
         // NOTE: Sound DEBUG
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) SoundManager.playSound(SoundManager.SoundOptions.button_select);
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) SoundManager.playSound(SoundManager.SoundOptions.ladder);
@@ -155,6 +171,10 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (modal.isActive) {
+            return false;
+        }
+
         cameraTouchStart.set(camera.position);
         touchStart.set(screenX, screenY, 0);
 
@@ -172,6 +192,10 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (modal.isActive) {
+            return false;
+        }
+
         camera.position.x = cameraTouchStart.x + (touchStart.x - screenX) * camera.zoom;
         camera.position.y = cameraTouchStart.y + (screenY - touchStart.y) * camera.zoom;
         cancelTouchUp = true;
@@ -199,6 +223,12 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (modal.isActive && modal.checkForTouch(screenX, screenY, hudCamera)) {
+            modal.isActive = false;
+            modal.set("", 0, 0, 0, 0);
+            return true;
+        }
+
         if (cancelTouchUp) {
             cancelTouchUp = false;
             return false;
@@ -325,6 +355,10 @@ public class GameScreen extends BaseScreen {
             endTurnButton.render(batch);
 //            testingButton.render(batch);
             Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
+
+            if (modal.isActive) {
+                modal.render(batch);
+            }
 
             // Draw pick region stuff
 //            batch.setColor(pickColor);
