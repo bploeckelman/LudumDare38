@@ -88,6 +88,7 @@ public class Assets {
     public static TextureRegion ladder;
     public static TextureRegion palmtree;
     public static TextureRegion raft;
+    public static TextureRegion sandbags;
 
     public static TextureRegion axe;
     public static TextureRegion pickaxe;
@@ -223,6 +224,7 @@ public class Assets {
         ladder = atlas.findRegion("ladder-small");
         palmtree = atlas.findRegion("palmtree");
         raft = atlas.findRegion("raft-small");
+        sandbags = atlas.findRegion("sand_bag");
 
         final Texture distText = new Texture(Gdx.files.internal("fonts/ubuntu.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
