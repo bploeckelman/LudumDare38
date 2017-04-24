@@ -94,8 +94,10 @@ public class ActionMenu {
         for (OptionButton button : options) {
             if (button.checkForTouch(screenX, screenY)) {
                 if (displayState == DisplayState.show || displayState == DisplayState.grow) {
-                    pendingAction.action = button.action;
-                    pendingAction.cost = button.cost;
+                    if (!button.disabled) {
+                        pendingAction.action = button.action;
+                        pendingAction.cost = button.cost;
+                    }
                 }
                 return true;
             }

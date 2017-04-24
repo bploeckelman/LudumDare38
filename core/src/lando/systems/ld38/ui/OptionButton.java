@@ -19,13 +19,18 @@ public class OptionButton extends Button {
     public boolean disabled;
     public ResourceCount cost;
 
-    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, boolean disabled, OrthographicCamera camera, String tooltip, ResourceCount cost) {
+    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, OrthographicCamera camera, String tooltip, String disabledTooltip, ResourceCount resources, ResourceCount cost) {
         super(asset, bounds, camera);
-        this.setTooltip(tooltip);
 
         this.cost = cost;
         this.action = action;
-        this.disabled = disabled;
+        this.disabled = !resources.hasEnough(cost);
+
+        if (this.disabled) {
+            setTooltip(disabledTooltip);
+        } else {
+            setTooltip(tooltip);
+        }
 
         origX = bounds.x;
         origY = bounds.y;
@@ -35,7 +40,11 @@ public class OptionButton extends Button {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.setColor(0.25f, 0.25f, 0.25f, 0.75f);
+        if (disabled) {
+            batch.setColor(0.25f, 0.25f, 0.25f, 0.75f);
+        } else {
+            batch.setColor(0.75f, 0.75f, 0.75f, 0.75f);
+        }
         batch.draw(Assets.whitePixel, bounds.x - 4f, bounds.y - 4f, bounds.width + 4f * 2f, bounds.height + 4f * 2f);
         batch.setColor(Color.WHITE);
         Assets.ninePatch.draw(batch, bounds.x - 4f, bounds.y - 4f, bounds.width + 4f * 2f, bounds.height + 4f * 2f);
