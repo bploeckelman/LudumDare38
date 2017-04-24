@@ -420,6 +420,18 @@ public class GameScreen extends BaseScreen {
     }
 
     private void endTurn() {
+        for (Player p : world.players){
+            boolean hasAction = false;
+            for (TurnAction turnAction : turnActions){
+                if (turnAction.character == p) hasAction = true;
+            }
+            if (!hasAction){
+                TurnAction action = new TurnAction();
+                action.action = new ActionTypeWait(action, resources, p);
+                action.character = p;
+                turnActions.add(action);
+            }
+        }
         for (TurnAction turnAction : turnActions) {
             turnAction.doAction();
             if (turnAction.action instanceof ActionTypeMove) {
