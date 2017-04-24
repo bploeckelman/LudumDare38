@@ -120,7 +120,6 @@ public class Tile extends GameObject {
         batch.setColor(Color.WHITE);
 
         if (asPickBuffer) {
-            heightOffset = this.height * heightScale + renderShift.floatValue();
             return;
         }
 
@@ -156,7 +155,6 @@ public class Tile extends GameObject {
             }
         }
         batch.setColor(Color.WHITE);
-        heightOffset = this.height * heightScale + renderShift.floatValue();
 
     }
 
