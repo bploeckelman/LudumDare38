@@ -31,6 +31,7 @@ public class UserResources extends ResourceCount {
     private final float SAND_OFFSET_X;
     private final float IRON_OFFSET_X;
     private final float GOLD_OFFSET_X;
+    private final float EFF_OFFSET_X;
 
     private Array<Button> buttons = new Array<Button>(5);
 
@@ -40,13 +41,14 @@ public class UserResources extends ResourceCount {
         TILE_SIZE = HEIGHT - (MARGIN * 2);
         X = (Config.gameWidth - WIDTH) / 2f;
         Y = Config.gameHeight - HEIGHT - MARGIN;
-        float spacing = (WIDTH - 40) / 5f;
+        float spacing = (WIDTH - 40) / 6f;
         float offset = 20;
         FOOD_OFFSET_X = offset + (spacing * 0);
         WOOD_OFFSET_X = offset + (spacing * 1);
         SAND_OFFSET_X = offset + (spacing * 2);
         IRON_OFFSET_X = offset + (spacing * 3);
         GOLD_OFFSET_X = offset + (spacing * 4);
+        EFF_OFFSET_X = offset + (spacing * 5);
 
         float bw = spacing - offset;
         Button foodTooltip = new Button(Assets.transparentPixel, new Rectangle(X + FOOD_OFFSET_X, Y, bw, HEIGHT), camera);
@@ -54,16 +56,20 @@ public class UserResources extends ResourceCount {
         Button ironTooltip = new Button(Assets.transparentPixel, new Rectangle(X + IRON_OFFSET_X, Y, bw, HEIGHT), camera);
         Button sandTooltip = new Button(Assets.transparentPixel, new Rectangle(X + SAND_OFFSET_X, Y, bw, HEIGHT), camera);
         Button woodTooltip = new Button(Assets.transparentPixel, new Rectangle(X + WOOD_OFFSET_X, Y, bw, HEIGHT), camera);
+        Button effTooltip = new Button(Assets.transparentPixel, new Rectangle(X + EFF_OFFSET_X, Y, bw, HEIGHT), camera);
+
         foodTooltip.setTooltip("food");
         goldTooltip.setTooltip("gold");
         ironTooltip.setTooltip("iron");
         sandTooltip.setTooltip("sand");
         woodTooltip.setTooltip("wood");
+        effTooltip.setTooltip("Tool Efficiency");
         buttons.add(foodTooltip);
         buttons.add(goldTooltip);
         buttons.add(ironTooltip);
         buttons.add(sandTooltip);
         buttons.add(woodTooltip);
+        buttons.add(effTooltip);
 
     }
 
@@ -80,6 +86,7 @@ public class UserResources extends ResourceCount {
         drawResource(batch, SAND_OFFSET_X, Assets.sand, sand);
         drawResource(batch, IRON_OFFSET_X, Assets.iron, iron);
         drawResource(batch, GOLD_OFFSET_X, Assets.gold, gold);
+        drawResource(batch, EFF_OFFSET_X, Assets.hammer_upgrade, resourceBonus);
         batch.setColor(Color.WHITE);
         for (Button button : buttons) {
             button.render(batch);
