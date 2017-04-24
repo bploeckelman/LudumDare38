@@ -44,8 +44,8 @@ public class EndGameOverlay {
                 Align.center);
         Assets.drawString(batch, screen.gameLost ? gameLost : gameWon,
                 bounds.x + MARGIN,
-                bounds.y - MARGIN + bounds.height - 44,
-                screen.gameLost ? Color.RED :Color.WHITE, .4f, Assets.fancyFont,
+                bounds.y - MARGIN + bounds.height - 50,
+                screen.gameLost ? Color.RED :Color.GREEN, .4f, Assets.fancyFont,
                 bounds.width - 2f * MARGIN,
                 Align.center);
 
@@ -69,6 +69,19 @@ public class EndGameOverlay {
         renderString(batch, "Sandbags Built: " + screen.stats.sandbags, x, y, .3f);
         y -= 25;
         renderString(batch, "Huts Built: " + screen.stats.huts, x, y, .3f);
+
+        x = bounds.x + (bounds.width/2);
+        y = bounds.y - MARGIN + bounds.height - 160;
+        renderString(batch, "Food Collected: " + screen.stats.food, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Wood Collected: " + screen.stats.wood, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Sand Collected: " + screen.stats.sand, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Iron Collected: " + screen.stats.iron, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Gold Collected: " + screen.stats.gold, x, y, .3f);
+
     }
 
 
