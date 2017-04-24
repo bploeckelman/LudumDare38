@@ -21,6 +21,11 @@ import lando.systems.ld38.world.Tile;
 public class ActionManager {
 
     private Array<ActionMenu> playerOptions = new Array<ActionMenu>();
+    private OrthographicCamera camera;
+
+    public ActionManager(OrthographicCamera camera) {
+        this.camera = camera;
+    }
 
     public void update(float dt) {
         for (int i = playerOptions.size - 1; i >= 0; i--) {
@@ -37,7 +42,7 @@ public class ActionManager {
         }
     }
     
-    public void showOptions(Player player, OrthographicCamera camera) {
+    public void showOptions(Player player) {
         for (ActionMenu menu : playerOptions) {
             if (menu.player == player) return;
         }
@@ -78,12 +83,28 @@ public class ActionManager {
             if (menu.handleTouch(screenX, screenY)) {
                 menu.hide();
                 if (menu.pendingAction.action == Actions.displayBuild) {
-                    // show build options
+                    showBuildOptions(menu.pendingAction.player);
                 }
                 return menu.pendingAction;
             }
         }
 
         return null;
+    }
+
+    private void showBuildOptions(Player player) {
+        Array<OptionButton> optionButtons = new Array<OptionButton>(3);
+
+        Vector3 position = player.position;
+
+        float x = position.x + (player.tileWidth / 2);
+        float y = position.y + position.z + player.tileHeight/2;
+
+        Rectangle buttonBounds = new Rectangle(x, y, 20, 20);
+        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, camera));
+        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, camera));
+        //optionButtons.add(new OptionButton(Assets.sandbag, buttonBounds, Actions.buildSandbag, camera));
+        //optionButtons.add(new OptionButton(Assets.people, buttonBounds, Actions.buildPeople, camera));
+        playerOptions.add(new ActionMenu(player, optionButtons));
     }
 }

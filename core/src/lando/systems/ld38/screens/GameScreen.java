@@ -67,10 +67,11 @@ public class GameScreen extends BaseScreen {
 
     public Button testingButton;
 
-    public ActionManager actionManager = new ActionManager();
+    public ActionManager actionManager;
 
     public GameScreen() {
         super();
+        actionManager = new ActionManager(camera);
         debugTex = Assets.whitePixel;
         time = 0;
         world = new World(this);
@@ -208,7 +209,7 @@ public class GameScreen extends BaseScreen {
         selectedPlayer = player;
         world.orderPlayer(player);
         clearMovement();
-        actionManager.showOptions(player, camera);
+        actionManager.showOptions(player);
     }
 
     private boolean handlePlayerAction(int screenX, int screenY, int button) {
