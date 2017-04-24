@@ -143,7 +143,23 @@ public class Player extends GameObject {
             if (action.action instanceof ActionTypeMove){
                 batch.draw(Assets.arrow, x + 30, y, 25, 25);
             } else if (action.action instanceof ActionTypeWait) {
-                batch.draw(Assets.wait, x + 30, y, 25, 25);
+                Tile t = world.getTile(row, col);
+                TextureRegion region = Assets.wait;
+                switch (t.decoration){
+                    case Tree:
+                        region = Assets.axe;
+                        break;
+                    case Cow:
+                        region = Assets.shotgun;
+                        break;
+                    case IronMine:
+                    case GoldMine:
+                        region = Assets.pickaxe;
+                        break;
+                    case Sand:
+                        region = Assets.shovel;
+                }
+                batch.draw(region, x + 30, y, 25, 25);
             } else if (action.action instanceof ActionTypeBuild) {
                 batch.draw(Assets.hammer, x + 30, y, 25, 25);
             }
