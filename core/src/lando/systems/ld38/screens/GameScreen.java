@@ -247,6 +247,10 @@ public class GameScreen extends BaseScreen {
         actionManager.showOptions(player);
     }
 
+    public void handleBindingPress() {
+        handlePlayerAction(-1, -1, -1);
+    }
+
     private boolean handlePlayerAction(int screenX, int screenY, int button) {
         PendingAction pendingAction = actionManager.handleTouch(screenX, screenY, button);
         if (pendingAction != null) {
@@ -665,6 +669,4 @@ public class GameScreen extends BaseScreen {
             endTurn();
         }
     }
-
-
 }

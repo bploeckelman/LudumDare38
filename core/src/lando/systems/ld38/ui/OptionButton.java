@@ -1,5 +1,6 @@
 package lando.systems.ld38.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Align;
+import lando.systems.ld38.screens.GameScreen;
 import lando.systems.ld38.turns.Actions;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.world.ResourceCount;
@@ -22,6 +24,10 @@ public class OptionButton extends Button {
     public ResourceCount cost;
 
     public int binding;
+
+    // holy hackjob batman!
+    public boolean isTriggered;
+    public GameScreen gameScreen;
 
     public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, OrthographicCamera camera, String tooltip, ResourceCount resources, ResourceCount cost, int binding) {
         super(asset, bounds, camera);
@@ -42,6 +48,13 @@ public class OptionButton extends Button {
         origY = bounds.y;
         width = 30;
         height = 30;
+    }
+
+    public void update(float dt) {
+        isTriggered = (Gdx.input.isKeyJustPressed(binding));
+        if (isTriggered) {
+            gameScreen.handleBindingPress();
+        }
     }
 
     @Override
@@ -70,7 +83,6 @@ public class OptionButton extends Button {
                     Align.center);
         }
         batch.setColor(Color.WHITE);
-
         super.render(batch);
     }
 
@@ -95,5 +107,13 @@ public class OptionButton extends Button {
             default:
                 return "";
         }
+    }
+
+    public boolean checkForTouch(int screenX, int screenY) {
+        if (isTriggered) {
+            isTriggered = false;
+            return true;
+        }
+        return super.checkForTouch(screenX, screenY);
     }
 }

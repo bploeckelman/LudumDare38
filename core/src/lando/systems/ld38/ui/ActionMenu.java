@@ -38,6 +38,7 @@ public class ActionMenu {
         float dir = 90;
         float dr = 360 / options.size;
         for (OptionButton btn : options){
+            btn.gameScreen = player.world.screen;
             float x = btn.origX + (MathUtils.cosDeg(dir) * buttonSpread) - btn.width/2;
             float y = btn.origY + (MathUtils.sinDeg(dir) * buttonSpread) - btn.height/2;
 
