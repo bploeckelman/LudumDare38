@@ -260,11 +260,21 @@ public class GameScreen extends BaseScreen {
             TurnAction turnAction = new TurnAction();
             turnAction.character = selectedPlayer;
             turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
-            turnActions.add(turnAction);
+            addAction(turnAction);
             clearMovement();
             return true;
         }
         return false;
+    }
+
+    private void addAction(TurnAction turnAction) {
+        for (int i = turnActions.size - 1; i >= 0; i--) {
+            if (turnActions.get(i).character == turnAction.character) {
+                turnActions.removeIndex(i);
+            }
+        }
+
+        turnActions.add(turnAction);
     }
 
     private void showMovement(Player player) {
@@ -278,7 +288,7 @@ public class GameScreen extends BaseScreen {
         TurnAction turnAction = new TurnAction();
         turnAction.character = selectedPlayer;
         turnAction.action = new ActionTypeWait(turnAction, resources, player);
-        turnActions.add(turnAction);
+        addAction(turnAction);
     }
 
     private void clearMovement() {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld38.turns.ActionTypeMove;
+import lando.systems.ld38.turns.ActionTypeWait;
 import lando.systems.ld38.turns.TurnAction;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.utils.Assets;
@@ -120,6 +121,8 @@ public class Player extends GameObject {
         if (action != null){
             if (action.action instanceof ActionTypeMove){
                 batch.draw(Assets.arrow, x + 30, y, 25, 25);
+            } else if (action.action instanceof ActionTypeWait) {
+                batch.draw(Assets.wait, x + 30, y, 25, 25);
             }
         }
         // TODO draw more action icon here
