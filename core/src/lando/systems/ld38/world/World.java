@@ -55,11 +55,23 @@ public class World {
 
         players = new Array<Player>();
         for (int i = 0; i < 5; i ++){
-            int row = MathUtils.random(4);
+            int row = 1;
             int col = MathUtils.random(WORLD_WIDTH);
-            while (getTile(row, col) == null || getTile(row, col).type == TileType.Ocean){
-                row = MathUtils.random(6);
+            boolean alreadyOccupied = false;
+            for (Player player : players) {
+                if (player.row == row && player.col == col) {
+                    alreadyOccupied = true;
+                }
+            }
+            while ((getTile(row, col) == null || getTile(row, col).type == TileType.Ocean) || alreadyOccupied) {
+                alreadyOccupied = false;
+                row = 1;
                 col = MathUtils.random(WORLD_WIDTH);
+                for (Player player : players) {
+                    if (player.row == row && player.col == col) {
+                        alreadyOccupied = true;
+                    }
+                }
             }
             players.add(new Player(this, row, col));
         }
