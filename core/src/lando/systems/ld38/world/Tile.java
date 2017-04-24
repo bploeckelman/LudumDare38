@@ -80,7 +80,7 @@ public class Tile extends GameObject {
 
         if (!aboveWater || asPickBuffer){
             float maxHeight = Math.min(waterHeight, heightOffset);
-            for (int yOffset = -10; yOffset < maxHeight; yOffset += 10) {
+            for (int yOffset = -20; yOffset < maxHeight; yOffset += 10) {
                     batch.draw(bottomTex, x, y + yOffset, tileWidth, tileHeight);
             }
         }

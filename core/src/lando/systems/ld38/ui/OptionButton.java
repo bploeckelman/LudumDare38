@@ -41,9 +41,9 @@ public class OptionButton extends Button {
     @Override
     public void render(SpriteBatch batch) {
         if (disabled) {
-            batch.setColor(0.25f, 0.25f, 0.25f, 0.75f);
+            batch.setColor(1, 0.25f, 0.25f, 0.75f);
         } else {
-            batch.setColor(0.75f, 0.75f, 0.75f, 0.75f);
+            batch.setColor(1f, 1f, 1f, 0.75f);
         }
         batch.draw(Assets.whitePixel, bounds.x - 4f, bounds.y - 4f, bounds.width + 4f * 2f, bounds.height + 4f * 2f);
         batch.setColor(Color.WHITE);

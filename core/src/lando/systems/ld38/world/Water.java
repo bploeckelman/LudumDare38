@@ -15,7 +15,7 @@ public class Water {
     public Water(World world){
         time = 0;
         this.world = world;
-        waterHeight = -4.6f;
+        waterHeight = -14.6f;
     }
 
     public void update(float dt){
