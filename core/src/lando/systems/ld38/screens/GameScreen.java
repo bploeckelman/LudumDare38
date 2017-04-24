@@ -1,6 +1,10 @@
 package lando.systems.ld38.screens;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -72,11 +76,15 @@ public class GameScreen extends BaseScreen {
     public Button testingButton;
 
     public ActionManager actionManager;
+    public MutableFloat overlayAlpha;
+    public boolean pauseGame;
 
     public GameScreen() {
         super();
         actionManager = new ActionManager(camera);
         debugTex = Assets.whitePixel;
+        overlayAlpha = new MutableFloat(1);
+        pauseGame = true;
         time = 0;
         world = new World(this);
         resources = new UserResources(hudCamera);
@@ -98,7 +106,9 @@ public class GameScreen extends BaseScreen {
 //        testingButton = new Button(Assets.transparentPixel, new Rectangle(50,50,50,50), hudCamera, "Too much Text!", "Tooltip");
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
-        Gdx.input.setInputProcessor(this);
+
+
+        startScript();
     }
 
     @Override
@@ -462,6 +472,10 @@ public class GameScreen extends BaseScreen {
 //            batch.draw(Assets.whitePixel, hudCamera.viewportWidth - 100 - 50, 0, 50, 50);
 //            batch.setColor(Color.WHITE);
 //            batch.draw(pickRegion, hudCamera.viewportWidth - 100, 0, 100, 100);
+            batch.setColor(0,0,0,overlayAlpha.floatValue());
+            batch.draw(Assets.whitePixel, 0,0, hudCamera.viewportWidth, hudCamera.viewportHeight);
+            batch.setColor(Color.WHITE);
+
         }
         batch.end();
     }
@@ -495,4 +509,38 @@ public class GameScreen extends BaseScreen {
                 .target(p.position.x + p.tileWidth / 2f, p.position.y + p.position.z + p.tileHeight / 2f, .5f)
                 .start(Assets.tween);
     }
+
+    public void startScript(){
+        pauseGame = true;
+        camera.position.x = (world.bounds.x + world.bounds.width)/2f;
+        camera.position.y = (world.bounds.y + world.bounds.height)/2f;
+        camera.zoom = maxZoom;
+        camera.update();
+        overlayAlpha.setValue(1);
+        Timeline.createSequence()
+                .push(Tween.to(overlayAlpha, 0, 2f)
+                      .target(0))
+                .push(Tween.to(Tile.renderShift, 0, 2f)
+                      .target(0))
+                .push(Tween.call(new TweenCallback() {
+                    @Override
+                    public void onEvent(int i, BaseTween<?> baseTween) {
+                        world.addStartPlayers();
+                        playerSelection.buildPlayerHuds();
+                    }
+                }))
+                .pushPause(1f)
+                .push(Tween.to(camera, CameraAccessor.XYZ, 1f)
+                        .target(world.WORLD_WIDTH * Tile.tileWidth / 2f, 2 * Tile.tileHeight, .5f))
+                .push(Tween.call(new TweenCallback() {
+                    @Override
+                    public void onEvent(int i, BaseTween<?> baseTween) {
+                        pauseGame = false;
+                        Gdx.input.setInputProcessor(GameScreen.this);
+                    }
+                }))
+                .start(Assets.tween);
+    }
+
+
 }

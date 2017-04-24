@@ -1,5 +1,6 @@
 package lando.systems.ld38.world;
 
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,6 +14,7 @@ import lando.systems.ld38.utils.Assets;
 public class Tile extends GameObject {
 
     public static float heightScale = 8;
+    public static MutableFloat renderShift = new MutableFloat(-120);
 
     public TileType type;
     public TextureRegion top_tex;
@@ -33,7 +35,6 @@ public class Tile extends GameObject {
         super(world, col, row, height);
         type = TileType.Ocean;
         pickColor = Tile.getColorFromPosition(row, col);
-        heightOffset = this.height * heightScale;
         decoration = Decoration.None;
         decoration_tex = null;
         isHighlighted = false;
@@ -79,6 +80,8 @@ public class Tile extends GameObject {
 
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater, boolean asPickBuffer){
         if (type == TileType.Ocean) return;
+        heightOffset = this.height * heightScale + renderShift.floatValue();
+
         TextureRegion bottomTex = bottom_tex;
         TextureRegion topTex = top_tex;
         Color texColor = Color.WHITE;

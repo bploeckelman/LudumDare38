@@ -54,27 +54,6 @@ public class World {
         bounds = new Rectangle(-100, -100,(Tile.tileWidth) * WORLD_WIDTH + 200, Tile.tileHeight * WORLD_WIDTH * .75f + 200);
 
         players = new Array<Player>();
-        for (int i = 0; i < 5; i ++){
-            int row = 1;
-            int col = MathUtils.random(WORLD_WIDTH);
-            boolean alreadyOccupied = false;
-            for (Player player : players) {
-                if (player.row == row && player.col == col) {
-                    alreadyOccupied = true;
-                }
-            }
-            while ((getTile(row, col) == null || getTile(row, col).type == TileType.Ocean) || alreadyOccupied) {
-                alreadyOccupied = false;
-                row = 1;
-                col = MathUtils.random(WORLD_WIDTH);
-                for (Player player : players) {
-                    if (player.row == row && player.col == col) {
-                        alreadyOccupied = true;
-                    }
-                }
-            }
-            players.add(new Player(this, row, col));
-        }
 
         adjacentTiles = new Array<Tile>();
     }
@@ -268,6 +247,31 @@ public class World {
         if (index < 0 || index >= tiles.size) return null;
         return tiles.get(index);
 
+    }
+
+    public void addStartPlayers(){
+        players.clear();
+        for (int i = 0; i < 5; i ++){
+            int row = 1;
+            int col = MathUtils.random(WORLD_WIDTH);
+            boolean alreadyOccupied = false;
+            for (Player player : players) {
+                if (player.row == row && player.col == col) {
+                    alreadyOccupied = true;
+                }
+            }
+            while ((getTile(row, col) == null || getTile(row, col).type == TileType.Ocean) || alreadyOccupied) {
+                alreadyOccupied = false;
+                row = 1;
+                col = MathUtils.random(WORLD_WIDTH);
+                for (Player player : players) {
+                    if (player.row == row && player.col == col) {
+                        alreadyOccupied = true;
+                    }
+                }
+            }
+            players.add(new Player(this, row, col));
+        }
     }
 
     public void endTurn(){
