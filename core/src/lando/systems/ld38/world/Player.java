@@ -140,11 +140,11 @@ public class Player extends GameObject {
             } else if (action.action instanceof ActionTypeWait) {
                 batch.draw(Assets.wait, x + 30, y, 25, 25);
             }
+            // TODO draw more action icon here
+        } else {
+            batch.draw(Assets.questionmark, x + 30, y, 25, 25);
         }
-        // TODO draw more action icon here
-
     }
-
 
 
     public void kill(){

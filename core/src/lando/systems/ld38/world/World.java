@@ -24,6 +24,7 @@ public class World {
     private static final float ISLAND_FRONT_HEIGHT = -2f;
     private static final long HEIGHT_NOISE_SEED = 23203423489124l;
     private static final float WATER_RISE_RATE = .666f;
+    private static final float SHOW_PLAYER_BUBBLE_ZOOM = 0.75f;
 
     // Computed --------------------------------------------------------------------------------------------------------
     private static final float ISLAND_RISE = ISLAND_BACK_HEIGHT - ISLAND_FRONT_HEIGHT;
@@ -75,7 +76,7 @@ public class World {
                 screen.playerSelection.buildPlayerHuds();
             } else {
                 p.update(dt);
-                p.updateBubbleAlpha( dt * (screen.camera.zoom > 1 ? 1 : -1));
+                p.updateBubbleAlpha( dt * (screen.camera.zoom > SHOW_PLAYER_BUBBLE_ZOOM ? 1 : -1));
             }
         }
 
