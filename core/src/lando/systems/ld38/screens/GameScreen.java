@@ -1,5 +1,6 @@
 package lando.systems.ld38.screens;
 
+import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -25,6 +26,7 @@ import lando.systems.ld38.ui.PlayerSelectionHud;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.utils.SoundManager;
+import lando.systems.ld38.utils.accessors.CameraAccessor;
 import lando.systems.ld38.world.*;
 
 //import static com.sun.glass.ui.gtk.GtkApplication.screen;
@@ -386,5 +388,12 @@ public class GameScreen extends BaseScreen {
         turnActions.clear();
         ++turn;
         world.endTurn();
+    }
+
+    public void zoomToPlayer(Player p){
+        showOptions(p);
+        Tween.to(camera, CameraAccessor.XYZ, .5f)
+                .target(p.position.x + p.tileWidth / 2f, p.position.y + p.position.z + p.tileHeight / 2f, .5f)
+                .start(Assets.tween);
     }
 }

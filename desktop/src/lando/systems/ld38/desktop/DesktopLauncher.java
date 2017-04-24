@@ -14,6 +14,7 @@ public class DesktopLauncher {
 //		config.foregroundFPS = 0;
 //		config.backgroundFPS = 0;
 		config.samples = 8;
+		config.resizable = false;
 		new LwjglApplication(new LudumDare38(), config);
 	}
 }

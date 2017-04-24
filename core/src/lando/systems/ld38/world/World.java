@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
 import lando.systems.ld38.screens.GameScreen;
+import lando.systems.ld38.utils.Assets;
 
 /**
  * Created by dsgraham on 4/22/17.
@@ -74,6 +75,7 @@ public class World {
                 screen.playerSelection.buildPlayerHuds();
             } else {
                 p.update(dt);
+                p.updateBubbleAlpha( dt * (screen.camera.zoom > 1 ? 1 : -1));
             }
         }
 
@@ -113,6 +115,7 @@ public class World {
 
         for (Player player : players) {
             player.render(batch, water.waterHeight, true);
+            player.renderBubble(batch);
         }
 
         for (ResourceIndicator resIndicator : resIndicators) {

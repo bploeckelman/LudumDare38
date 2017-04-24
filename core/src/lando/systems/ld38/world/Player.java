@@ -3,10 +3,12 @@ package lando.systems.ld38.world;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld38.turns.ActionTypeMove;
@@ -24,10 +26,12 @@ public class Player extends GameObject {
     public PlayerType type;
     public Animation<TextureRegion> animation;
     public boolean dead;
+    float bubbleAlpha;
 
     public Player(World world, int row, int col) {
         super(world);
         dead = false;
+        bubbleAlpha = 0;
         type = new Array<PlayerType>(PlayerType.values()).random();
         animation = type.down;
         tex = animation.getKeyFrame(timer);
@@ -52,12 +56,24 @@ public class Player extends GameObject {
         tex = animation.getKeyFrame(timer);
     }
 
+    public void updateBubbleAlpha(float dt){
+        bubbleAlpha += dt * 2;
+        bubbleAlpha = MathUtils.clamp(bubbleAlpha, 0, 1);
+    }
+
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater) {
         if (walkRight) {
             batch.draw(tex, x + tileWidth, y, -tileWidth, tileHeight);
         } else {
             batch.draw(tex, x, y, tileWidth, tileHeight);
         }
+    }
+
+    public void renderBubble(SpriteBatch batch){
+        batch.setColor(1,1,1,bubbleAlpha);
+        batch.draw(Assets.bubble, position.x - 32 + tileWidth/2, (position.y + position.z + tileHeight), 64, 64);
+        batch.draw(faceTex, position.x - 19 + tileWidth/2, (position.y + position.z + tileHeight) + 18, 38, 38);
+        batch.setColor(Color.WHITE);
     }
 
     public GridPoint2 getLocation() {
@@ -125,6 +141,8 @@ public class Player extends GameObject {
         // TODO draw more action icon here
 
     }
+
+
 
     public void kill(){
         // TODO something fancy here?

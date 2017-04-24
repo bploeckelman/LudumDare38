@@ -61,6 +61,7 @@ public class Assets {
     public static TextureRegion hammer;
     public static TextureRegion questionmark;
     public static TextureRegion wait;
+    public static TextureRegion bubble;
     public static TextureRegion select_hex;
     public static TextureRegion white_hex;
     public static TextureRegion shadowUL;
@@ -162,6 +163,9 @@ public class Assets {
         gold = atlas.findRegion("gold");
         wood = atlas.findRegion("wood");
         sand = atlas.findRegion("wood");
+        clay = atlas.findRegion("wood");
+
+        bubble = atlas.findRegion("bubble");
 
         head_male_dark = atlas.findRegion("head_male_dark");
         head_male_white = atlas.findRegion("head_male_white");

@@ -8,7 +8,10 @@ import lando.systems.ld38.utils.Assets;
  * Created by Brian on 4/23/2017
  */
 public enum TileType {
-    Clay(Assets.clay_hex, Assets.clay_bottom),
+    Clay(Assets.clay_hex, Assets.clay_bottom, new Array<Decoration>(new Decoration[]{
+            Decoration.Cow,
+            Decoration.None
+    })),
     Dirt(Assets.dirt_hex, Assets.dirt_bottom, new Array<Decoration>(new Decoration[]{
             Decoration.None,
             Decoration.Tree,
@@ -57,5 +60,8 @@ public enum TileType {
         top_tex = top;
         bottom_tex = bottom;
         this.availableDecorations = availableDecorations;
+        this.availableDecorations.add(Decoration.None);
+        this.availableDecorations.add(Decoration.None);
+        this.availableDecorations.add(Decoration.None);
     }
 }
