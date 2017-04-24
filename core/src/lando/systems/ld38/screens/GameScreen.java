@@ -48,6 +48,7 @@ public class GameScreen extends BaseScreen {
     public Player selectedPlayer;
     public ResourceCount actionCost;
     public OptionButton actionButton;
+    public Array<Bird> birds;
 
     public FrameBuffer pickBuffer;
     public TextureRegion pickRegion;
@@ -90,6 +91,7 @@ public class GameScreen extends BaseScreen {
         pickPixmap = null;
         pickColor = new Color();
         modal = new Modal();
+        birds = new Array<Bird>();
 
         endTurnButton = new EndTurnButton(new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
         playerSelection = new PlayerSelectionHud(this);
@@ -136,6 +138,17 @@ public class GameScreen extends BaseScreen {
 
         actionManager.update(dt);
         updateCamera();
+
+        for (int i = birds.size -1; i >= 0; i--) {
+            Bird b = birds.get(i);
+            b.update(dt);
+            if (!b.alive){
+                birds.removeIndex(i);
+            }
+        }
+        if (MathUtils.randomBoolean(.0015f)){
+            birds.add(new Bird());
+        }
 
         if (!modal.isActive && Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
             float w = hudCamera.viewportWidth * (2f / 3f);
@@ -392,6 +405,9 @@ public class GameScreen extends BaseScreen {
         {
             world.render(batch);
             actionManager.render(batch);
+            for (Bird b : birds){
+                b.render(batch);
+            }
         }
         batch.end();
 

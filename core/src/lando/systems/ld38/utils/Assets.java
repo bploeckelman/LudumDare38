@@ -18,6 +18,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld38.utils.accessors.*;
 
+import java.lang.reflect.Array;
+
 /**
  * Created by Brian on 4/16/2017.
  */
@@ -81,6 +83,9 @@ public class Assets {
     public static Animation<TextureRegion> bmWalkDown;
     public static Animation<TextureRegion> bmWalkSide;
     public static Animation<TextureRegion> totemAnim;
+    public static Animation<TextureRegion> birdAnimationGreen;
+    public static Animation<TextureRegion> birdAnimationOrange;
+    public static Animation<TextureRegion> birdAnimationGull;
 
     public static TextureRegion cow;
     public static TextureRegion gold_mine;
@@ -218,6 +223,10 @@ public class Assets {
         bmWalkSide = new Animation<TextureRegion>(.15f, atlas.findRegions("bm_walk_side"), Animation.PlayMode.LOOP);
 
         totemAnim = new Animation<TextureRegion>(0.15f, atlas.findRegions("totem"), Animation.PlayMode.NORMAL);
+
+        birdAnimationGreen = new Animation<TextureRegion>(0.02f, atlas.findRegions("birdgreen"), Animation.PlayMode.LOOP);
+        birdAnimationOrange = new Animation<TextureRegion>(0.02f, atlas.findRegions("birdorange"), Animation.PlayMode.LOOP);
+        birdAnimationGull = new Animation<TextureRegion>(0.2f, atlas.findRegions("birdgull"), Animation.PlayMode.LOOP);
 
         cow = atlas.findRegion("cow");
         gold_mine = atlas.findRegion("gold_mine");
