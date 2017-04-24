@@ -138,7 +138,7 @@ public class Tile extends GameObject {
             batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
             batch.setColor(Color.WHITE);
         }
-        if (!decoration.equals(Decoration.None) && aboveWater && heightOffset > waterHeight) {
+        if (!decoration.equals(Decoration.None) && (aboveWater && heightOffset > waterHeight)) {
             if (decoration_tex != null) {
                 batch.draw(decoration_tex, x, y + heightOffset + (tileHeight * .35f), tileWidth, tileHeight);
             }
@@ -146,6 +146,7 @@ public class Tile extends GameObject {
         if (isInaccessible && overlayObjectTex != null) {
             batch.draw(overlayObjectTex, x, y + heightOffset, tileWidth, tileHeight);
         } else if (item != null) {
+            if (item == Assets.raft || (aboveWater && heightOffset > waterHeight) || (!aboveWater && heightOffset <= waterHeight))
             batch.draw(item, x, y + heightOffset, tileWidth, tileHeight);
         }
 
