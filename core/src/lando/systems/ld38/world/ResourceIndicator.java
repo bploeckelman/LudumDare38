@@ -18,7 +18,8 @@ public class ResourceIndicator {
     private float _initialY;
     private float _initialX;
     private float _time;
-    private float _distance = 72;
+//    private float _distance = 72;
+    private float _distance = 32;
     private String _count;
     private float _fadeTime = 1.5f;
     private Color _color = new Color(1, 1, 1, 1);
