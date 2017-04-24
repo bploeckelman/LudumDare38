@@ -51,6 +51,10 @@ public class Player extends GameObject {
         position.z = tileOffset + (tileHeight * .25f);
     }
 
+    public UserResources getResources() {
+        return world.getResources();
+    }
+
     @Override
     public void update(float dt) {
         super.update(dt);

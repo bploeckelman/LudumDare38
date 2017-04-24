@@ -15,11 +15,13 @@ public class OptionButton extends Button {
     public float origX, origY, width, height;
 
     public Actions action;
+    public boolean disabled;
 
-    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, OrthographicCamera camera) {
+    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, boolean disabled, OrthographicCamera camera) {
         super(asset, bounds, camera);
 
         this.action = action;
+        this.disabled = disabled;
 
         origX = bounds.x;
         origY = bounds.y;

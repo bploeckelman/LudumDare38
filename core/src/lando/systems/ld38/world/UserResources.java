@@ -56,4 +56,12 @@ public class UserResources {
         batch.draw(region, x + offset, y+margin - MARGIN_TOP, tileSize, tileSize);
         Assets.drawString(batch, "" + amount, x + offset + tileSize + 5, y + height - 6 - MARGIN_TOP, Color.WHITE, .3f, Assets.fancyFont);
     }
+
+    public boolean canBuildLadder() {
+        return true;
+    }
+
+    public boolean canBuildRaft() {
+        return true;
+    }
 }

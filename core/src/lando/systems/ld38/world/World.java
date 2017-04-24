@@ -66,6 +66,10 @@ public class World {
         adjacentTiles = new Array<Tile>();
     }
 
+    public UserResources getResources() {
+        return screen.resources;
+    }
+
     public void update(float dt){
         water.update(dt);
         for (int i = players.size - 1; i >= 0; i--){

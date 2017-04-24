@@ -13,6 +13,7 @@ import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.world.Player;
 import lando.systems.ld38.world.Tile;
+import lando.systems.ld38.world.UserResources;
 
 /**
  * Created by Brian on 4/23/2017.
@@ -63,11 +64,9 @@ public class ActionManager {
         float y = position.y + position.z + player.tileHeight/2;
 
         Rectangle buttonBounds = new Rectangle(x, y, 30, 30);
-        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, camera));
-        if (tile != null) {
-            optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, camera));
-            optionButtons.add(new OptionButton(Assets.wait, buttonBounds, Actions.harvest, camera));
-        }
+        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, false, camera));
+        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, false, camera));
+        optionButtons.add(new OptionButton(Assets.wait, buttonBounds, Actions.harvest, false, camera));
 
         playerOptions.add(new ActionMenu(player, optionButtons));
     }
@@ -101,8 +100,11 @@ public class ActionManager {
         float y = position.y + position.z + player.tileHeight/2;
 
         Rectangle buttonBounds = new Rectangle(x, y, 20, 20);
-        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, camera));
-        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, camera));
+
+        UserResources resources = player.getResources();
+
+        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, resources.canBuildLadder(), camera));
+        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, resources.canBuildRaft(), camera));
         //optionButtons.add(new OptionButton(Assets.sandbag, buttonBounds, Actions.buildSandbag, camera));
         //optionButtons.add(new OptionButton(Assets.people, buttonBounds, Actions.buildPeople, camera));
         playerOptions.add(new ActionMenu(player, optionButtons));
