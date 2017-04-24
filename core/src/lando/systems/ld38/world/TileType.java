@@ -26,7 +26,9 @@ public enum TileType {
     })),
     Sand(Assets.sand_hex, Assets.sand_bottom, new Array<Decoration>(new Decoration[]{
             Decoration.None,
-            Decoration.Tree
+            Decoration.Tree,
+            Decoration.Tree,
+            Decoration.Tree,
     })),
     Snow(Assets.snow_hex, Assets.snow_bottom, new Array<Decoration>(new Decoration[]{
             Decoration.None,
