@@ -31,7 +31,7 @@ void main() {
     vec4 text = vec4(v_color.rgb, v_color.a * alpha);
 
     float shadowDistance = texture2D(u_texture, v_texCoord - shadowOffset).a;
-    float shadowAlpha = smoothstep(0.5 - shadowSmoothing, 0.5 + shadowSmoothing, shadowDistance);
+    float shadowAlpha = smoothstep(0.5 - shadowSmoothing, 0.5 + shadowSmoothing, shadowDistance) * v_color.a;
     vec4 shadow = vec4(shadowColor.rgb, shadowColor.a * shadowAlpha);
 
     gl_FragColor = mix(shadow, text, text.a);
