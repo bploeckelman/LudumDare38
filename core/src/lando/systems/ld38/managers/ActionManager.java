@@ -72,7 +72,7 @@ public class ActionManager {
         optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, camera, "Move", resources, new ResourceCount(1, 0, 0, 0, 0)));
         optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, camera, "Build", resources, new ResourceCount()));
         TextureRegion harvestRegion = Assets.wait;
-        String tooltip = "Wait";
+        String tooltip = "Forage";
         switch(tile.decoration){
             case Cow:
                 harvestRegion = Assets.shotgun;

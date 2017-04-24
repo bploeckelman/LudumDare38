@@ -83,7 +83,7 @@ public class Tile extends GameObject {
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater, boolean asPickBuffer){
         if (type == TileType.Ocean) return;
         heightOffset = this.height * heightScale + renderShift.floatValue();
-
+        if (item == Assets.sandbags) heightOffset += heightScale;
         TextureRegion bottomTex = bottom_tex;
         TextureRegion topTex = top_tex;
         Color texColor = Color.WHITE;
@@ -119,7 +119,10 @@ public class Tile extends GameObject {
         }
         batch.setColor(Color.WHITE);
 
-        if (asPickBuffer) return;
+        if (asPickBuffer) {
+            heightOffset = this.height * heightScale + renderShift.floatValue();
+            return;
+        }
 
         if (isHighlighted) {
             batch.setColor((isInaccessible) ? Color.RED : Color.CYAN);
@@ -153,6 +156,8 @@ public class Tile extends GameObject {
             }
         }
         batch.setColor(Color.WHITE);
+        heightOffset = this.height * heightScale + renderShift.floatValue();
+
     }
 
     public void renderPickBuffer(SpriteBatch batch) {
