@@ -94,11 +94,15 @@ public class Button {
         if (text != null && !text.equals("")) {
             Assets.drawString(batch, text, textX, textY, textColor, textScale, Assets.fancyFont);
         }
+
+    }
+
+    public void renderTooltip(SpriteBatch batch, OrthographicCamera hudCamera){
         // Tooltip
         if (tooltip != null && !tooltip.equals("")) {
             if (showTooltip) {
                 tempVec3.set(input.getX(), input.getY(), 0);
-                camera.unproject(tempVec3);
+                hudCamera.unproject(tempVec3);
                 float tX = tempVec3.x;
                 float tY = tempVec3.y;
                 Assets.woodPanel.draw(batch, tX, tY, tooltipBackgroundWidth, tooltipBackgroundHeight);

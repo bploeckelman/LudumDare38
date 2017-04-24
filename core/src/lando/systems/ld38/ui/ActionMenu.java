@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Elastic;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
@@ -82,6 +83,12 @@ public class ActionMenu {
     public void render(SpriteBatch batch) {
         for (OptionButton button : options) {
             button.render(batch);
+        }
+    }
+
+    public void renderTooltip(SpriteBatch batch, OrthographicCamera hudCamera) {
+        for (OptionButton button : options) {
+            button.renderTooltip(batch, hudCamera);
         }
     }
 

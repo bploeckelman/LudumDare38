@@ -86,6 +86,12 @@ public class UserResources extends ResourceCount {
         }
     }
 
+    public void renderToolTips(SpriteBatch batch, OrthographicCamera hudCamera){
+        for (Button button : buttons) {
+            button.renderTooltip(batch, hudCamera);
+        }
+    }
+
     
     private void drawResource(SpriteBatch batch, float offset, TextureRegion region, int amount) {
         batch.draw(region, X + offset, Y + MARGIN, TILE_SIZE, TILE_SIZE);

@@ -452,6 +452,7 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
             actionManager.render(batch);
+
         }
         batch.end();
 
@@ -475,6 +476,10 @@ public class GameScreen extends BaseScreen {
             resources.render(batch);
             turnCounter.render(batch, turn);
             endTurnButton.render(batch);
+
+            actionManager.renderTooltops(batch, hudCamera);
+            world.getResources().renderToolTips(batch, hudCamera);
+
 //            testingButton.render(batch);
             Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
 
@@ -535,9 +540,9 @@ public class GameScreen extends BaseScreen {
         overlayAlpha.setValue(1);
         Timeline.createSequence()
                 .push(Tween.to(overlayAlpha, 0, 2f)
-                      .target(0))
+                        .target(0))
                 .push(Tween.to(Tile.renderShift, 0, 2f)
-                      .target(0))
+                        .target(0))
                 .push(Tween.call(new TweenCallback() {
                     @Override
                     public void onEvent(int i, BaseTween<?> baseTween) {

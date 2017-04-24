@@ -44,6 +44,12 @@ public class ActionManager {
             menu.render(batch);
         }
     }
+
+    public void renderTooltops(SpriteBatch batch, OrthographicCamera hudCamera){
+        for (ActionMenu menu : playerOptions) {
+            menu.renderTooltip(batch, hudCamera);
+        }
+    }
     
     public void showOptions(Player player) {
         for (ActionMenu menu : playerOptions) {
