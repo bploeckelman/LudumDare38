@@ -91,7 +91,7 @@ public class ActionMenu {
     public boolean handleTouch(int screenX, int screenY) {
         for (OptionButton button : options) {
             if (button.checkForTouch(screenX, screenY)) {
-                if (displayState == DisplayState.show) {
+                if (displayState == DisplayState.show || displayState == DisplayState.grow) {
                     pendingAction.action = button.action;
                 }
                 return true;

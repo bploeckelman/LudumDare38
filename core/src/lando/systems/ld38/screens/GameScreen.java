@@ -52,7 +52,6 @@ public class GameScreen extends BaseScreen {
     public Color pickColor;
     public int pickMapScale = 8;
 
-    public boolean alternate = true;
     public int turn;
     public Array<TurnAction> turnActions;
     float time;
