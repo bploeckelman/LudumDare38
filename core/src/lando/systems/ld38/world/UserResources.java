@@ -38,7 +38,7 @@ public class UserResources {
         x = (Gdx.graphics.getWidth() - width) /2f;
         y = Gdx.graphics.getHeight() - height;
         Assets.woodPanel.draw(batch, x, y - MARGIN_TOP, width, height);
-        float spacing = (width - 40) / 6f;
+        float spacing = (width - 40) / 5f;
         float offset = 20;
         drawResource(batch, offset, Assets.food, food);
         offset += spacing;

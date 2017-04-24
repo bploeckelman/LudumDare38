@@ -3,6 +3,7 @@ package lando.systems.ld38.managers;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -66,7 +67,31 @@ public class ActionManager {
         Rectangle buttonBounds = new Rectangle(x, y, 30, 30);
         optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, false, camera, "Move"));
         optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, false, camera, "Build"));
-        optionButtons.add(new OptionButton(Assets.wait, buttonBounds, Actions.harvest, false, camera, "Harvest"));
+        TextureRegion harvestRegion = Assets.wait;
+        String tooltip = "Wait";
+        switch(tile.decoration){
+            case Cow:
+                harvestRegion = Assets.shotgun;
+                tooltip = "Harvest Food";
+                break;
+            case Tree:
+                harvestRegion = Assets.axe;
+                tooltip = "Harvest Wood";
+                break;
+            case IronMine:
+                harvestRegion = Assets.pickaxe;
+                tooltip = "Mine Iron";
+                break;
+            case GoldMine:
+                harvestRegion = Assets.pickaxe;
+                tooltip = "Mine Gold";
+                break;
+            case Sand:
+                harvestRegion = Assets.shovel;
+                tooltip = "Dig up Sand";
+                break;
+        }
+        optionButtons.add(new OptionButton(harvestRegion, buttonBounds, Actions.harvest, false, camera, tooltip));
 
         playerOptions.add(new ActionMenu(player, optionButtons));
     }

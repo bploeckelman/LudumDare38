@@ -28,7 +28,7 @@ public class Button {
     private float tooltipBackgroundWidth;
     private float tooltipTextOffsetY;
 
-    private final TextureRegion region;
+    public final TextureRegion region;
     private final NinePatch ninePatch;
     public final Rectangle bounds;
     public String text = null;

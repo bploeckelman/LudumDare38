@@ -80,7 +80,8 @@ public class World {
                 screen.playerSelection.buildPlayerHuds();
             } else {
                 p.update(dt);
-                p.updateBubbleAlpha( dt * (screen.camera.zoom > SHOW_PLAYER_BUBBLE_ZOOM ? 1 : -1));
+                boolean showBubble =  screen.camera.zoom > SHOW_PLAYER_BUBBLE_ZOOM && screen.selectedPlayer == null;
+                p.updateBubbleAlpha( dt * (showBubble ? 1 : -1));
             }
         }
 
