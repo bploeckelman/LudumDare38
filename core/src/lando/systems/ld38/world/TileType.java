@@ -60,8 +60,9 @@ public enum TileType {
         top_tex = top;
         bottom_tex = bottom;
         this.availableDecorations = availableDecorations;
-        this.availableDecorations.add(Decoration.None);
-        this.availableDecorations.add(Decoration.None);
-        this.availableDecorations.add(Decoration.None);
+        for (int i = 0; i < 5; i++){
+            this.availableDecorations.add(Decoration.None);
+        }
+
     }
 }

@@ -163,7 +163,6 @@ public class Assets {
         gold = atlas.findRegion("gold");
         wood = atlas.findRegion("wood");
         sand = atlas.findRegion("wood");
-        clay = atlas.findRegion("wood");
 
         bubble = atlas.findRegion("bubble");
 
