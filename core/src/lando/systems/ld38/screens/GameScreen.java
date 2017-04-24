@@ -352,7 +352,8 @@ public class GameScreen extends BaseScreen {
                 }
             }
             // height inaccessible
-            if (tile.height > 1f + playerTile.height) {
+//            if (tile.height > 1f + playerTile.height) { // NOTE: this line requires ladders for tiles more than 1 'step' above player tile's height
+            if (tile.height > playerTile.height) { // NOTE: this line requires ladders _ALL_ tiles above the player tile's height
                 tile.isInaccessible = (asset == null);
                 if (tile.isInaccessible) {
                     if (tile.item == Assets.ladder) {
