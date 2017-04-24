@@ -28,6 +28,7 @@ import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.utils.Screenshake;
 import lando.systems.ld38.utils.SoundManager;
+import lando.systems.ld38.utils.*;
 import lando.systems.ld38.utils.accessors.CameraAccessor;
 import lando.systems.ld38.world.*;
 
@@ -38,6 +39,7 @@ import lando.systems.ld38.world.*;
  */
 public class GameScreen extends BaseScreen {
 
+    public TutorialManager tutorialManager;
     public TextureRegion debugTex;
     public World world;
     public UserResources resources;
@@ -70,6 +72,7 @@ public class GameScreen extends BaseScreen {
     public static float DRAG_DELTA = 10f;
 
     public boolean cancelTouchUp = false;
+    public boolean firstRun = false;
 
     public Button testingButton;
 
@@ -114,13 +117,22 @@ public class GameScreen extends BaseScreen {
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
         shaker = new Screenshake(120, 3);
+
         startScript();
     }
 
     @Override
     public void update(float dt) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+//            Gdx.app.exit();
+//        }
+
+        if (tutorialManager != null) {
+            if (!firstRun && tutorialManager.isDisplayed()) {
+                tutorialManager.update(dt);
+                return;
+            }
+            firstRun = false;
         }
 
         if (endGameOverlay != null){
@@ -193,7 +205,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (modal.isActive) {
+        if (modal.isActive || (tutorialManager != null && tutorialManager.isDisplayed())) {
             return false;
         }
 
@@ -214,7 +226,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (modal.isActive) {
+        if (modal.isActive || (tutorialManager != null && tutorialManager.isDisplayed())) {
             return false;
         }
 
@@ -257,6 +269,10 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (tutorialManager != null && tutorialManager.isDisplayed()) {
+            return false;
+        }
+
         if (modal.isActive && modal.checkForTouch(screenX, screenY, hudCamera)) {
             modal.isActive = false;
             modal.set("", 0, 0, 0, 0);
@@ -397,6 +413,10 @@ public class GameScreen extends BaseScreen {
     Vector3 tp = new Vector3();
     @Override
     public boolean scrolled (int change) {
+        if (tutorialManager != null && tutorialManager.isDisplayed()) {
+            return false;
+        }
+
         camera.unproject(tp.set(Gdx.input.getX(), Gdx.input.getY(), 0 ));
         float px = tp.x;
         float py = tp.y;
@@ -522,8 +542,12 @@ public class GameScreen extends BaseScreen {
 
             if (endGameOverlay != null) endGameOverlay.render(batch);
 
+            if (tutorialManager != null) {
+                tutorialManager.render(batch);
+            }
         }
         batch.end();
+
     }
 
     private void endTurn() {
@@ -620,10 +644,13 @@ public class GameScreen extends BaseScreen {
                 .pushPause(1f)
                 .push(Tween.to(camera, CameraAccessor.XYZ, 1f)
                         .target(world.WORLD_WIDTH * Tile.tileWidth / 2f, 2 * Tile.tileHeight, .5f))
+                .pushPause(0.5f)
                 .push(Tween.call(new TweenCallback() {
                     @Override
                     public void onEvent(int i, BaseTween<?> baseTween) {
                         pauseGame = false;
+                        firstRun = true;
+                        tutorialManager = new TutorialManager();
                         Gdx.input.setInputProcessor(GameScreen.this);
                     }
                 }))
