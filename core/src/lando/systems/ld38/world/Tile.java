@@ -15,12 +15,14 @@ public class Tile extends GameObject {
 
     public TileType type;
     public TextureRegion top_tex;
-    TextureRegion bottom_tex;
+    public TextureRegion bottom_tex;
     public Decoration decoration;
-    TextureRegion shadow_tex;
-    Color pickColor;
+    public TextureRegion shadow_tex;
+    public Color pickColor;
+    public TextureRegion overlayObjectTex;
     public boolean isHighlighted;
-
+    public boolean isInaccessible;
+    public boolean isMoveTarget;
     public float heightOffset;
 
 
@@ -31,6 +33,9 @@ public class Tile extends GameObject {
         heightOffset = this.height * heightScale;
         decoration = Decoration.None;
         isHighlighted = false;
+        isInaccessible = false;
+        isMoveTarget = false;
+        overlayObjectTex = null;
     }
 
     public void setType(TileType type){
@@ -92,20 +97,22 @@ public class Tile extends GameObject {
                 batch.draw(shadow_tex, x, y +heightOffset, tileWidth, tileHeight);
                 batch.setColor(Color.WHITE);
             }
-//            if (!asPickBuffer) {
-//                float d = 1f * (heightOffset / (heightScale * World.WORLD_MAX_HEIGHT)) + 0.5f;
-//                d = MathUtils.clamp(d, 0.5f, 1f);
-//                batch.setColor(0f, 0f, 0f, 1f - d);
-//                batch.draw(Assets.white_hex, x, y + heightOffset, tileWidth, tileHeight);
-//                batch.setColor(Color.WHITE);
-//            }
         }
         if (isHighlighted && !asPickBuffer) {
-            batch.setColor(Color.CYAN);
-            batch.draw(Assets.select_hex, x, y + heightOffset, Tile.tileWidth, Tile.tileHeight);
+            batch.setColor((isInaccessible) ? Color.RED : Color.CYAN);
+            batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
+            batch.setColor(Color.WHITE);
+        }
+        if (isMoveTarget && !asPickBuffer) {
+            batch.setColor(Color.GREEN);
+            batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
+            batch.setColor(Color.WHITE);
         }
         if (!decoration.equals(Decoration.None) && !asPickBuffer && aboveWater && heightOffset > waterHeight) {
             batch.draw(decoration.tex, x, y + heightOffset + (tileHeight * .35f), tileWidth, tileHeight);
+        }
+        if (isInaccessible && overlayObjectTex != null) {
+            batch.draw(overlayObjectTex, x, y + heightOffset, tileWidth, tileHeight);
         }
 
         batch.setColor(Color.WHITE);

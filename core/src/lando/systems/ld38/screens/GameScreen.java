@@ -29,6 +29,8 @@ import lando.systems.ld38.utils.SoundManager;
 import lando.systems.ld38.utils.accessors.CameraAccessor;
 import lando.systems.ld38.world.*;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+
 //import static com.sun.glass.ui.gtk.GtkApplication.screen;
 
 /**
@@ -258,7 +260,7 @@ public class GameScreen extends BaseScreen {
 
     private boolean handleMove(GridPoint2 location) {
         Tile tile = world.getTile(location);
-        if (adjacentTiles.contains(tile, true)) {
+        if (adjacentTiles.contains(tile, true) && !tile.isInaccessible) {
             TurnAction turnAction = new TurnAction();
             turnAction.character = selectedPlayer;
             turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
@@ -272,17 +274,41 @@ public class GameScreen extends BaseScreen {
     private void addAction(TurnAction turnAction) {
         for (int i = turnActions.size - 1; i >= 0; i--) {
             if (turnActions.get(i).character == turnAction.character) {
+                if (turnActions.get(i).action instanceof ActionTypeMove) {
+                    ActionTypeMove moveAction = (ActionTypeMove) turnActions.get(i).action;
+                    Tile moveToTile = world.getTile(moveAction.toRow, moveAction.toCol);
+                    moveToTile.isMoveTarget = false;
+                }
                 turnActions.removeIndex(i);
             }
         }
 
+        if (turnAction.action instanceof ActionTypeMove) {
+            ActionTypeMove moveAction = (ActionTypeMove) turnAction.action;
+            Tile moveToTile = world.getTile(moveAction.toRow, moveAction.toCol);
+            moveToTile.isMoveTarget = true;
+        }
         turnActions.add(turnAction);
     }
 
     private void showMovement(Player player) {
+        // TODO: is there a situation where this could be null?
+        Tile playerTile = world.getTile(player.row, player.col);
+
         adjacentTiles.addAll(world.getNeighbors(player.row, player.col));
         for (Tile tile : adjacentTiles) {
             tile.isHighlighted = true;
+
+            // Water inaccessible...
+            if (tile.heightOffset < world.water.waterHeight) {
+                tile.isInaccessible = true;
+                tile.overlayObjectTex = Assets.raft;
+            }
+            // height inaccessible
+            if (tile.height > 1f + playerTile.height) {
+                tile.isInaccessible = true;
+                tile.overlayObjectTex = Assets.ladder;
+            }
         }
     }
 
@@ -296,6 +322,8 @@ public class GameScreen extends BaseScreen {
     private void clearMovement() {
         for (Tile tile : adjacentTiles) {
             tile.isHighlighted = false;
+            tile.isInaccessible = false;
+            tile.overlayObjectTex = null;
         }
         adjacentTiles.clear();
     }
@@ -394,6 +422,11 @@ public class GameScreen extends BaseScreen {
     private void endTurn() {
         for (TurnAction turnAction : turnActions) {
             turnAction.doAction();
+            if (turnAction.action instanceof ActionTypeMove) {
+                ActionTypeMove moveAction = (ActionTypeMove) turnAction.action;
+                Tile moveTile = world.getTile(moveAction.toRow, moveAction.toCol);
+                moveTile.isMoveTarget = false;
+            }
         }
         turnActions.clear();
         ++turn;

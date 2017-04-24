@@ -5,8 +5,8 @@ package lando.systems.ld38.turns;
  */
 public class ActionTypeMove extends ActionType {
 
-    int toCol;
-    int toRow;
+    public int toCol;
+    public int toRow;
 
     public ActionTypeMove(TurnAction turnAction, int toCol, int toRow) {
         super(turnAction);

@@ -220,9 +220,9 @@ public class Assets {
         gold_mine = atlas.findRegion("gold_mine");
         hut = atlas.findRegion("hut");
         iron_mine = atlas.findRegion("iron_mine");
-        ladder = atlas.findRegion("ladder");
+        ladder = atlas.findRegion("ladder-small");
         palmtree = atlas.findRegion("palmtree");
-        raft = atlas.findRegion("raft");
+        raft = atlas.findRegion("raft-small");
 
         final Texture distText = new Texture(Gdx.files.internal("fonts/ubuntu.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
