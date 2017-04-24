@@ -302,7 +302,10 @@ public class GameScreen extends BaseScreen {
             if (turnActions.get(i).player == turnAction.player) {
                 TurnAction removeAction = turnActions.get(i);
                 if (removeAction.action instanceof ActionTypeMove) {
-                    ((ActionTypeMove) turnActions.get(i).action).getMoveToTile(world).isMoveTarget = false;
+                    removeAction.action.getTargetTile(world).isMoveTarget = false;
+                }
+                if (removeAction.action instanceof ActionTypeBuild) {
+                    removeAction.action.getTargetTile(world).isBuildTarget = false;
                 }
                 removeAction.player.getResources().add(removeAction.cost);
                 turnActions.removeIndex(i);
@@ -310,7 +313,10 @@ public class GameScreen extends BaseScreen {
         }
 
         if (turnAction.action instanceof ActionTypeMove) {
-            ((ActionTypeMove) turnAction.action).getMoveToTile(world).isMoveTarget = true;
+            turnAction.action.getTargetTile(world).isMoveTarget = true;
+        }
+        if (turnAction.action instanceof ActionTypeBuild) {
+            turnAction.action.getTargetTile(world).isBuildTarget = true;
         }
         turnActions.add(turnAction);
     }
@@ -414,31 +420,40 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
             world.render(batch);
-            actionManager.render(batch);
             for (Bird b : birds){
                 b.render(batch);
             }
         }
         batch.end();
 
-        // Draw unnecessary bullshit
+        // Draw lines between player and action 'target' tile
         Assets.shapes.setProjectionMatrix(camera.combined);
         Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
-        Assets.shapes.setColor(Color.GREEN);
         for (TurnAction turnAction : turnActions) {
+            if (turnAction.action instanceof ActionTypeWait) continue;
             if (turnAction.action instanceof ActionTypeMove) {
-                Tile moveToTile = ((ActionTypeMove) turnAction.action).getMoveToTile(world);
-                Tile playerTile = turnAction.player.getTile();
-                Assets.shapes.rectLine(
-                        playerTile.position.x + Tile.tileWidth  / 2f,
-                        playerTile.position.y + Tile.tileHeight / 2f + playerTile.position.z + playerTile.heightOffset - 5f,
-                        moveToTile.position.x + Tile.tileWidth  / 2f,
-                        moveToTile.position.y + Tile.tileHeight / 2f + moveToTile.position.z + moveToTile.heightOffset,
-                        2f);
+                Assets.shapes.setColor(Color.GREEN);
+            } else if (turnAction.action instanceof ActionTypeBuild){
+                Assets.shapes.setColor(Color.ORANGE);
             }
+            Tile targetTile = turnAction.action.getTargetTile(world);
+            Tile playerTile = turnAction.player.getTile();
+            Assets.shapes.rectLine(
+                    playerTile.position.x + Tile.tileWidth  / 2f,
+                    playerTile.position.y + Tile.tileHeight / 2f + playerTile.position.z + playerTile.heightOffset - 5f,
+                    targetTile.position.x + Tile.tileWidth  / 2f,
+                    targetTile.position.y + Tile.tileHeight / 2f + targetTile.position.z + targetTile.heightOffset,
+                    2f);
         }
         Assets.shapes.setColor(Color.WHITE);
         Assets.shapes.end();
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        {
+            actionManager.render(batch);
+        }
+        batch.end();
 
         // Draw picking frame buffer
         pickBuffer.begin();
@@ -493,9 +508,10 @@ public class GameScreen extends BaseScreen {
         for (TurnAction turnAction : turnActions) {
             turnAction.doAction();
             if (turnAction.action instanceof ActionTypeMove) {
-                ActionTypeMove moveAction = (ActionTypeMove) turnAction.action;
-                Tile moveTile = world.getTile(moveAction.toRow, moveAction.toCol);
-                moveTile.isMoveTarget = false;
+                turnAction.action.getTargetTile(world).isMoveTarget = false;
+            }
+            if (turnAction.action instanceof ActionTypeBuild) {
+                turnAction.action.getTargetTile(world).isBuildTarget = false;
             }
         }
         turnActions.clear();

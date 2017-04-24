@@ -2,6 +2,7 @@ package lando.systems.ld38.turns;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.ld38.world.Tile;
+import lando.systems.ld38.world.World;
 
 /**
  * Created by Brian on 4/22/2017
@@ -27,4 +28,10 @@ public class ActionTypeBuild extends ActionType {
             tile.item = item;
         }
     }
+
+    @Override
+    public Tile getTargetTile(World world) {
+        return world.getTile(toRow, toCol);
+    }
+
 }

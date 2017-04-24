@@ -55,4 +55,10 @@ public class ActionTypeWait extends ActionType {
             player.displayResourceGather(Assets.food, 1, offset++);
         }
     }
+
+    @Override
+    public Tile getTargetTile(World world) {
+        return player.getTile();
+    }
+
 }

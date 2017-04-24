@@ -28,6 +28,7 @@ public class Tile extends GameObject {
     public boolean isHighlighted;
     public boolean isInaccessible;
     public boolean isMoveTarget;
+    public boolean isBuildTarget;
     public float heightOffset;
 
 
@@ -40,6 +41,7 @@ public class Tile extends GameObject {
         isHighlighted = false;
         isInaccessible = false;
         isMoveTarget = false;
+        isBuildTarget = false;
         overlayObjectTex = null;
     }
 
@@ -114,31 +116,41 @@ public class Tile extends GameObject {
                 batch.draw(shadow_tex, x, y +heightOffset, tileWidth, tileHeight);
                 batch.setColor(Color.WHITE);
             }
-
         }
-        if (isHighlighted && !asPickBuffer) {
+        batch.setColor(Color.WHITE);
+
+        if (asPickBuffer) return;
+
+        if (isHighlighted) {
             batch.setColor((isInaccessible) ? Color.RED : Color.CYAN);
             batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
             batch.setColor(Color.WHITE);
         }
-        if (isMoveTarget && !asPickBuffer) {
+        if (isMoveTarget) {
             batch.setColor(Color.GREEN);
             batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
             batch.setColor(Color.WHITE);
         }
-        if (!decoration.equals(Decoration.None) && !asPickBuffer && aboveWater && heightOffset > waterHeight) {
+        if (isBuildTarget) {
+            batch.setColor(Color.ORANGE);
+            batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
+            batch.setColor(Color.WHITE);
+        }
+        if (!decoration.equals(Decoration.None) && aboveWater && heightOffset > waterHeight) {
             if (decoration_tex != null) {
                 batch.draw(decoration_tex, x, y + heightOffset + (tileHeight * .35f), tileWidth, tileHeight);
             }
         }
-        if (isInaccessible && overlayObjectTex != null && !asPickBuffer) {
+        if (isInaccessible && overlayObjectTex != null) {
             batch.draw(overlayObjectTex, x, y + heightOffset, tileWidth, tileHeight);
-        } else if (item != null && !asPickBuffer) {
+        } else if (item != null) {
             batch.draw(item, x, y + heightOffset, tileWidth, tileHeight);
         }
 
         for (Player p : world.players){
-            if (!asPickBuffer && p.row == row && p.col == col && !p.moving) p.render(batch, waterHeight, aboveWater);
+            if (p.row == row && p.col == col && !p.moving) {
+                p.render(batch, waterHeight, aboveWater);
+            }
         }
         batch.setColor(Color.WHITE);
     }

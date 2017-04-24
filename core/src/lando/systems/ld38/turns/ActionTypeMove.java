@@ -22,7 +22,8 @@ public class ActionTypeMove extends ActionType {
         turnAction.player.moveTo(toRow, toCol);
     }
 
-    public Tile getMoveToTile(World world) {
+    @Override
+    public Tile getTargetTile(World world) {
         return world.getTile(toRow, toCol);
     }
 
