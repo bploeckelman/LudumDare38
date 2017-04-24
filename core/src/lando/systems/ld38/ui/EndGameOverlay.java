@@ -1,5 +1,7 @@
 package lando.systems.ld38.ui;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -17,13 +19,19 @@ public class EndGameOverlay {
     String gameLost = "You lost all your natives";
     String gameWon = "Congratulations";
 
+    public MutableFloat alpha;
+
     GameScreen screen;
     float delay;
     Rectangle bounds;
 
     public EndGameOverlay(GameScreen screen){
+        alpha = new MutableFloat(0);
         this.screen = screen;
         bounds = new Rectangle(WINDOW_MARGIN, WINDOW_MARGIN, screen.hudCamera.viewportWidth - 2* WINDOW_MARGIN, screen.hudCamera.viewportHeight - 2 * WINDOW_MARGIN);
+        Tween.to(alpha, 1, 1)
+                .target(1)
+                .start(Assets.tween);
     }
 
 
@@ -32,27 +40,27 @@ public class EndGameOverlay {
     }
 
     public void render(SpriteBatch batch){
-        batch.setColor(Color.DARK_GRAY);
+        batch.setColor(.25f, .25f, .25f, alpha.floatValue());
         batch.draw(Assets.whitePixel, bounds.x, bounds.y, bounds.width, bounds.height);
-        batch.setColor(Color.WHITE);
+        batch.setColor(1,1,1,alpha.floatValue());
         Assets.ninePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
         Assets.drawString(batch, gameOver,
                 bounds.x + MARGIN,
                 bounds.y - MARGIN + bounds.height,
-                Color.WHITE, .7f, Assets.fancyFont,
+                new Color(1,1,1, alpha.floatValue()), .7f, Assets.fancyFont,
                 bounds.width - 2f * MARGIN,
                 Align.center);
         Assets.drawString(batch, screen.gameLost ? gameLost : gameWon,
                 bounds.x + MARGIN,
                 bounds.y - MARGIN + bounds.height - 50,
-                screen.gameLost ? Color.RED :Color.GREEN, .4f, Assets.fancyFont,
+                screen.gameLost ? new Color(1,0,0,alpha.floatValue()) : new Color(0,1,0,alpha.floatValue()), .4f, Assets.fancyFont,
                 bounds.width - 2f * MARGIN,
                 Align.center);
 
         Assets.drawString(batch, "Statistics",
                 bounds.x + MARGIN,
                 bounds.y - MARGIN + bounds.height - 100,
-                Color.WHITE, .4f, Assets.fancyFont,
+                new Color(1,1,1,alpha.floatValue()), .4f, Assets.fancyFont,
                 bounds.width - 2f * MARGIN,
                 Align.center);
 
@@ -92,7 +100,7 @@ public class EndGameOverlay {
     }
 
     public void renderString(SpriteBatch batch, String text, float x, float y, float scale, float width, int align){
-        Assets.drawString(batch, text, x, y, Color.WHITE, scale, Assets.fancyFont, width, align);
+        Assets.drawString(batch, text, x, y, new Color(1,1,1,alpha.floatValue()), scale, Assets.fancyFont, width, align);
     }
 }
 

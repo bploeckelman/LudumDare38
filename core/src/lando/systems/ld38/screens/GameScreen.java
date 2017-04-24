@@ -541,11 +541,24 @@ public class GameScreen extends BaseScreen {
             if (!p.dead) alivePlayers++;
         }
         if (turn > 70 || alivePlayers == 0){
-            SoundManager.playMusic(SoundManager.MusicOptions.end_game);
-            gameOver = true;
-            Gdx.input.setInputProcessor(null);
             gameLost = alivePlayers == 0;
-            endGameOverlay = new EndGameOverlay(this);
+            Gdx.input.setInputProcessor(null);
+
+            Timeline.createSequence()
+                    .push(Tween.to(camera, CameraAccessor.XYZ, 2f)
+                    .target((world.bounds.x + world.bounds.width)/2f,
+                            (world.bounds.y + world.bounds.height)/2f,
+                            1.5f))
+                    .push(Tween.call(new TweenCallback() {
+                        @Override
+                        public void onEvent(int i, BaseTween<?> baseTween) {
+                            SoundManager.playMusic(SoundManager.MusicOptions.end_game);
+                            gameOver = true;
+                            endGameOverlay = new EndGameOverlay(GameScreen.this);
+                        }
+                    }))
+                    .start(Assets.tween);
+
         }
     }
 
