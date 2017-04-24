@@ -1,10 +1,7 @@
 package lando.systems.ld38.turns;
 
 import lando.systems.ld38.utils.Assets;
-import lando.systems.ld38.world.Player;
-import lando.systems.ld38.world.Tile;
-import lando.systems.ld38.world.TileType;
-import lando.systems.ld38.world.UserResources;
+import lando.systems.ld38.world.*;
 
 /**
  * Created by Brian on 4/22/2017
@@ -52,7 +49,7 @@ public class ActionTypeWait extends ActionType {
                 }
                 break;
         }
-
+        tile.decoration = Decoration.None;
         if (addRandomFood) {
             userResources.food += 1;
             player.displayResourceGather(Assets.food, 1, offset++);
