@@ -3,6 +3,7 @@ package lando.systems.ld38.world;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld38.utils.Assets;
 
 /**
@@ -16,6 +17,7 @@ public class Tile extends GameObject {
     public TileType type;
     public TextureRegion top_tex;
     public TextureRegion bottom_tex;
+    public TextureRegion decoration_tex;
     public Decoration decoration;
     public TextureRegion shadow_tex;
     public Color pickColor;
@@ -33,6 +35,7 @@ public class Tile extends GameObject {
         pickColor = Tile.getColorFromPosition(row, col);
         heightOffset = this.height * heightScale;
         decoration = Decoration.None;
+        decoration_tex = null;
         isHighlighted = false;
         isInaccessible = false;
         isMoveTarget = false;
@@ -44,6 +47,15 @@ public class Tile extends GameObject {
         this.top_tex = type.top_tex;
         this.bottom_tex = type.bottom_tex;
         this.decoration = type.availableDecorations.random();
+        this.decoration_tex = this.decoration.tex;
+        if (this.decoration == Decoration.Tree) {
+            int treeType = MathUtils.random(2);
+            switch (treeType) {
+                case 0: this.decoration_tex = Assets.palmtree1; break;
+                case 1: this.decoration_tex = Assets.palmtree2; break;
+                case 2: this.decoration_tex = Assets.palmtree3; break;
+            }
+        }
     }
 
     public void addShadow(int type){
@@ -112,7 +124,9 @@ public class Tile extends GameObject {
             batch.setColor(Color.WHITE);
         }
         if (!decoration.equals(Decoration.None) && !asPickBuffer && aboveWater && heightOffset > waterHeight) {
-            batch.draw(decoration.tex, x, y + heightOffset + (tileHeight * .35f), tileWidth, tileHeight);
+            if (decoration_tex != null) {
+                batch.draw(decoration_tex, x, y + heightOffset + (tileHeight * .35f), tileWidth, tileHeight);
+            }
         }
         if (isInaccessible && overlayObjectTex != null && !asPickBuffer) {
             batch.draw(overlayObjectTex, x, y + heightOffset, tileWidth, tileHeight);

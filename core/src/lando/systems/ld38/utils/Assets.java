@@ -93,6 +93,9 @@ public class Assets {
     public static TextureRegion iron_mine;
     public static TextureRegion ladder;
     public static TextureRegion palmtree;
+    public static TextureRegion palmtree1;
+    public static TextureRegion palmtree2;
+    public static TextureRegion palmtree3;
     public static TextureRegion raft;
     public static TextureRegion sandbags;
 
@@ -233,9 +236,12 @@ public class Assets {
         hut = atlas.findRegion("hut");
         iron_mine = atlas.findRegion("iron_mine");
         ladder = atlas.findRegion("ladder-small");
-        palmtree = atlas.findRegion("palmtree");
+        palmtree1 = atlas.findRegion("palmtree1");
+        palmtree2 = atlas.findRegion("palmtree2");
+        palmtree3 = atlas.findRegion("palmtree3");
         raft = atlas.findRegion("raft-small");
         sandbags = atlas.findRegion("sand_bag");
+        palmtree = palmtree1;
 
         final Texture distText = new Texture(Gdx.files.internal("fonts/ubuntu.png"), true);
         distText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
