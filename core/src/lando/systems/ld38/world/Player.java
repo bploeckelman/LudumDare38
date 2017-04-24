@@ -90,9 +90,6 @@ public class Player extends GameObject {
             walkRight = xDir == 1;
         }
 
-        // temp for viewing the resource gather
-        displayResourceGather(1);
-
         this.row = row;
         this.col = col;
         Tween.to(position, Vector3Accessor.XYZ, 1f)
@@ -108,21 +105,14 @@ public class Player extends GameObject {
 
     }
 
-    public void displayResourceGather(int numResourcesGathered)
+    public void displayResourceGather(TextureRegion icon, int numResourcesGathered, int offset)
     {
-        TextureRegion icon = getResourceIcon();
         if (icon == null) return;
-        Rectangle resourcePos = getResourceBounds();
+
+        float size = 15;
+
+        Rectangle resourcePos =  new Rectangle(position.x, position.y + (offset * (size + 2)), size, size);
         world.resIndicators.add(new ResourceIndicator(icon, resourcePos, numResourcesGathered));
-    }
-
-    public TextureRegion getResourceIcon() {
-        Tile tile = getTile(row, col);
-        return tile.top_tex;
-    }
-
-    public Rectangle getResourceBounds() {
-        return new Rectangle(position.x, position.y, 15, 15);
     }
 
     public void renderHud(SpriteBatch batch, float x, float y, TurnAction action){

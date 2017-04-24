@@ -216,6 +216,9 @@ public class GameScreen extends BaseScreen {
                 case displayMoves:
                     showMovement(selectedPlayer);
                     break;
+                case harvest:
+                    addHarvestAction(selectedPlayer);
+                    break;
             }
         }
         return (pendingAction != null);
@@ -269,6 +272,13 @@ public class GameScreen extends BaseScreen {
         for (Tile tile : adjacentTiles) {
             tile.isHighlighted = true;
         }
+    }
+
+    private void addHarvestAction(Player player) {
+        TurnAction turnAction = new TurnAction();
+        turnAction.character = selectedPlayer;
+        turnAction.action = new ActionTypeWait(turnAction, resources, player);
+        turnActions.add(turnAction);
     }
 
     private void clearMovement() {

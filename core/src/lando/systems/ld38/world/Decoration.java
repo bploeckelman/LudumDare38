@@ -11,7 +11,8 @@ public enum Decoration {
     Tree(Assets.palmtree),
     Cow(Assets.cow),
     IronMine(Assets.iron_mine),
-    GoldMine(Assets.gold_mine);
+    GoldMine(Assets.gold_mine),
+    Sand();
 
     public TextureRegion tex;
 

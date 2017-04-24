@@ -16,7 +16,7 @@ public class Tile extends GameObject {
     public TileType type;
     public TextureRegion top_tex;
     TextureRegion bottom_tex;
-    Decoration decoration;
+    public Decoration decoration;
     TextureRegion shadow_tex;
     Color pickColor;
     public boolean isHighlighted;
