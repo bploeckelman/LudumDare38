@@ -1,8 +1,8 @@
 package lando.systems.ld38.managers;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -13,7 +13,6 @@ import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.world.Player;
 import lando.systems.ld38.world.Tile;
-import lando.systems.ld38.world.World;
 
 /**
  * Created by Brian on 4/23/2017.
@@ -68,9 +67,14 @@ public class ActionManager {
         playerOptions.add(new ActionMenu(player, optionButtons));
     }
 
-    public PendingAction handleTouch(int screenX, int screenY) {
+    public PendingAction handleTouch(int screenX, int screenY, int button) {
 
         for (ActionMenu menu : playerOptions) {
+            if (Input.Buttons.RIGHT == button) {
+                menu.hide();
+                continue;
+            }
+
             if (menu.handleTouch(screenX, screenY)) {
                 menu.hide();
                 if (menu.pendingAction.action == Actions.displayBuild) {

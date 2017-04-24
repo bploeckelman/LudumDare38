@@ -209,8 +209,8 @@ public class GameScreen extends BaseScreen {
         actionManager.showOptions(player, camera);
     }
 
-    private boolean handlePlayerAction(int screenX, int screenY) {
-        PendingAction pendingAction = actionManager.handleTouch(screenX, screenY);
+    private boolean handlePlayerAction(int screenX, int screenY, int button) {
+        PendingAction pendingAction = actionManager.handleTouch(screenX, screenY, button);
         if (pendingAction != null) {
             switch (pendingAction.action) {
                 case displayMoves:
@@ -241,7 +241,7 @@ public class GameScreen extends BaseScreen {
         } else {
             GridPoint2 location =  getGridPosition(screenX, screenY);
             if (handleMove(location)) return false;
-            if (handlePlayerAction(screenX, screenY)) return false;
+            if (handlePlayerAction(screenX, screenY, button)) return false;
 
             Array<Player> players = world.getPlayers(location);
             Player player = (players.size > 0) ? players.get(0) : null;
