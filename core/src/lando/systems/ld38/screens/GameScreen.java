@@ -289,7 +289,7 @@ public class GameScreen extends BaseScreen {
             if (adjacentTiles.contains(tile, true) && !tile.isInaccessible) {
                 TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
                 turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
-                addAction(turnAction);
+                addAction(turnAction, selectedPlayer.getHudPostion(camera, hudCamera));
                 clearMovement();
                 return true;
             }
@@ -297,7 +297,7 @@ public class GameScreen extends BaseScreen {
             if (adjacentTiles.contains(tile, true)) {
                 TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
                 turnAction.action = new ActionTypeBuild(turnAction, actionButton.region, tile.col, tile.row);
-                addAction(turnAction);
+                addAction(turnAction, selectedPlayer.getHudPostion(camera, hudCamera));
                 clearMovement();
                 return true;
             }
@@ -305,7 +305,7 @@ public class GameScreen extends BaseScreen {
         return false;
     }
 
-    private void addAction(TurnAction turnAction) {
+    private void addAction(TurnAction turnAction, Vector2 triggeringIconScreenPos) {
 
         // Find and cancel an existing turnAction for the player
         for (int i = turnActions.size - 1; i >= 0; i--) {
@@ -336,13 +336,8 @@ public class GameScreen extends BaseScreen {
             turnAction.action.getTargetTile(world).isWaitTarget = true;
         }
         turnActions.add(turnAction);
-        // find the player hud
-        turnAction.player.playerHud.setTurnAction(turnAction, new Vector2(0,0));
+        turnAction.player.playerHud.setTurnAction(turnAction, triggeringIconScreenPos);
 
-//        PlayerHud playerHud = playerSelection.getPlayerHudByPlayer(turnAction.player);
-//        if (playerHud != null) {
-//            playerHud.setTurnAction(turnAction);
-//        }
     }
 
     private void showMovement(Player player, TextureRegion asset) {
@@ -382,7 +377,7 @@ public class GameScreen extends BaseScreen {
     private void addHarvestAction(Player player) {
         TurnAction turnAction = new TurnAction(player, new ResourceCount());
         turnAction.action = new ActionTypeWait(turnAction, resources, player);
-        addAction(turnAction);
+        addAction(turnAction, player.getHudPostion(camera, hudCamera));
     }
 
     private void clearMovement() {

@@ -4,13 +4,11 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.turns.ActionTypeBuild;
 import lando.systems.ld38.turns.ActionTypeMove;
@@ -150,7 +148,9 @@ public class Player extends GameObject {
             turnActionRegionTargetOffset.set(30, 0);
         }
 
-        if (turnAction == null || playerHud == null) {
+        // If there's no turn action, if the player hud is unknown (still in setup), or there was no triggering location,
+        // don't animate.
+        if (turnAction == null || playerHud == null || triggeringIconScreenPos == null) {
             // Just start it at its final position
             turnActionRegionStartingOffset.set(turnActionRegionTargetOffset);
         } else {
@@ -229,4 +229,12 @@ public class Player extends GameObject {
         // TODO something fancy here?
         dead = true;
     }
+
+    public Vector2 getHudPostion(OrthographicCamera worldCamera, OrthographicCamera hudCamera) {
+        Vector2 currentPos = new Vector2(position.x, position.y + position.z);
+        Vector3 worldPos = worldCamera.project(new Vector3(currentPos.x, currentPos.y, 0));
+        Vector3 hudPos = hudCamera.project(worldPos);
+        return new Vector2(hudPos.x, hudPos.y);
+    }
+
 }
