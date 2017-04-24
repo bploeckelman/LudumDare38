@@ -33,7 +33,7 @@ public class ActionMenu {
         this.options = options;
         pendingAction.player = player;
 
-        float buttonSpread = 30;
+        float buttonSpread = 40;
         float dir = 90;
         float dr = 360 / options.size;
         for (OptionButton btn : options){
