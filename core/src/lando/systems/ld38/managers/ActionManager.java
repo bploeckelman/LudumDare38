@@ -12,6 +12,7 @@ import lando.systems.ld38.turns.PendingAction;
 import lando.systems.ld38.ui.ActionMenu;
 import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.utils.SoundManager;
 import lando.systems.ld38.world.Player;
 import lando.systems.ld38.world.ResourceCount;
 import lando.systems.ld38.world.Tile;
@@ -61,6 +62,8 @@ public class ActionManager {
         }
 
         if (player == null) return;
+
+        SoundManager.playSound(SoundManager.SoundOptions.button_select);
 
         // determine available options from tile - for now, use all three
         Array<OptionButton> optionButtons = new Array<OptionButton>(3);
@@ -132,6 +135,8 @@ public class ActionManager {
 
     private void showBuildOptions(Player player) {
         Array<OptionButton> optionButtons = new Array<OptionButton>(3);
+
+        SoundManager.playSound(SoundManager.SoundOptions.button_select);
 
         Vector3 position = player.position;
 

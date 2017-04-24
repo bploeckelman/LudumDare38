@@ -85,9 +85,12 @@ public class GameScreen extends BaseScreen {
     public Statistics stats;
     public Screenshake shaker;
     public Vector2 cameraCenter;
+    public float gullTimer;
 
     public GameScreen() {
         super();
+        SoundManager.oceanWaves.play();
+        gullTimer = 40;
         stats = new Statistics();
         cameraCenter = new Vector2();
         gameOver = false;
@@ -126,7 +129,11 @@ public class GameScreen extends BaseScreen {
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 //            Gdx.app.exit();
 //        }
-
+        gullTimer -= dt;
+        if (gullTimer < 0 && endGameOverlay == null){
+            gullTimer = MathUtils.random(30f,60f);
+            SoundManager.playSound(SoundManager.SoundOptions.seagull);
+        }
         if (tutorialManager != null) {
             if (!firstRun && tutorialManager.isDisplayed()) {
                 tutorialManager.update(dt);
@@ -311,6 +318,7 @@ public class GameScreen extends BaseScreen {
         Tile tile = world.getTile(location);
         if (actionButton.action == Actions.displayMoves) {
             if (adjacentTiles.contains(tile, true) && !tile.isInaccessible) {
+                SoundManager.playSound(SoundManager.SoundOptions.player_move);
                 TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
                 turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
                 addAction(turnAction, selectedPlayer.getHudPostion(camera, hudCamera));
@@ -556,6 +564,7 @@ public class GameScreen extends BaseScreen {
 
     private void endTurn() {
         selectedPlayer = null;
+        SoundManager.playSound(SoundManager.SoundOptions.water_rise);
         for (Player p : world.players){
             boolean hasAction = false;
             for (TurnAction turnAction : turnActions){
@@ -602,6 +611,7 @@ public class GameScreen extends BaseScreen {
                     .push(Tween.call(new TweenCallback() {
                         @Override
                         public void onEvent(int i, BaseTween<?> baseTween) {
+                            SoundManager.oceanWaves.stop();
                             SoundManager.playMusic(SoundManager.MusicOptions.end_game);
                             gameOver = true;
                             endGameOverlay = new EndGameOverlay(GameScreen.this);
