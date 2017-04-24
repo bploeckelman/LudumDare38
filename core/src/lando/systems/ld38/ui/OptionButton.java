@@ -25,8 +25,8 @@ public class OptionButton extends Button {
 
         origX = bounds.x;
         origY = bounds.y;
-        width = bounds.width;
-        height = bounds.height;
+        width = 30;
+        height = 30;
     }
 
     @Override

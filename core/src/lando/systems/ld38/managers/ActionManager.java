@@ -99,7 +99,7 @@ public class ActionManager {
         float x = position.x + (player.tileWidth / 2);
         float y = position.y + position.z + player.tileHeight/2;
 
-        Rectangle buttonBounds = new Rectangle(x, y, 20, 20);
+        Rectangle buttonBounds = new Rectangle(x, y, 30, 30);
 
         UserResources resources = player.getResources();
 
