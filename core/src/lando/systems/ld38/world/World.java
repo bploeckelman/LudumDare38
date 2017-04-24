@@ -55,7 +55,7 @@ public class World {
         for (int i = 0; i < 5; i ++){
             int row = MathUtils.random(4);
             int col = MathUtils.random(WORLD_WIDTH);
-            while (getTile(row, col) == null || getTile(row, col).type == Type.Ocean){
+            while (getTile(row, col) == null || getTile(row, col).type == TileType.Ocean){
                 row = MathUtils.random(6);
                 col = MathUtils.random(WORLD_WIDTH);
             }
@@ -192,21 +192,21 @@ public class World {
         for (Tile tile : tiles) {
             relativeHeightAboveSeaLevel = tile.height <= 0 ? 0 : tile.height / maxTileHeight;
             // Clay, Dirt, Grass, Sand, Snow, Stone
-            DecorationType type;
+            TileType type;
             if (tile.height <= -1){
-                type = DecorationType.Ocean;
+                type = TileType.Ocean;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 1) {
-                type = DecorationType.Sand;
+                type = TileType.Sand;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 2) {
-                type = DecorationType.Clay;
+                type = TileType.Clay;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 3) {
-                type = DecorationType.Grass;
+                type = TileType.Grass;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 4) {
-                type = DecorationType.Dirt;
+                type = TileType.Dirt;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 5) {
-                type = DecorationType.Stone;
+                type = TileType.Stone;
             } else {
-                type = DecorationType.Snow;
+                type = TileType.Snow;
             }
             tile.setType(type);
             Tile ul = getUpperLeftTile(tile.row, tile.col);

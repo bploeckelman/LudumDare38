@@ -13,7 +13,7 @@ public class Tile extends GameObject {
 
     public static float heightScale = 8;
 
-    public DecorationType type;
+    public TileType type;
     public TextureRegion top_tex;
     TextureRegion bottom_tex;
     Decoration decoration;
@@ -26,14 +26,14 @@ public class Tile extends GameObject {
 
     public Tile(World world, int col, int row, float height) {
         super(world, col, row, height);
-        type = DecorationType.Ocean;
+        type = TileType.Ocean;
         pickColor = Tile.getColorFromPosition(row, col);
         heightOffset = this.height * heightScale;
         decoration = Decoration.None;
         isHighlighted = false;
     }
 
-    public void setType(DecorationType type){
+    public void setType(TileType type){
         this.type = type;
         this.top_tex = type.top_tex;
         this.bottom_tex = type.bottom_tex;
@@ -60,7 +60,7 @@ public class Tile extends GameObject {
     }
 
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater, boolean asPickBuffer){
-        if (type == DecorationType.Ocean) return;
+        if (type == TileType.Ocean) return;
         TextureRegion bottomTex = bottom_tex;
         TextureRegion topTex = top_tex;
         Color texColor = Color.WHITE;
