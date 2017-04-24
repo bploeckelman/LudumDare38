@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import lando.systems.ld38.LudumDare38;
 import lando.systems.ld38.managers.ActionManager;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.ActionTypeWait;
@@ -78,9 +79,15 @@ public class GameScreen extends BaseScreen {
     public ActionManager actionManager;
     public MutableFloat overlayAlpha;
     public boolean pauseGame;
+    public boolean gameOver;
+    public boolean gameLost;
+    EndGameOverlay endGameOverlay;
+    public Statistics stats;
 
     public GameScreen() {
         super();
+        stats = new Statistics();
+        gameOver = false;
         actionManager = new ActionManager(camera);
         debugTex = Assets.whitePixel;
         overlayAlpha = new MutableFloat(1);
@@ -115,6 +122,10 @@ public class GameScreen extends BaseScreen {
     public void update(float dt) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
+        }
+
+        if (endGameOverlay != null){
+            endGameOverlay.update(dt);
         }
 
         if (!modal.isActive) {
@@ -496,6 +507,8 @@ public class GameScreen extends BaseScreen {
             batch.draw(Assets.whitePixel, 0,0, hudCamera.viewportWidth, hudCamera.viewportHeight);
             batch.setColor(Color.WHITE);
 
+            if (endGameOverlay != null) endGameOverlay.render(batch);
+
         }
         batch.end();
     }
@@ -522,6 +535,17 @@ public class GameScreen extends BaseScreen {
         turnActions.clear();
         ++turn;
         world.endTurn();
+        int alivePlayers = 0;
+        for (Player p : world.players){
+            if (!p.dead) alivePlayers++;
+        }
+        if (turn > 70 || alivePlayers == 0){
+            SoundManager.playMusic(SoundManager.MusicOptions.end_game);
+            gameOver = true;
+            Gdx.input.setInputProcessor(null);
+            gameLost = alivePlayers == 0;
+            endGameOverlay = new EndGameOverlay(this);
+        }
     }
 
     public void zoomToPlayer(Player p){

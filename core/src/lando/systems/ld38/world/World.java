@@ -287,6 +287,7 @@ public class World {
         for (Player p : players){
             Tile t = getTile(p.row, p.col);
             if (t.item != Assets.raft && t.heightOffset < water.waterHeight){
+                screen.stats.deaths++;
                 p.kill();
             }
         }

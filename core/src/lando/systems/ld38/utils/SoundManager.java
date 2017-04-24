@@ -20,7 +20,12 @@ public class SoundManager{
         button_select, resource_collected, seagull, player_move, ocean_waves, ladder, water_rise, end_turn
     }
 
+    public enum MusicOptions {
+        end_game, game_music
+    }
+
     private static HashMap<SoundOptions, Sound> soundMap = new HashMap<SoundOptions, Sound>();
+    private static HashMap<MusicOptions, Music> musicMap = new HashMap<MusicOptions, Music>();
 
     public static Music gameMusic;
     public static MutableFloat musicVolume;
@@ -37,16 +42,16 @@ public class SoundManager{
 //        soundMap.put(SoundOptions.foo, Gdx.audio.newSound(Gdx.files.internal("sounds/foo.mp3")));
 //        soundMap.put(SoundOptions.foo, Gdx.audio.newSound(Gdx.files.internal("sounds/foo.mp3")));
 //        soundMap.put(SoundOptions.foo, Gdx.audio.newSound(Gdx.files.internal("sounds/foo.mp3")));
-
-        if (gameMusic == null) {
-            musicVolume = new MutableFloat(MUSIC_VOLUME);
-            gameMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
-            gameMusic.setLooping(true);
-            if (playMusic) {
-                gameMusic.play();
-            }
-            setMusicVolume(MUSIC_VOLUME);
+        musicMap.put(MusicOptions.end_game, Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3")));
+        musicMap.put(MusicOptions.game_music, Gdx.audio.newMusic(Gdx.files.internal("sounds/stomp_dance_loop.mp3")));
+        musicVolume = new MutableFloat(0);
+        gameMusic = musicMap.get(MusicOptions.game_music);
+        gameMusic.setLooping(true);
+        if (playMusic) {
+            gameMusic.play();
         }
+        setMusicVolume(MUSIC_VOLUME);
+
     }
 
     public static void update(float dt){
@@ -63,6 +68,13 @@ public class SoundManager{
 
     public static long playSound(SoundOptions soundOption) {
         return soundMap.get(soundOption).play();
+    }
+
+    public static void playMusic(MusicOptions musicOption){
+        if (gameMusic != null) gameMusic.stop();
+        gameMusic = musicMap.get(musicOption);
+        gameMusic.setLooping(true);
+        gameMusic.play();
     }
 
     public static void stopSound(SoundOptions soundOption) {

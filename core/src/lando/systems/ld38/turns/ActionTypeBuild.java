@@ -33,6 +33,7 @@ public class ActionTypeBuild extends ActionType {
             } else if (item == Assets.hut){
                 tile.decoration = Decoration.Hut;
                 tile.decoration_tex = Assets.hut;
+                World.THE_WORLD.screen.stats.births++;
             } else {
                 tile.item = item;
             }
