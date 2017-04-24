@@ -19,7 +19,7 @@ public class OptionButton extends Button {
     public boolean disabled;
     public ResourceCount cost;
 
-    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, OrthographicCamera camera, String tooltip, String disabledTooltip, ResourceCount resources, ResourceCount cost) {
+    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, OrthographicCamera camera, String tooltip, ResourceCount resources, ResourceCount cost) {
         super(asset, bounds, camera);
 
         this.cost = cost;
@@ -27,7 +27,7 @@ public class OptionButton extends Button {
         this.disabled = !resources.hasEnough(cost);
 
         if (this.disabled) {
-            setTooltip(disabledTooltip);
+            setTooltip(resources.getRequired(cost));
         } else {
             setTooltip(tooltip);
         }

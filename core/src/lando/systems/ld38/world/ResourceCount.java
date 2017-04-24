@@ -25,6 +25,30 @@ public class ResourceCount {
                 && gold >= required.gold && wood >= required.wood;
     }
 
+    public String getRequired(ResourceCount required) {
+        if (food < required.food) {
+            return "Need " + required.food + " food";
+        }
+
+        if (sand < required.sand) {
+            return "Need " + required.sand + " sand";
+        }
+
+        if (iron < required.iron) {
+            return "Need " + required.iron + " iron";
+        }
+
+        if (gold < required.gold) {
+            return "Need " + required.gold + " gold";
+        }
+
+        if (wood < required.wood) {
+            return "Need " + required.wood + " wood";
+        }
+
+        return "You need more resources";
+    }
+
     public void remove(ResourceCount resources) {
         food -= resources.food;
         sand -= resources.sand;

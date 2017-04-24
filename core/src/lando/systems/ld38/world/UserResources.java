@@ -24,7 +24,7 @@ public class UserResources extends ResourceCount {
     private int y = Gdx.graphics.getHeight();
 
     public UserResources() {
-        super(5, 0, 0, 0, 10);
+        super(5, 0, 0, 0, 3);
     }
 
     public void render(SpriteBatch batch) {
