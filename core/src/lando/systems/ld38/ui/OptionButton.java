@@ -30,8 +30,9 @@ public class OptionButton extends Button {
     @Override
     public void render(SpriteBatch batch) {
         batch.setColor(0.25f, 0.25f, 0.25f, 0.75f);
-        batch.draw(Assets.whitePixel, bounds.x, bounds.y, bounds.width, bounds.height);
+        batch.draw(Assets.whitePixel, bounds.x - 4f, bounds.y - 4f, bounds.width + 4f * 2f, bounds.height + 4f * 2f);
         batch.setColor(Color.WHITE);
+        Assets.ninePatch.draw(batch, bounds.x - 4f, bounds.y - 4f, bounds.width + 4f * 2f, bounds.height + 4f * 2f);
         super.render(batch);
     }
 }
