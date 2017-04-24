@@ -23,6 +23,8 @@ public class Button {
     private static final float TOOLTIP_TEXT_PADDING_Y = 8f;
     private static final float TOOLTIP_TEXT_SCALE = 0.3f;
     private static final float TOOLTIP_SHOW_DELAY = 0.3f;
+    private static final float TOOLTIP_CURSOR_OFFSET_X = 8f;
+//    private static final float TOOLTIP_CURSOR_OFFSET_Y = 10f;
 
     private float tooltipBackgroundHeight;
     private float tooltipBackgroundWidth;
@@ -97,6 +99,8 @@ public class Button {
 
     }
 
+
+
     public void renderTooltip(SpriteBatch batch, OrthographicCamera hudCamera){
         // Tooltip
         if (tooltip != null && !tooltip.equals("")) {
@@ -105,11 +109,38 @@ public class Button {
                 hudCamera.unproject(tempVec3);
                 float tX = tempVec3.x;
                 float tY = tempVec3.y;
-                Assets.woodPanel.draw(batch, tX, tY, tooltipBackgroundWidth, tooltipBackgroundHeight);
+                float backgroundX;
+                float backgroundY;
+                float stringTX ;
+                float stringTY;
+
+                // Screen space
+                if (tX < Config.gameWidth / 2) {
+                    // left half of the screen: align left edge of tooltip at cursor
+                    backgroundX = tX;
+                    if (tY > Config.gameHeight / 2) {
+                        // Tooltip will appear under the cursor (bottom-right).  Offset it.
+                        backgroundX += TOOLTIP_CURSOR_OFFSET_X;
+                    }
+                } else {
+                    // Right side of screen: align right edge of tooltip at cursor
+                    backgroundX = tX - tooltipBackgroundWidth;
+                }
+                stringTX = backgroundX + TOOLTIP_TEXT_PADDING_X;
+                if (tY <= Config.gameHeight / 2) {
+                    // bottom half of screen: align bottom edge of tooltip with cursor
+                    backgroundY = tY;
+                } else {
+                    // top half of screen: align top edge of tooltip with cursor
+                    backgroundY = tY - tooltipBackgroundHeight;
+                }
+                stringTY = backgroundY + tooltipTextOffsetY;
+                // DRAW
+                Assets.woodPanel.draw(batch, backgroundX, backgroundY, tooltipBackgroundWidth, tooltipBackgroundHeight);
                 Assets.drawString(batch,
                         tooltip,
-                        tX + TOOLTIP_TEXT_PADDING_X,
-                        tY + tooltipTextOffsetY,
+                        stringTX,
+                        stringTY,
                         Color.WHITE,
                         TOOLTIP_TEXT_SCALE,
                         Assets.fancyFont);
@@ -126,7 +157,6 @@ public class Button {
         } else {
             timeHovered = 0;
         }
-//        showTooltip = true;
         showTooltip = timeHovered >= TOOLTIP_SHOW_DELAY;
     }
 
