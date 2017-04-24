@@ -245,7 +245,7 @@ public class GameScreen extends BaseScreen {
                     showMovement(selectedPlayer, null);
                     break;
                 case harvest:
-                    addHarvestAction(selectedPlayer);
+                    addHarvestAction(selectedPlayer, true);
                     break;
                 case build:
                     showMovement(selectedPlayer, actionButton.region);
@@ -378,10 +378,10 @@ public class GameScreen extends BaseScreen {
         }
     }
 
-    private void addHarvestAction(Player player) {
+    private void addHarvestAction(Player player, boolean animateAction) {
         TurnAction turnAction = new TurnAction(player, new ResourceCount());
         turnAction.action = new ActionTypeWait(turnAction, resources, player);
-        addAction(turnAction, player.getHudPostion(camera, hudCamera));
+        addAction(turnAction, animateAction? player.getHudPostion(camera, hudCamera) : null);
     }
 
     private void clearMovement() {
@@ -527,13 +527,14 @@ public class GameScreen extends BaseScreen {
     }
 
     private void endTurn() {
+        selectedPlayer = null;
         for (Player p : world.players){
             boolean hasAction = false;
             for (TurnAction turnAction : turnActions){
                 if (turnAction.player == p) hasAction = true;
             }
             if (!hasAction){
-                addHarvestAction(p);
+                addHarvestAction(p, false);
             }
         }
         for (TurnAction turnAction : turnActions) {
@@ -549,6 +550,9 @@ public class GameScreen extends BaseScreen {
             }
         }
         turnActions.clear();
+        for (Player p : world.players) {
+            p.playerHud.setTurnAction(null, null);
+        }
         ++turn;
         world.endTurn();
         int alivePlayers = 0;

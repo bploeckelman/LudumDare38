@@ -101,7 +101,6 @@ public class Player extends GameObject {
             batch.setColor(0.04f, 0.51f, 0.01f, 1);
             batch.draw(Assets.whitePixel, playerHud.bounds.x - 4, playerHud.bounds.y - 2, PlayerSelectionHud.BOUNDS_WIDTH - 12, 25 + 4);
             batch.setColor(Color.WHITE);
-//            batch.draw(Assets.whitePixel, playerHud.bounds.x - 2, playerHud.bounds.y - 0, PlayerSelectionHud.BOUNDS_WIDTH - 16, 25 + 0);
         }
         batch.draw(
                 faceTex,
