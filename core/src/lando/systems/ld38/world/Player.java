@@ -16,7 +16,9 @@ import lando.systems.ld38.turns.ActionTypeBuild;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.ActionTypeWait;
 import lando.systems.ld38.turns.TurnAction;
+import lando.systems.ld38.ui.PlayerHud;
 import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.utils.accessors.Vector2Accessor;
 import lando.systems.ld38.utils.accessors.Vector3Accessor;
 
 public class Player extends GameObject {
@@ -30,6 +32,13 @@ public class Player extends GameObject {
     public boolean dead;
     float bubbleAlpha;
     public boolean moving;
+    public PlayerHud playerHud;
+
+    private TextureRegion turnActionRegion;
+    private Vector2 turnActionRegionDimensions = new Vector2(0,0);
+    private Vector2 turnActionRegionPos = new Vector2(0,0);
+    private Vector2 turnActionRegionTargetOffset = new Vector2(0,0);
+    private Vector2 turnActionRegionStartingOffset = new Vector2(0,0);
 
     public Player(World world, int row, int col) {
         super(world);
@@ -51,15 +60,15 @@ public class Player extends GameObject {
         position.x = getX(row, col);
         position.y = getY(row);
         position.z = tileOffset + (tileHeight * .25f);
-        setTurnAction(null);
+        setTurnAction(null, new Vector2(0,0));
     }
 
     public UserResources getResources() {
         return world.getResources();
     }
 
-
     // Renders and Updates ---------------------------------------------------------------------------------------------
+
 
     @Override
     public void update(float dt) {
@@ -88,21 +97,28 @@ public class Player extends GameObject {
         batch.setColor(Color.WHITE);
     }
 
-    private TurnAction turnAction;
-    private TextureRegion turnActionRegion;
-    private Vector2 turnActionRegionDimensions = new Vector2(0,0);
-    private Vector2 turnActionRegionOffset = new Vector2(0,0);
+    public void renderHud(SpriteBatch batch, float x, float y) {
+        batch.draw(faceTex, x, y, 25, 25);
+        batch.draw(turnActionRegion, x + turnActionRegionPos.x, y + turnActionRegionPos.y, turnActionRegionDimensions.x, turnActionRegionDimensions.y);
+    }
 
-    public void setTurnAction(TurnAction turnAction) {
-        this.turnAction = turnAction;
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    public void setTurnAction(TurnAction turnAction, Vector2 triggeringIconScreenPos) {
+
+        if (actionTween != null) {
+            actionTween.free();
+        }
+
         if (turnAction != null){
             if (turnAction.action instanceof ActionTypeMove){
                 turnActionRegion = Assets.arrow;
                 turnActionRegionDimensions.set(25,25);
-                turnActionRegionOffset.set(30, 0);
+                turnActionRegionTargetOffset.set(30, 0);
             } else if (turnAction.action instanceof ActionTypeWait) {
                 Tile t = world.getTile(row, col);
-                TextureRegion region = Assets.wait;
+                turnActionRegion = Assets.wait;
                 switch (t.decoration){
                     case Tree:
                         turnActionRegion = Assets.axe;
@@ -122,27 +138,35 @@ public class Player extends GameObject {
                         break;
                 }
                 turnActionRegionDimensions.set(25,25);
-                turnActionRegionOffset.set(30, 0);
+                turnActionRegionTargetOffset.set(30, 0);
             } else if (turnAction.action instanceof ActionTypeBuild) {
                 turnActionRegion = Assets.hammer;
                 turnActionRegionDimensions.set(25,25);
-                turnActionRegionOffset.set(30, 0);
+                turnActionRegionTargetOffset.set(30, 0);
             }
-            // TODO draw more action icon here
         } else {
             turnActionRegion = Assets.questionmark;
             turnActionRegionDimensions.set(25,25);
-            turnActionRegionOffset.set(30, 0);
+            turnActionRegionTargetOffset.set(30, 0);
         }
+
+        if (turnAction == null || playerHud == null) {
+            // Just start it at its final position
+            turnActionRegionStartingOffset.set(turnActionRegionTargetOffset);
+        } else {
+            // Start it at the provided screen position
+            turnActionRegionStartingOffset.set(triggeringIconScreenPos.sub(playerHud.bounds.x, playerHud.bounds.y));
+        }
+
+        turnActionRegionPos.set(turnActionRegionStartingOffset);
+        actionTween = Tween.to(turnActionRegionPos,
+                Vector2Accessor.XY, 1f)
+                .target(turnActionRegionTargetOffset.x, turnActionRegionTargetOffset.y)
+                .start(Assets.tween);
+
+
     }
-
-    public void renderHud(SpriteBatch batch, float x, float y){
-        batch.draw(faceTex, x, y, 25, 25);
-        batch.draw(turnActionRegion, x + turnActionRegionOffset.x, y + turnActionRegionOffset.y, turnActionRegionDimensions.x, turnActionRegionDimensions.y);
-    }
-
-
-    // -----------------------------------------------------------------------------------------------------------------
+    private Tween actionTween;
 
     public GridPoint2 getLocation() {
         return new GridPoint2(col, row);

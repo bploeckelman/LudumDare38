@@ -14,10 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld38.LudumDare38;
@@ -340,10 +337,12 @@ public class GameScreen extends BaseScreen {
         }
         turnActions.add(turnAction);
         // find the player hud
-        PlayerHud playerHud = playerSelection.getPlayerHudByPlayer(turnAction.player);
-        if (playerHud != null) {
-            playerHud.setTurnAction(turnAction);
-        }
+        turnAction.player.playerHud.setTurnAction(turnAction, new Vector2(0,0));
+
+//        PlayerHud playerHud = playerSelection.getPlayerHudByPlayer(turnAction.player);
+//        if (playerHud != null) {
+//            playerHud.setTurnAction(turnAction);
+//        }
     }
 
     private void showMovement(Player player, TextureRegion asset) {

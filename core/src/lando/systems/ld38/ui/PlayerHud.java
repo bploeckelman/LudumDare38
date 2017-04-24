@@ -2,6 +2,7 @@ package lando.systems.ld38.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld38.screens.GameScreen;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.world.Player;
@@ -27,10 +28,8 @@ public class PlayerHud {
 
     }
 
-    public void setTurnAction(TurnAction actionRef) {
-        System.out.println("setTurnAction!");
-//        this.actionRef = actionRef;
-        this.player.setTurnAction(actionRef);
+    public void setTurnAction(TurnAction actionRef, Vector2 triggeringIconScreenPos) {
+        this.player.setTurnAction(actionRef, triggeringIconScreenPos);
     }
 
     public void render(SpriteBatch batch){
