@@ -1,13 +1,14 @@
 package lando.systems.ld38.world;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import lando.systems.ld38.ui.Button;
 import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.utils.Config;
 
 /**
  * Created by aeharding on 4/22/17.
@@ -16,38 +17,76 @@ public class UserResources extends ResourceCount {
 
     private static final float MARGIN_TOP = 10f;
 
-    private int width = 450;
-    private int height = 35;
-    private int margin = 8;
-    private float tileSize;
-    private float x = 0;
-    private int y = Gdx.graphics.getHeight();
+    private final int WIDTH = 450;
+    private final int HEIGHT = 35;
+    private final int MARGIN = 8;
+    private final float TILE_SIZE;
+    private final float X;
+    private final int Y;
 
-    public UserResources() {
+    private final float FOOD_OFFSET_X;
+    private final float WOOD_OFFSET_X;
+    private final float SAND_OFFSET_X;
+    private final float IRON_OFFSET_X;
+    private final float GOLD_OFFSET_X;
+
+    private Array<Button> buttons = new Array<Button>(5);
+
+    public UserResources(OrthographicCamera camera) {
         super(5, 0, 0, 0, 3);
+
+        TILE_SIZE = HEIGHT - (MARGIN * 2);
+        X = (Config.gameWidth - WIDTH) / 2f;
+        Y = Config.gameHeight - HEIGHT - MARGIN;
+        float spacing = (WIDTH - 40) / 5f;
+        float offset = 20;
+        FOOD_OFFSET_X = offset + (spacing * 0);
+        WOOD_OFFSET_X = offset + (spacing * 1);
+        SAND_OFFSET_X = offset + (spacing * 2);
+        IRON_OFFSET_X = offset + (spacing * 3);
+        GOLD_OFFSET_X = offset + (spacing * 4);
+
+        float bw = spacing - offset;
+        Button foodTooltip = new Button(Assets.transparentPixel, new Rectangle(X + FOOD_OFFSET_X, Y, bw, HEIGHT), camera);
+        Button goldTooltip = new Button(Assets.transparentPixel, new Rectangle(X + GOLD_OFFSET_X, Y, bw, HEIGHT), camera);
+        Button ironTooltip = new Button(Assets.transparentPixel, new Rectangle(X + IRON_OFFSET_X, Y, bw, HEIGHT), camera);
+        Button sandTooltip = new Button(Assets.transparentPixel, new Rectangle(X + SAND_OFFSET_X, Y, bw, HEIGHT), camera);
+        Button woodTooltip = new Button(Assets.transparentPixel, new Rectangle(X + WOOD_OFFSET_X, Y, bw, HEIGHT), camera);
+        foodTooltip.setTooltip("food");
+        goldTooltip.setTooltip("gold");
+        ironTooltip.setTooltip("iron");
+        sandTooltip.setTooltip("sand");
+        woodTooltip.setTooltip("wood");
+        buttons.add(foodTooltip);
+        buttons.add(goldTooltip);
+        buttons.add(ironTooltip);
+        buttons.add(sandTooltip);
+        buttons.add(woodTooltip);
+
+    }
+
+    public void update(float dt) {
+        for (Button button : buttons) {
+            button.update(dt);
+        }
     }
 
     public void render(SpriteBatch batch) {
-        tileSize = height - (margin *2);
-        x = (Gdx.graphics.getWidth() - width) /2f;
-        y = Gdx.graphics.getHeight() - height;
-        Assets.woodPanel.draw(batch, x, y - MARGIN_TOP, width, height);
-        float spacing = (width - 40) / 5f;
-        float offset = 20;
-        drawResource(batch, offset, Assets.food, food);
-        offset += spacing;
-        drawResource(batch, offset, Assets.wood, wood);
-        offset += spacing;
-        drawResource(batch, offset, Assets.sand, sand);
-        offset += spacing;
-        drawResource(batch, offset, Assets.iron, iron);
-        offset += spacing;
-        drawResource(batch, offset, Assets.gold, gold);
+        Assets.woodPanel.draw(batch, X, Y, WIDTH, HEIGHT);
+        drawResource(batch, FOOD_OFFSET_X, Assets.food, food);
+        drawResource(batch, WOOD_OFFSET_X, Assets.wood, wood);
+        drawResource(batch, SAND_OFFSET_X, Assets.sand, sand);
+        drawResource(batch, IRON_OFFSET_X, Assets.iron, iron);
+        drawResource(batch, GOLD_OFFSET_X, Assets.gold, gold);
         batch.setColor(Color.WHITE);
+        for (Button button : buttons) {
+            button.render(batch);
+        }
     }
 
-    private void drawResource(SpriteBatch batch, float offset, TextureRegion region, int amount){
-        batch.draw(region, x + offset, y+margin - MARGIN_TOP, tileSize, tileSize);
-        Assets.drawString(batch, "" + amount, x + offset + tileSize + 5, y + height - 6 - MARGIN_TOP, Color.WHITE, .3f, Assets.fancyFont);
+    
+    private void drawResource(SpriteBatch batch, float offset, TextureRegion region, int amount) {
+        batch.draw(region, X + offset, Y + MARGIN, TILE_SIZE, TILE_SIZE);
+        Assets.drawString(batch, "" + amount, X + offset + TILE_SIZE + 5, Y + HEIGHT - 6, Color.WHITE, .3f, Assets.fancyFont);
     }
 }

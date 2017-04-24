@@ -40,6 +40,7 @@ public class Assets {
     public static Texture water_hex;
     public static Texture water_bumpmap;
     public static Texture turn_counter_background;
+    public static TextureRegion transparentPixel;
     public static TextureRegion whitePixel;
     public static TextureRegion clay_hex;
     public static TextureRegion clay_bottom;
@@ -146,6 +147,7 @@ public class Assets {
         initialized = true;
 
         whitePixel = atlas.findRegion("white");
+        transparentPixel = atlas.findRegion("transparent-pixel");
         blank_hex = mgr.get("images/blank-hex.png", Texture.class);
 
         white_hex = atlas.findRegion("white-hex");

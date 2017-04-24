@@ -18,9 +18,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld38.managers.ActionManager;
 import lando.systems.ld38.turns.ActionTypeMove;
+import lando.systems.ld38.turns.ActionTypeWait;
+import lando.systems.ld38.turns.PendingAction;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.Button;
-import lando.systems.ld38.turns.*;
 import lando.systems.ld38.ui.EndTurnButton;
 import lando.systems.ld38.ui.Modal;
 import lando.systems.ld38.ui.PlayerSelectionHud;
@@ -77,7 +78,7 @@ public class GameScreen extends BaseScreen {
         debugTex = Assets.whitePixel;
         time = 0;
         world = new World(this);
-        resources = new UserResources();
+        resources = new UserResources(hudCamera);
         turnCounter = new TurnCounter(hudCamera);
         adjacentTiles = new Array<Tile>();
         turn = 0;
@@ -91,7 +92,7 @@ public class GameScreen extends BaseScreen {
 
         endTurnButton = new EndTurnButton(new Rectangle(hudCamera.viewportWidth - 100 - 10, 10, 100, 30), hudCamera);
         playerSelection = new PlayerSelectionHud(this);
-//        testingButton = new Button(Assets.whitePixel, new Rectangle(50,50,50,50), hudCamera, "Too much Text!", "Tooltip");
+//        testingButton = new Button(Assets.transparentPixel, new Rectangle(50,50,50,50), hudCamera, "Too much Text!", "Tooltip");
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
         Gdx.input.setInputProcessor(this);
@@ -123,6 +124,7 @@ public class GameScreen extends BaseScreen {
         time += dt;
         world.update(dt);
         endTurnButton.update(dt);
+        resources.update(dt);
 //        testingButton.update(dt);
  //       playerSelection.update(dt);
 
