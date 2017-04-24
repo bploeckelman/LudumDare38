@@ -1,6 +1,9 @@
 package lando.systems.ld38.turns;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lando.systems.ld38.LudumDare38;
+import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.world.Decoration;
 import lando.systems.ld38.world.Tile;
 import lando.systems.ld38.world.World;
 
@@ -25,7 +28,14 @@ public class ActionTypeBuild extends ActionType {
     public void doAction() {
         Tile tile = turnAction.player.getTile(toRow, toCol);
         if (tile != null) {
-            tile.item = item;
+            if (item == Assets.hammer_upgrade){
+                World.THE_WORLD.getResources().upgradeResourceBonus();
+            } else if (item == Assets.hut){
+                tile.decoration = Decoration.Hut;
+                tile.decoration_tex = Assets.hut;
+            } else {
+                tile.item = item;
+            }
         }
     }
 

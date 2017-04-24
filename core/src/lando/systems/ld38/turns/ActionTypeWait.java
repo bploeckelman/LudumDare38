@@ -26,24 +26,28 @@ public class ActionTypeWait extends ActionType {
         boolean addRandomFood = false;
         switch (tile.decoration) {
             case Tree:
-                userResources.wood += 3;
+                userResources.add(new ResourceCount(0, 0, 0, 0, 3));
                 player.displayResourceGather(Assets.wood, 3, offset++);
                 addRandomFood = true;
                 break;
             case Cow:
-                userResources.food += 5;
-                player.displayResourceGather(Assets.food, 5, offset++);
+                userResources.add(new ResourceCount(10, 0, 0, 0, 0));
+                player.displayResourceGather(Assets.food, 10, offset++);
                 break;
             case IronMine:
-                userResources.iron += 3;
+                userResources.add(new ResourceCount(0, 0, 3, 0, 0));
                 player.displayResourceGather(Assets.iron, 3, offset++);
                 break;
             case GoldMine:
-                userResources.gold += 3;
+                userResources.add(new ResourceCount(0, 0, 0, 3, 0));
                 player.displayResourceGather(Assets.gold, 3, offset++);
+                break;
+            case Hut:
+                player.world.addPlayer(player.row, player.col);
+                break;
             case None:
                 if (tile.type == TileType.Sand) {
-                    userResources.sand += 3;
+                    userResources.add(new ResourceCount(0, 3, 0, 0, 0));
                     player.displayResourceGather(Assets.sand, 3, offset++);
                     addRandomFood = true;
                 }
@@ -51,7 +55,7 @@ public class ActionTypeWait extends ActionType {
         }
         tile.decoration = Decoration.None;
         if (addRandomFood) {
-            userResources.food += 1;
+            userResources.add(new ResourceCount(1, 0, 0, 0, 0));
             player.displayResourceGather(Assets.food, 1, offset++);
         }
     }

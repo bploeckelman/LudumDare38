@@ -17,6 +17,8 @@ public class UserResources extends ResourceCount {
 
     private static final float MARGIN_TOP = 10f;
 
+    public int resourceBonus;
+
     private final int WIDTH = 450;
     private final int HEIGHT = 35;
     private final int MARGIN = 8;
@@ -33,8 +35,8 @@ public class UserResources extends ResourceCount {
     private Array<Button> buttons = new Array<Button>(5);
 
     public UserResources(OrthographicCamera camera) {
-        super(5, 0, 0, 0, 3);
-
+        super(5, 10, 10, 10, 3);
+        resourceBonus = 0;
         TILE_SIZE = HEIGHT - (MARGIN * 2);
         X = (Config.gameWidth - WIDTH) / 2f;
         Y = Config.gameHeight - HEIGHT - MARGIN;
@@ -88,5 +90,9 @@ public class UserResources extends ResourceCount {
     private void drawResource(SpriteBatch batch, float offset, TextureRegion region, int amount) {
         batch.draw(region, X + offset, Y + MARGIN, TILE_SIZE, TILE_SIZE);
         Assets.drawString(batch, "" + amount, X + offset + TILE_SIZE + 5, Y + HEIGHT - 6, Color.WHITE, .3f, Assets.fancyFont);
+    }
+
+    public void upgradeResourceBonus(){
+        resourceBonus ++;
     }
 }

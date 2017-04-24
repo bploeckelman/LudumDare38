@@ -12,6 +12,7 @@ public enum Decoration {
     Cow(Assets.cow),
     IronMine(Assets.iron_mine),
     GoldMine(Assets.gold_mine),
+    Hut(Assets.hut),
     Sand();
 
     public TextureRegion tex;

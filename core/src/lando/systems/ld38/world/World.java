@@ -15,7 +15,7 @@ import lando.systems.ld38.utils.Assets;
  */
 public class World {
 
-
+    public static World THE_WORLD;
     public static final int WORLD_WIDTH = 25;
 
     private static final float HEIGHT_NOISE_HEIGHT = 5f;
@@ -47,6 +47,7 @@ public class World {
 
     public World(GameScreen screen){
         this.screen = screen;
+        THE_WORLD = this;
         water = new Water(this);
         osn = new OpenSimplexNoise(HEIGHT_NOISE_SEED);
 
@@ -274,6 +275,11 @@ public class World {
             }
             players.add(new Player(this, row, col));
         }
+    }
+
+    public void addPlayer(int row, int col){
+        players.add(new Player(this, row, col));
+        screen.playerSelection.buildPlayerHuds();
     }
 
     public void endTurn(){

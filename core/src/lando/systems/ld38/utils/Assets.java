@@ -103,6 +103,7 @@ public class Assets {
     public static TextureRegion pickaxe;
     public static TextureRegion shotgun;
     public static TextureRegion shovel;
+    public static TextureRegion hammer_upgrade;
 
     public static TextureRegion food;
     public static TextureRegion iron;
@@ -184,6 +185,7 @@ public class Assets {
         pickaxe = atlas.findRegion("pickaxe");
         shotgun = atlas.findRegion("shotgun");
         shovel = atlas.findRegion("shovel");
+        hammer_upgrade = atlas.findRegion("hammer_upgrade");
 
         bubble = atlas.findRegion("bubble");
 
