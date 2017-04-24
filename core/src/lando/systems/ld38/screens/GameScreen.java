@@ -548,10 +548,13 @@ public class GameScreen extends BaseScreen {
         ++turn;
         world.endTurn();
         int alivePlayers = 0;
+        int playersNotOnSnow = 0;
         for (Player p : world.players){
             if (!p.dead) alivePlayers++;
+            if (p.getTile().type != TileType.Snow) playersNotOnSnow++;
         }
-        if (turn > 70 || alivePlayers == 0){
+
+        if (turn > 70 || alivePlayers == 0 || playersNotOnSnow == 0){
             gameLost = alivePlayers == 0;
             Gdx.input.setInputProcessor(null);
 

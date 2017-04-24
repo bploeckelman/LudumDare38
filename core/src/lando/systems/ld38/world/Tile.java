@@ -85,7 +85,7 @@ public class Tile extends GameObject {
 
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater, boolean asPickBuffer){
         if (type == TileType.Ocean) return;
-        float selectAlpha = .75f + (float)Math.sin(accum * 6f) * .25f;
+        float selectAlpha = .75f + (float)Math.sin((accum+x) * 6f) * .25f;
         heightOffset = this.height * heightScale + renderShift.floatValue();
         if (item == Assets.sandbags) heightOffset += heightScale;
         TextureRegion bottomTex = bottom_tex;
