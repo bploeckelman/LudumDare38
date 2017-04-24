@@ -49,9 +49,26 @@ public class EndGameOverlay {
                 bounds.width - 2f * MARGIN,
                 Align.center);
 
-        float x = bounds.x + MARGIN;
-        float y = bounds.y - MARGIN + bounds.height - 70;
-        renderString(batch, "Natives lost: " + screen.stats.deaths, x, y, .3f);
+        Assets.drawString(batch, "Statistics",
+                bounds.x + MARGIN,
+                bounds.y - MARGIN + bounds.height - 100,
+                Color.WHITE, .4f, Assets.fancyFont,
+                bounds.width - 2f * MARGIN,
+                Align.center);
+
+        float x = bounds.x + MARGIN + 30;
+        float y = bounds.y - MARGIN + bounds.height - 160;
+        renderString(batch, "Natives Lost: " + screen.stats.deaths, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Natives Born: " + screen.stats.births, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Rafts Built: " + screen.stats.rafts, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Ladders Built: " + screen.stats.ladders, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Sandbags Built: " + screen.stats.sandbags, x, y, .3f);
+        y -= 25;
+        renderString(batch, "Huts Built: " + screen.stats.huts, x, y, .3f);
     }
 
 

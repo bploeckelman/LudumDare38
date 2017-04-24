@@ -280,6 +280,7 @@ public class World {
     public void addPlayer(int row, int col){
         players.add(new Player(this, row, col));
         screen.playerSelection.buildPlayerHuds();
+        screen.stats.births++;
     }
 
     public void endTurn(){

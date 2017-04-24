@@ -33,9 +33,18 @@ public class ActionTypeBuild extends ActionType {
             } else if (item == Assets.hut){
                 tile.decoration = Decoration.Hut;
                 tile.decoration_tex = Assets.hut;
-                World.THE_WORLD.screen.stats.births++;
+                World.THE_WORLD.screen.stats.huts++;
             } else {
                 tile.item = item;
+                if (item == Assets.raft){
+                    World.THE_WORLD.screen.stats.rafts++;
+                }
+                if (item == Assets.ladder){
+                    World.THE_WORLD.screen.stats.ladders++;
+                }
+                if (item == Assets.sandbags){
+                    World.THE_WORLD.screen.stats.sandbags++;
+                }
             }
         }
     }
