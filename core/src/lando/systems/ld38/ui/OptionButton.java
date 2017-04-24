@@ -1,10 +1,12 @@
 package lando.systems.ld38.ui;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Align;
 import lando.systems.ld38.turns.Actions;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.world.ResourceCount;
@@ -19,7 +21,9 @@ public class OptionButton extends Button {
     public boolean disabled;
     public ResourceCount cost;
 
-    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, OrthographicCamera camera, String tooltip, ResourceCount resources, ResourceCount cost) {
+    public int binding;
+
+    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, OrthographicCamera camera, String tooltip, ResourceCount resources, ResourceCount cost, int binding) {
         super(asset, bounds, camera);
 
         this.cost = cost;
@@ -31,6 +35,8 @@ public class OptionButton extends Button {
         } else {
             setTooltip(tooltip);
         }
+
+        this.binding = binding;
 
         origX = bounds.x;
         origY = bounds.y;
@@ -48,6 +54,46 @@ public class OptionButton extends Button {
         batch.draw(Assets.whitePixel, bounds.x - 4f, bounds.y - 4f, bounds.width + 4f * 2f, bounds.height + 4f * 2f);
         batch.setColor(Color.WHITE);
         Assets.ninePatch.draw(batch, bounds.x - 4f, bounds.y - 4f, bounds.width + 4f * 2f, bounds.height + 4f * 2f);
+
+
+        String text = getKey();
+        if (!disabled && text != "") {
+            float keySize = 20;
+            float x = bounds.x + bounds.width - 5;
+            float y = bounds.y - 10;
+            batch.setColor(Color.WHITE);
+            batch.draw(Assets.whitePixel, x, y, keySize, keySize);
+            Assets.ninePatch.draw(batch, x, y, keySize, keySize);
+            Assets.drawString(batch, text,
+                    x, y + (keySize * .9f),
+                    Color.BLACK, 0.2f, Assets.fancyFont, keySize,
+                    Align.center);
+        }
+        batch.setColor(Color.WHITE);
+
         super.render(batch);
+    }
+
+    private String getKey() {
+        switch (binding) {
+            case Input.Keys.M:
+                return "M";
+            case Input.Keys.B:
+                return "B";
+            case Input.Keys.L:
+                return "L";
+            case Input.Keys.R:
+                return "R";
+            case Input.Keys.S:
+                return "S";
+            case Input.Keys.H:
+                return "H";
+            case Input.Keys.U:
+                return "U";
+            case Input.Keys.N:
+                return "N";
+            default:
+                return "";
+        }
     }
 }

@@ -75,8 +75,8 @@ public class ActionManager {
 
         UserResources resources = player.getResources();
 
-        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, camera, "Move", resources, new ResourceCount(1, 0, 0, 0, 0)));
-        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, camera, "Build", resources, new ResourceCount()));
+        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, camera, "Move", resources, new ResourceCount(1, 0, 0, 0, 0), Input.Keys.M));
+        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, camera, "Build", resources, new ResourceCount(), Input.Keys.B));
         TextureRegion harvestRegion = Assets.wait;
         String tooltip = "Forage";
         switch(tile.decoration){
@@ -105,7 +105,7 @@ public class ActionManager {
                 tooltip = "Make Sweet Love";
                 break;
         }
-        optionButtons.add(new OptionButton(harvestRegion, buttonBounds, Actions.harvest, camera, tooltip, resources, new ResourceCount()));
+        optionButtons.add(new OptionButton(harvestRegion, buttonBounds, Actions.harvest, camera, tooltip, resources, new ResourceCount(), Input.Keys.N));
 
         playerOptions.add(new ActionMenu(player, optionButtons));
     }
@@ -142,11 +142,11 @@ public class ActionManager {
 
         UserResources resources = player.getResources();
 
-        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.build, camera, "Build Ladder", resources, new ResourceCount(0, 0, 0, 0, 3)));
-        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.build, camera, "Build Raft", resources, new ResourceCount(0, 0, 0, 0, 4)));
-        optionButtons.add(new OptionButton(Assets.sandbags, buttonBounds, Actions.build, camera, "Build Sandbags", resources, new ResourceCount(0, 6, 0, 0, 0)));
-        optionButtons.add(new OptionButton(Assets.hut, buttonBounds, Actions.build, camera, "Build Hut", resources, new ResourceCount(0, 0, 0, 2, 0)));
-        optionButtons.add(new OptionButton(Assets.hammer_upgrade, buttonBounds, Actions.build, camera, "Upgrade Tools", resources, new ResourceCount(0, 0, 3, 0, 0)));
+        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.build, camera, "Build Ladder", resources, new ResourceCount(0, 0, 0, 0, 3), Input.Keys.L));
+        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.build, camera, "Build Raft", resources, new ResourceCount(0, 0, 0, 0, 4), Input.Keys.R));
+        optionButtons.add(new OptionButton(Assets.sandbags, buttonBounds, Actions.build, camera, "Build Sandbags", resources, new ResourceCount(0, 6, 0, 0, 0), Input.Keys.S));
+        optionButtons.add(new OptionButton(Assets.hut, buttonBounds, Actions.build, camera, "Build Hut", resources, new ResourceCount(0, 0, 0, 2, 0), Input.Keys.H));
+        optionButtons.add(new OptionButton(Assets.hammer_upgrade, buttonBounds, Actions.build, camera, "Upgrade Tools", resources, new ResourceCount(0, 0, 3, 0, 0), Input.Keys.U));
         //optionButtons.add(new OptionButton(Assets.sandbag, buttonBounds, Actions.buildSandbag, camera));
         //optionButtons.add(new OptionButton(Assets.people, buttonBounds, Actions.buildPeople, camera));
         playerOptions.add(new ActionMenu(player, optionButtons));
