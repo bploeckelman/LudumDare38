@@ -120,7 +120,7 @@ public class World {
         }
 
         for (Player player : players) {
-            player.render(batch, water.waterHeight, true);
+//            player.render(batch, water.waterHeight, true);
             player.renderBubble(batch);
         }
 

@@ -92,11 +92,13 @@ public class Tile extends GameObject {
 
         if (asPickBuffer || (aboveWater && heightOffset > waterHeight) || (!aboveWater && heightOffset <= waterHeight)) {
             batch.draw(topTex, x, y + heightOffset, tileWidth, tileHeight);
+
             if (!asPickBuffer && shadow_tex != null){
                 batch.setColor(0,0,0,.7f);
                 batch.draw(shadow_tex, x, y +heightOffset, tileWidth, tileHeight);
                 batch.setColor(Color.WHITE);
             }
+
         }
         if (isHighlighted && !asPickBuffer) {
             batch.setColor((isInaccessible) ? Color.RED : Color.CYAN);
@@ -115,6 +117,9 @@ public class Tile extends GameObject {
             batch.draw(overlayObjectTex, x, y + heightOffset, tileWidth, tileHeight);
         }
 
+        for (Player p : world.players){
+            if (!asPickBuffer && p.row == row && p.col == col) p.render(batch, waterHeight, aboveWater);
+        }
         batch.setColor(Color.WHITE);
     }
 
