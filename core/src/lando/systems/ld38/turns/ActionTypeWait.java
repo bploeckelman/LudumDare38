@@ -66,18 +66,18 @@ public class ActionTypeWait extends ActionType {
                     userResources.add(new ResourceCount(0, gain, 0, 0, 0));
                     player.displayResourceGather(Assets.sand, gain, offset++);
                     player.world.screen.stats.sand += gain;
-                } else {
-                    gain = bns + 1;
-                    if (MathUtils.randomBoolean()){
-                        userResources.add(new ResourceCount(gain, 0, 0, 0, 0));
-                        player.displayResourceGather(Assets.food, gain, offset++);
-                        player.world.screen.stats.food += gain;
-                    } else {
-                        userResources.add(new ResourceCount(0, 0, 0, 0, gain));
-                        player.displayResourceGather(Assets.wood, gain, offset++);
-                        player.world.screen.stats.wood += gain;
-                    }
                 }
+                gain = bns + 1;
+                if (MathUtils.randomBoolean()){
+                    userResources.add(new ResourceCount(gain, 0, 0, 0, 0));
+                    player.displayResourceGather(Assets.food, gain, offset++);
+                    player.world.screen.stats.food += gain;
+                } else {
+                    userResources.add(new ResourceCount(0, 0, 0, 0, gain));
+                    player.displayResourceGather(Assets.wood, gain, offset++);
+                    player.world.screen.stats.wood += gain;
+                }
+
                 break;
         }
         tile.decoration = Decoration.None;

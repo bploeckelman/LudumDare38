@@ -285,6 +285,9 @@ public class World {
     }
 
     public void endTurn(){
+        if ((water.waterHeight % Tile.heightScale) + WATER_RISE_RATE > Tile.heightScale ){
+            screen.shaker.shake(.75f);
+        }
         water.waterHeight += WATER_RISE_RATE;
         for (Player p : players){
             Tile t = getTile(p.row, p.col);

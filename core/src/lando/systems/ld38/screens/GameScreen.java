@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import lando.systems.ld38.LudumDare38;
 import lando.systems.ld38.managers.ActionManager;
 import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.ActionTypeWait;
@@ -27,6 +26,7 @@ import lando.systems.ld38.ui.*;
 import lando.systems.ld38.turns.*;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
+import lando.systems.ld38.utils.Screenshake;
 import lando.systems.ld38.utils.SoundManager;
 import lando.systems.ld38.utils.accessors.CameraAccessor;
 import lando.systems.ld38.world.*;
@@ -80,10 +80,13 @@ public class GameScreen extends BaseScreen {
     public boolean gameLost;
     EndGameOverlay endGameOverlay;
     public Statistics stats;
+    public Screenshake shaker;
+    public Vector2 cameraCenter;
 
     public GameScreen() {
         super();
         stats = new Statistics();
+        cameraCenter = new Vector2();
         gameOver = false;
         actionManager = new ActionManager(camera);
         debugTex = Assets.whitePixel;
@@ -110,8 +113,7 @@ public class GameScreen extends BaseScreen {
 //        testingButton = new Button(Assets.transparentPixel, new Rectangle(50,50,50,50), hudCamera, "Too much Text!", "Tooltip");
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
-
-
+        shaker = new Screenshake(120, 3);
         startScript();
     }
 
@@ -177,6 +179,9 @@ public class GameScreen extends BaseScreen {
             modal.isActive = true;
             modal.scale = 0.3f;
         }
+
+        shaker.update(dt, camera, camera.position.x, camera.position.y);
+
         // NOTE: Sound DEBUG
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) SoundManager.playSound(SoundManager.SoundOptions.button_select);
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) SoundManager.playSound(SoundManager.SoundOptions.ladder);
@@ -592,6 +597,13 @@ public class GameScreen extends BaseScreen {
         Timeline.createSequence()
                 .push(Tween.to(overlayAlpha, 0, 2f)
                         .target(0))
+                .push(Tween.call(new TweenCallback() {
+                    @Override
+                    public void onEvent(int i, BaseTween<?> baseTween) {
+                        shaker.shake(2);
+                        SoundManager.playSound(SoundManager.SoundOptions.earthquake);
+                    }
+                }))
                 .push(Tween.to(Tile.renderShift, 0, 2f)
                         .target(0))
                 .push(Tween.call(new TweenCallback() {
