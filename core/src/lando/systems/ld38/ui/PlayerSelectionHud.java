@@ -37,6 +37,7 @@ public class PlayerSelectionHud {
         float offset = 40;
         float height = segmentHeight * gameScreen.world.players.size + 20;
         bounds.set(10, gameScreen.camera.viewportHeight - height - 10, 75, height);
+        playerHuds.clear();
         for (int i = 0; i < gameScreen.world.players.size; i++){
             Player p = gameScreen.world.players.get(i);
             playerHuds.add(new PlayerHud(gameScreen, p, gameScreen.camera.viewportHeight - (5 + offset)));

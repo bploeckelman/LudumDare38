@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
+import lando.systems.ld38.screens.GameScreen;
 
 /**
  * Created by dsgraham on 4/22/17.
@@ -40,8 +41,10 @@ public class World {
     private OpenSimplexNoise osn;
 
     public Rectangle bounds;
+    public GameScreen screen;
 
-    public World(){
+    public World(GameScreen screen){
+        this.screen = screen;
         water = new Water(this);
         osn = new OpenSimplexNoise(HEIGHT_NOISE_SEED);
 
@@ -64,9 +67,16 @@ public class World {
 
     public void update(float dt){
         water.update(dt);
-        for (Player player : players) {
-            player.update(dt);
+        for (int i = players.size - 1; i >= 0; i--){
+            Player p = players.get(i);
+            if (p.dead){
+                players.removeValue(p, true);
+                screen.playerSelection.buildPlayerHuds();
+            } else {
+                p.update(dt);
+            }
         }
+
 
         for (ResourceIndicator resIndicator : resIndicators) {
             resIndicator.update(dt);
@@ -84,6 +94,7 @@ public class World {
     }
 
     public void orderPlayer(Player player) {
+        if (player == null) return;
         players.removeValue(player, true);
         players.add(player);
     }
@@ -240,5 +251,11 @@ public class World {
 
     public void endTurn(){
         water.waterHeight += WATER_RISE_RATE;
+        for (Player p : players){
+            Tile t = getTile(p.row, p.col);
+            if (t.heightOffset < water.waterHeight){
+                p.kill();
+            }
+        }
     }
 }

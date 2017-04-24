@@ -69,7 +69,7 @@ public class GameScreen extends BaseScreen {
         super();
         debugTex = Assets.whitePixel;
         time = 0;
-        world = new World();
+        world = new World(this);
         resources = new UserResources();
         turnCounter = new TurnCounter(hudCamera);
         adjacentTiles = new Array<Tile>();

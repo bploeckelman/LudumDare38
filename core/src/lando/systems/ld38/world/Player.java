@@ -23,9 +23,11 @@ public class Player extends GameObject {
     public boolean walkRight = false;
     public PlayerType type;
     public Animation<TextureRegion> animation;
+    public boolean dead;
 
     public Player(World world, int row, int col) {
         super(world);
+        dead = false;
         type = new Array<PlayerType>(PlayerType.values()).random();
         animation = type.down;
         tex = animation.getKeyFrame(timer);
@@ -130,7 +132,12 @@ public class Player extends GameObject {
                 batch.draw(Assets.arrow, x + 30, y, 25, 25);
             }
         }
-        // TODO draw action icon here
+        // TODO draw more action icon here
 
+    }
+
+    public void kill(){
+        // TODO something fancy here?
+        dead = true;
     }
 }
