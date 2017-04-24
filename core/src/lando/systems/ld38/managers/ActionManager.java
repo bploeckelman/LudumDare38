@@ -128,8 +128,8 @@ public class ActionManager {
 
         UserResources resources = player.getResources();
 
-        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, resources.canBuildLadder(), camera, "Build Ladder"));
-        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, resources.canBuildRaft(), camera, "Build Raft"));
+        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, false, camera, "Build Ladder"));
+        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, false, camera, "Build Raft"));
         //optionButtons.add(new OptionButton(Assets.sandbag, buttonBounds, Actions.buildSandbag, camera));
         //optionButtons.add(new OptionButton(Assets.people, buttonBounds, Actions.buildPeople, camera));
         playerOptions.add(new ActionMenu(player, optionButtons));

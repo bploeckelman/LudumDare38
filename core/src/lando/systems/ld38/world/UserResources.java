@@ -12,15 +12,9 @@ import lando.systems.ld38.utils.Assets;
 /**
  * Created by aeharding on 4/22/17.
  */
-public class UserResources {
+public class UserResources extends ResourceCount {
 
     private static final float MARGIN_TOP = 10f;
-
-    public int food = 5;
-    public int sand = 0;
-    public int iron = 0;
-    public int gold = 1;
-    public int wood = 2;
 
     private int width = 450;
     private int height = 35;
@@ -30,7 +24,7 @@ public class UserResources {
     private int y = Gdx.graphics.getHeight();
 
     public UserResources() {
-
+        super(5, 0, 0, 0, 10);
     }
 
     public void render(SpriteBatch batch) {
@@ -55,13 +49,5 @@ public class UserResources {
     private void drawResource(SpriteBatch batch, float offset, TextureRegion region, int amount){
         batch.draw(region, x + offset, y+margin - MARGIN_TOP, tileSize, tileSize);
         Assets.drawString(batch, "" + amount, x + offset + tileSize + 5, y + height - 6 - MARGIN_TOP, Color.WHITE, .3f, Assets.fancyFont);
-    }
-
-    public boolean canBuildLadder() {
-        return true;
-    }
-
-    public boolean canBuildRaft() {
-        return true;
     }
 }
