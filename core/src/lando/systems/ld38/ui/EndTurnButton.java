@@ -16,7 +16,7 @@ public class EndTurnButton extends Button {
     private boolean animating;
 
     public EndTurnButton(Rectangle bounds, OrthographicCamera camera) {
-        super(Assets.woodPanel, bounds, camera, "End Turn", null);
+        super(Assets.woodPanel, bounds, camera, "End Turn", "tooltip");
 
         anim = Assets.totemAnim;
         keyframe = anim.getKeyFrame(0f);
@@ -30,6 +30,7 @@ public class EndTurnButton extends Button {
     }
 
     public void update(float dt) {
+        super.update(dt);
         if (animating) {
             stateTime += dt;
             keyframe = anim.getKeyFrame(stateTime);

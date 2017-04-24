@@ -17,9 +17,9 @@ public class OptionButton extends Button {
     public Actions action;
     public boolean disabled;
 
-    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, boolean disabled, OrthographicCamera camera) {
+    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, boolean disabled, OrthographicCamera camera, String tooltip) {
         super(asset, bounds, camera);
-
+        this.setTooltip(tooltip);
         this.action = action;
         this.disabled = disabled;
 

@@ -64,9 +64,9 @@ public class ActionManager {
         float y = position.y + position.z + player.tileHeight/2;
 
         Rectangle buttonBounds = new Rectangle(x, y, 30, 30);
-        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, false, camera));
-        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, false, camera));
-        optionButtons.add(new OptionButton(Assets.wait, buttonBounds, Actions.harvest, false, camera));
+        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, false, camera, "Move"));
+        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, false, camera, "Build"));
+        optionButtons.add(new OptionButton(Assets.wait, buttonBounds, Actions.harvest, false, camera, "Harvest"));
 
         playerOptions.add(new ActionMenu(player, optionButtons));
     }
@@ -103,8 +103,8 @@ public class ActionManager {
 
         UserResources resources = player.getResources();
 
-        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, resources.canBuildLadder(), camera));
-        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, resources.canBuildRaft(), camera));
+        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, resources.canBuildLadder(), camera, "Build Ladder"));
+        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, resources.canBuildRaft(), camera, "Build Raft"));
         //optionButtons.add(new OptionButton(Assets.sandbag, buttonBounds, Actions.buildSandbag, camera));
         //optionButtons.add(new OptionButton(Assets.people, buttonBounds, Actions.buildPeople, camera));
         playerOptions.add(new ActionMenu(player, optionButtons));

@@ -33,7 +33,7 @@ public class ActionMenu {
         this.options = options;
         pendingAction.player = player;
 
-        float buttonSpread = 40;
+        float buttonSpread = 50;
         float dir = 90;
         float dr = 360 / options.size;
         for (OptionButton btn : options){
@@ -74,7 +74,9 @@ public class ActionMenu {
     }
 
     public void update(float dt) {
-
+        for (OptionButton button : options) {
+            button.update(dt);
+        }
     }
 
     public void render(SpriteBatch batch) {

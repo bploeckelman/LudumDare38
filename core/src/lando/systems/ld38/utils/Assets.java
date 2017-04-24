@@ -89,6 +89,11 @@ public class Assets {
     public static TextureRegion palmtree;
     public static TextureRegion raft;
 
+    public static TextureRegion axe;
+    public static TextureRegion pickaxe;
+    public static TextureRegion shotgun;
+    public static TextureRegion shovel;
+
     public static TextureRegion food;
     public static TextureRegion iron;
     public static TextureRegion gold;
@@ -163,6 +168,11 @@ public class Assets {
         gold = atlas.findRegion("gold");
         wood = atlas.findRegion("wood");
         sand = atlas.findRegion("wood");
+
+        axe = atlas.findRegion("axe");
+        pickaxe = atlas.findRegion("pickaxe");
+        shotgun = atlas.findRegion("shotgun");
+        shovel = atlas.findRegion("shovel");
 
         bubble = atlas.findRegion("bubble");
 

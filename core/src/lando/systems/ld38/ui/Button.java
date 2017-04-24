@@ -43,6 +43,7 @@ public class Button {
     private float textY;
     private float timeHovered = 0;
     private boolean showTooltip = false;
+    Vector3 tempVec3 = new Vector3();
 
 
     // Constructors ----------------------------------------------------------------------------------------------------
@@ -96,8 +97,10 @@ public class Button {
         // Tooltip
         if (tooltip != null && !tooltip.equals("")) {
             if (showTooltip) {
-                float tX = input.getX();
-                float tY = Config.gameHeight - input.getY();
+                tempVec3.set(input.getX(), input.getY(), 0);
+                camera.unproject(tempVec3);
+                float tX = tempVec3.x;
+                float tY = tempVec3.y;
                 Assets.woodPanel.draw(batch, tX, tY, tooltipBackgroundWidth, tooltipBackgroundHeight);
                 Assets.drawString(batch,
                         tooltip,
@@ -119,6 +122,7 @@ public class Button {
         } else {
             timeHovered = 0;
         }
+//        showTooltip = true;
         showTooltip = timeHovered >= TOOLTIP_SHOW_DELAY;
     }
 
@@ -126,7 +130,7 @@ public class Button {
     // -----------------------------------------------------------------------------------------------------------------
 
     public boolean checkForTouch(int screenX, int screenY) {
-        Vector3 touchPosUnproject = camera.unproject(new Vector3(screenX, screenY, 0));
+        Vector3 touchPosUnproject = camera.unproject(tempVec3.set(screenX, screenY, 0));
         touchPosScreen.set(touchPosUnproject.x, touchPosUnproject.y);
         return bounds.contains(touchPosScreen.x, touchPosScreen.y);
     }
@@ -144,7 +148,7 @@ public class Button {
         }
     }
 
-    private void setTooltip(String tooltip) {
+    public void setTooltip(String tooltip) {
         this.tooltip = tooltip;
         if (tooltip != null) {
             Assets.fancyFont.getData().setScale(TOOLTIP_TEXT_SCALE);
