@@ -20,6 +20,7 @@ public class Tile extends GameObject {
     public TextureRegion shadow_tex;
     public Color pickColor;
     public TextureRegion overlayObjectTex;
+    public TextureRegion item;
     public boolean isHighlighted;
     public boolean isInaccessible;
     public boolean isMoveTarget;
@@ -115,6 +116,8 @@ public class Tile extends GameObject {
         }
         if (isInaccessible && overlayObjectTex != null) {
             batch.draw(overlayObjectTex, x, y + heightOffset, tileWidth, tileHeight);
+        } else if (item != null) {
+            batch.draw(item, x, y + heightOffset, tileWidth, tileHeight);
         }
 
         for (Player p : world.players){

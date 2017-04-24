@@ -21,10 +21,8 @@ import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.ActionTypeWait;
 import lando.systems.ld38.turns.PendingAction;
 import lando.systems.ld38.turns.TurnAction;
-import lando.systems.ld38.ui.Button;
-import lando.systems.ld38.ui.EndTurnButton;
-import lando.systems.ld38.ui.Modal;
-import lando.systems.ld38.ui.PlayerSelectionHud;
+import lando.systems.ld38.ui.*;
+import lando.systems.ld38.turns.*;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.utils.SoundManager;
@@ -44,10 +42,12 @@ public class GameScreen extends BaseScreen {
     public TurnCounter turnCounter;
     public Modal modal;
     public Array<Tile> adjacentTiles;
+    public Array<Tile> adjacentBuildTiles;
     public EndTurnButton endTurnButton;
     public PlayerSelectionHud playerSelection;
     public Player selectedPlayer;
     public ResourceCount actionCost;
+    public OptionButton actionButton;
 
     public FrameBuffer pickBuffer;
     public TextureRegion pickRegion;
@@ -81,6 +81,7 @@ public class GameScreen extends BaseScreen {
         resources = new UserResources(hudCamera);
         turnCounter = new TurnCounter(hudCamera);
         adjacentTiles = new Array<Tile>();
+        adjacentBuildTiles = new Array<Tile>();
         turn = 0;
         turnActions = new Array<TurnAction>();
         pickBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Config.gameWidth / pickMapScale, Config.gameHeight / pickMapScale, false, false);
@@ -125,9 +126,6 @@ public class GameScreen extends BaseScreen {
         world.update(dt);
         endTurnButton.update(dt);
         resources.update(dt);
-//        testingButton.update(dt);
- //       playerSelection.update(dt);
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             endTurn();
         }
@@ -194,6 +192,8 @@ public class GameScreen extends BaseScreen {
     }
 
     public void showOptions(Player player) {
+        actionButton = null;
+        actionCost = null;
         selectedPlayer = player;
         world.orderPlayer(player);
         clearMovement();
@@ -204,12 +204,16 @@ public class GameScreen extends BaseScreen {
         PendingAction pendingAction = actionManager.handleTouch(screenX, screenY, button);
         if (pendingAction != null) {
             actionCost = pendingAction.cost;
+            actionButton = pendingAction.button;
             switch (pendingAction.action) {
                 case displayMoves:
-                    showMovement(selectedPlayer);
+                    showMovement(selectedPlayer, null);
                     break;
                 case harvest:
                     addHarvestAction(selectedPlayer);
+                    break;
+                case build:
+                    showMovement(selectedPlayer, actionButton.region);
                     break;
             }
         }
@@ -247,13 +251,25 @@ public class GameScreen extends BaseScreen {
     }
 
     private boolean handleMove(GridPoint2 location) {
+        if (actionButton == null) return false;
+
         Tile tile = world.getTile(location);
-        if (adjacentTiles.contains(tile, true) && !tile.isInaccessible) {
-            TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
-            turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
-            addAction(turnAction);
-            clearMovement();
-            return true;
+        if (actionButton.action == Actions.displayMoves) {
+            if (adjacentTiles.contains(tile, true) && !tile.isInaccessible) {
+                TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
+                turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
+                addAction(turnAction);
+                clearMovement();
+                return true;
+            }
+        } else if (actionButton.action == Actions.build){
+            if (adjacentTiles.contains(tile, true)) {
+                TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
+                turnAction.action = new ActionTypeBuild(turnAction, actionButton.region, tile.col, tile.row);
+                addAction(turnAction);
+                clearMovement();
+                return true;
+            }
         }
         return false;
     }
@@ -276,7 +292,7 @@ public class GameScreen extends BaseScreen {
         turnActions.add(turnAction);
     }
 
-    private void showMovement(Player player) {
+    private void showMovement(Player player, TextureRegion asset) {
         // TODO: is there a situation where this could be null?
         Tile playerTile = world.getTile(player.row, player.col);
 
@@ -286,13 +302,25 @@ public class GameScreen extends BaseScreen {
 
             // Water inaccessible...
             if (tile.heightOffset < world.water.waterHeight) {
-                tile.isInaccessible = true;
-                tile.overlayObjectTex = Assets.raft;
+                tile.isInaccessible = (asset == null);
+                if (tile.isInaccessible) {
+                    if (tile.item == Assets.raft) {
+                        tile.isInaccessible = false;
+                    } else {
+                        tile.overlayObjectTex = Assets.raft;
+                    }
+                }
             }
             // height inaccessible
             if (tile.height > 1f + playerTile.height) {
-                tile.isInaccessible = true;
-                tile.overlayObjectTex = Assets.ladder;
+                tile.isInaccessible = (asset == null);
+                if (tile.isInaccessible) {
+                    if (tile.item == Assets.ladder) {
+                        tile.isInaccessible = false;
+                    } else {
+                        tile.overlayObjectTex = Assets.ladder;
+                    }
+                }
             }
         }
     }

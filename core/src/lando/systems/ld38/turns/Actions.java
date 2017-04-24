@@ -11,9 +11,6 @@ public enum Actions {
     move,
     harvest,
     displayBuild,
-    buildLadder,
-    buildRaft,
-    buildSandbag,
-    buildPeople
+    build
 }
 

@@ -97,6 +97,7 @@ public class ActionMenu {
                     if (!button.disabled) {
                         pendingAction.action = button.action;
                         pendingAction.cost = button.cost;
+                        pendingAction.button = button;
                     }
                 }
                 return true;
