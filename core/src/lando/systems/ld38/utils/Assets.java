@@ -168,7 +168,7 @@ public class Assets {
         iron = atlas.findRegion("iron");
         gold = atlas.findRegion("gold");
         wood = atlas.findRegion("wood");
-        sand = atlas.findRegion("wood");
+        sand = atlas.findRegion("sand-pile");
 
         axe = atlas.findRegion("axe");
         pickaxe = atlas.findRegion("pickaxe");
