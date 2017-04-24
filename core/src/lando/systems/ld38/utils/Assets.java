@@ -35,8 +35,12 @@ public class Assets {
 
     public static TextureAtlas atlas;
 
-    public static TextureRegion whitePixel;
+    public static Texture titleTexture;
     public static Texture blank_hex;
+    public static Texture water_hex;
+    public static Texture water_bumpmap;
+    public static Texture turn_counter_background;
+    public static TextureRegion whitePixel;
     public static TextureRegion clay_hex;
     public static TextureRegion clay_bottom;
     public static TextureRegion dirt_hex;
@@ -57,11 +61,9 @@ public class Assets {
     public static TextureRegion hammer;
     public static TextureRegion questionmark;
     public static TextureRegion wait;
-    public static Texture water_hex;
+    public static TextureRegion bubble;
     public static TextureRegion select_hex;
     public static TextureRegion white_hex;
-    public static Texture water_bumpmap;
-    public static Texture turn_counter_background;
     public static TextureRegion shadowUL;
     public static TextureRegion shadowUR;
     public static TextureRegion shadowU;
@@ -110,6 +112,7 @@ public class Assets {
         nearestParams.magFilter = Texture.TextureFilter.Nearest;
 
         mgr = new AssetManager();
+        mgr.load("images/title-screen.png", Texture.class, nearestParams);
         mgr.load("images/blank-hex.png", Texture.class, nearestParams);
         mgr.load("images/water-bump.png", Texture.class, nearestParams);
         mgr.load("images/turn_counter_background.png", Texture.class, nearestParams);
@@ -160,6 +163,9 @@ public class Assets {
         gold = atlas.findRegion("gold");
         wood = atlas.findRegion("wood");
         sand = atlas.findRegion("wood");
+        clay = atlas.findRegion("wood");
+
+        bubble = atlas.findRegion("bubble");
 
         head_male_dark = atlas.findRegion("head_male_dark");
         head_male_white = atlas.findRegion("head_male_white");
@@ -178,6 +184,8 @@ public class Assets {
         shadowU = atlas.findRegion("shadow_u");
         shadowUR = atlas.findRegion("shadow_ur");
         shadowUL = atlas.findRegion("shadow_ul");
+
+        titleTexture = mgr.get("images/title-screen.png", Texture.class);
 
         water_bumpmap = mgr.get("images/water-bump.png", Texture.class);  // NEVER MOVE THIS INTO THE ATLAS!!!!!
         water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);

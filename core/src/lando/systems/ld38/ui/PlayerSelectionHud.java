@@ -52,11 +52,7 @@ public class PlayerSelectionHud {
             for(PlayerHud hud : playerHuds){
                 if (hud.bounds.contains(screenPos.x, screenPos.y)){
                     Player p = hud.player;
-                    gameScreen.showOptions(p);
-                    Tween.to(gameScreen.camera, CameraAccessor.XYZ, .5f)
-                            .target(p.position.x + p.tileWidth / 2f, p.position.y + p.position.z + p.tileHeight / 2f, .5f)
-                            .start(Assets.tween);
-                }
+                    gameScreen.zoomToPlayer(p);                }
             }
             return true;
         }

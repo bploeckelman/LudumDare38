@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld38.screens.BaseScreen;
 import lando.systems.ld38.screens.GameScreen;
+import lando.systems.ld38.screens.TitleScreen;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.SoundManager;
 
@@ -26,7 +27,7 @@ public class LudumDare38 extends ApplicationAdapter {
         game = this;
 
         batch = Assets.batch;
-        setScreen(new GameScreen());
+        setScreen(new TitleScreen());
     }
 
     @Override

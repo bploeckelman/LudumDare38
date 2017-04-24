@@ -1,5 +1,6 @@
 package lando.systems.ld38.screens;
 
+import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -25,6 +26,7 @@ import lando.systems.ld38.ui.PlayerSelectionHud;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.utils.SoundManager;
+import lando.systems.ld38.utils.accessors.CameraAccessor;
 import lando.systems.ld38.world.*;
 
 //import static com.sun.glass.ui.gtk.GtkApplication.screen;
@@ -150,7 +152,7 @@ public class GameScreen extends BaseScreen {
         actionManager.update(dt);
         updateCamera();
 
-        if (!modal.isActive && Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+        if (!modal.isActive && Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
             float w = hudCamera.viewportWidth * (2f / 3f);
             float h = hudCamera.viewportHeight * (2f / 3f);
             modal.set("Busey ipsum dolor sit amet. Go with the feeling of the nature. Take it easy. Know why you're here. And remember to balance your internal energy with the environment.Sometimes horses cough and fart at the same time, so stay out of the range of its butt muscle because a horses butt muscle is thick.",
@@ -396,5 +398,12 @@ public class GameScreen extends BaseScreen {
         turnActions.clear();
         ++turn;
         world.endTurn();
+    }
+
+    public void zoomToPlayer(Player p){
+        showOptions(p);
+        Tween.to(camera, CameraAccessor.XYZ, .5f)
+                .target(p.position.x + p.tileWidth / 2f, p.position.y + p.position.z + p.tileHeight / 2f, .5f)
+                .start(Assets.tween);
     }
 }
