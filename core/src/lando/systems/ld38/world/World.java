@@ -111,7 +111,9 @@ public class World {
         }
 
         for (Player player : players) {
-//            player.render(batch, water.waterHeight, true);
+            if (player.moving) {
+                player.render(batch, water.waterHeight, true);
+            }
             player.renderBubble(batch);
         }
 

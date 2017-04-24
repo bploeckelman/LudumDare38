@@ -29,10 +29,12 @@ public class Player extends GameObject {
     public Animation<TextureRegion> animation;
     public boolean dead;
     float bubbleAlpha;
+    public boolean moving;
 
     public Player(World world, int row, int col) {
         super(world);
         dead = false;
+        moving = false;
         bubbleAlpha = 0;
         type = new Array<PlayerType>(PlayerType.values()).random();
         animation = type.down;
@@ -87,6 +89,7 @@ public class Player extends GameObject {
     }
 
     public void moveTo(final int row, final int col) {
+        moving = true;
         float newX = getX(row, col);
         float newY = getY(row);
         float tileOffset = (tileHeight * .25f);
@@ -121,6 +124,7 @@ public class Player extends GameObject {
                 public void onEvent(int eventType, BaseTween<?> source) {
                     walkRight = false;
                     animation = type.down;
+                    moving = false;
                 }
             })
             .start(Assets.tween);

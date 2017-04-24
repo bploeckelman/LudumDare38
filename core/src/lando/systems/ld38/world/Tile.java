@@ -138,7 +138,7 @@ public class Tile extends GameObject {
         }
 
         for (Player p : world.players){
-            if (!asPickBuffer && p.row == row && p.col == col) p.render(batch, waterHeight, aboveWater);
+            if (!asPickBuffer && p.row == row && p.col == col && !p.moving) p.render(batch, waterHeight, aboveWater);
         }
         batch.setColor(Color.WHITE);
     }
