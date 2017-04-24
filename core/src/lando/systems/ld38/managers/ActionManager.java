@@ -13,6 +13,7 @@ import lando.systems.ld38.ui.ActionMenu;
 import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.world.Player;
+import lando.systems.ld38.world.ResourceCount;
 import lando.systems.ld38.world.Tile;
 import lando.systems.ld38.world.UserResources;
 
@@ -65,8 +66,8 @@ public class ActionManager {
         float y = position.y + position.z + player.tileHeight/2;
 
         Rectangle buttonBounds = new Rectangle(x, y, 30, 30);
-        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, false, camera, "Move"));
-        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, false, camera, "Build"));
+        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, false, camera, "Move", new ResourceCount(1, 0, 0, 0, 0)));
+        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, false, camera, "Build", new ResourceCount()));
         TextureRegion harvestRegion = Assets.wait;
         String tooltip = "Wait";
         switch(tile.decoration){
@@ -91,7 +92,7 @@ public class ActionManager {
                 tooltip = "Dig up Sand";
                 break;
         }
-        optionButtons.add(new OptionButton(harvestRegion, buttonBounds, Actions.harvest, false, camera, tooltip));
+        optionButtons.add(new OptionButton(harvestRegion, buttonBounds, Actions.harvest, false, camera, tooltip, new ResourceCount()));
 
         playerOptions.add(new ActionMenu(player, optionButtons));
     }
@@ -128,8 +129,8 @@ public class ActionManager {
 
         UserResources resources = player.getResources();
 
-        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, false, camera, "Build Ladder"));
-        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, false, camera, "Build Raft"));
+        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.buildLadder, false, camera, "Build Ladder", new ResourceCount(0, 0, 0, 0, 3)));
+        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.buildRaft, false, camera, "Build Raft", new ResourceCount(0, 0, 0, 0, 4)));
         //optionButtons.add(new OptionButton(Assets.sandbag, buttonBounds, Actions.buildSandbag, camera));
         //optionButtons.add(new OptionButton(Assets.people, buttonBounds, Actions.buildPeople, camera));
         playerOptions.add(new ActionMenu(player, optionButtons));

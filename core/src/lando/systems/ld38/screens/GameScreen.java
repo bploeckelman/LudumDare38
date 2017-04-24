@@ -47,6 +47,7 @@ public class GameScreen extends BaseScreen {
     public EndTurnButton endTurnButton;
     public PlayerSelectionHud playerSelection;
     public Player selectedPlayer;
+    public ResourceCount actionCost;
 
     public FrameBuffer pickBuffer;
     public TextureRegion pickRegion;
@@ -216,6 +217,7 @@ public class GameScreen extends BaseScreen {
     private boolean handlePlayerAction(int screenX, int screenY, int button) {
         PendingAction pendingAction = actionManager.handleTouch(screenX, screenY, button);
         if (pendingAction != null) {
+            actionCost = pendingAction.cost;
             switch (pendingAction.action) {
                 case displayMoves:
                     showMovement(selectedPlayer);
@@ -261,8 +263,7 @@ public class GameScreen extends BaseScreen {
     private boolean handleMove(GridPoint2 location) {
         Tile tile = world.getTile(location);
         if (adjacentTiles.contains(tile, true) && !tile.isInaccessible) {
-            TurnAction turnAction = new TurnAction();
-            turnAction.character = selectedPlayer;
+            TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
             turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
             addAction(turnAction);
             clearMovement();
@@ -273,12 +274,14 @@ public class GameScreen extends BaseScreen {
 
     private void addAction(TurnAction turnAction) {
         for (int i = turnActions.size - 1; i >= 0; i--) {
-            if (turnActions.get(i).character == turnAction.character) {
-                if (turnActions.get(i).action instanceof ActionTypeMove) {
+            if (turnActions.get(i).player == turnAction.player) {
+                TurnAction removeAction = turnActions.get(i);
+                if (removeAction.action instanceof ActionTypeMove) {
                     ActionTypeMove moveAction = (ActionTypeMove) turnActions.get(i).action;
                     Tile moveToTile = world.getTile(moveAction.toRow, moveAction.toCol);
                     moveToTile.isMoveTarget = false;
                 }
+                removeAction.player.getResources().add(removeAction.cost);
                 turnActions.removeIndex(i);
             }
         }
@@ -313,8 +316,7 @@ public class GameScreen extends BaseScreen {
     }
 
     private void addHarvestAction(Player player) {
-        TurnAction turnAction = new TurnAction();
-        turnAction.character = selectedPlayer;
+        TurnAction turnAction = new TurnAction(player, new ResourceCount());
         turnAction.action = new ActionTypeWait(turnAction, resources, player);
         addAction(turnAction);
     }
@@ -423,13 +425,10 @@ public class GameScreen extends BaseScreen {
         for (Player p : world.players){
             boolean hasAction = false;
             for (TurnAction turnAction : turnActions){
-                if (turnAction.character == p) hasAction = true;
+                if (turnAction.player == p) hasAction = true;
             }
             if (!hasAction){
-                TurnAction action = new TurnAction();
-                action.action = new ActionTypeWait(action, resources, p);
-                action.character = p;
-                turnActions.add(action);
+                addHarvestAction(p);
             }
         }
         for (TurnAction turnAction : turnActions) {

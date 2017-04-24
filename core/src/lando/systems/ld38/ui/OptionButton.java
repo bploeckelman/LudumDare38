@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld38.turns.Actions;
 import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.world.ResourceCount;
 
 /**
  * Created by Brian on 4/23/2017.
@@ -16,10 +17,13 @@ public class OptionButton extends Button {
 
     public Actions action;
     public boolean disabled;
+    public ResourceCount cost;
 
-    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, boolean disabled, OrthographicCamera camera, String tooltip) {
+    public OptionButton(TextureRegion asset, Rectangle bounds, Actions action, boolean disabled, OrthographicCamera camera, String tooltip, ResourceCount cost) {
         super(asset, bounds, camera);
         this.setTooltip(tooltip);
+
+        this.cost = cost;
         this.action = action;
         this.disabled = disabled;
 

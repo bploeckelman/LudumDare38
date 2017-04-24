@@ -95,6 +95,7 @@ public class ActionMenu {
             if (button.checkForTouch(screenX, screenY)) {
                 if (displayState == DisplayState.show || displayState == DisplayState.grow) {
                     pendingAction.action = button.action;
+                    pendingAction.cost = button.cost;
                 }
                 return true;
             }

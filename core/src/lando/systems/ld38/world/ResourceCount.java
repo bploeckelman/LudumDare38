@@ -10,6 +10,8 @@ public class ResourceCount {
     public int gold = 0;
     public int wood = 0;
 
+    public ResourceCount() {}
+
     public ResourceCount(int food, int sand, int iron, int gold, int wood) {
         this.food = food;
         this.sand = sand;

@@ -29,7 +29,7 @@ public class PlayerHud {
 
         TurnAction actionRef = null;
         for (TurnAction action : screen.turnActions ){
-            if (action.character == player) actionRef = action;
+            if (action.player == player) actionRef = action;
         }
         player.renderHud(batch, bounds.x, bounds.y, actionRef);
     }
