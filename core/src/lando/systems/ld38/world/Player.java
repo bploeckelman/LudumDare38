@@ -162,6 +162,10 @@ public class Player extends GameObject {
                         break;
                     case Sand:
                         region = Assets.shovel;
+                        break;
+                    case Hut:
+                        region = Assets.heart;
+                        break;
                 }
                 batch.draw(region, x + 30, y, 25, 25);
             } else if (action.action instanceof ActionTypeBuild) {

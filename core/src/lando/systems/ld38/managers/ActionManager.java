@@ -94,6 +94,10 @@ public class ActionManager {
                 harvestRegion = Assets.shovel;
                 tooltip = "Dig up Sand";
                 break;
+            case Hut:
+                harvestRegion = Assets.heart;
+                tooltip = "Make Sweet Love";
+                break;
         }
         optionButtons.add(new OptionButton(harvestRegion, buttonBounds, Actions.harvest, camera, tooltip, resources, new ResourceCount()));
 
