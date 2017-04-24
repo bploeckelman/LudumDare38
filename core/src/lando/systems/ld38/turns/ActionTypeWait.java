@@ -1,5 +1,6 @@
 package lando.systems.ld38.turns;
 
+import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.world.*;
 
@@ -30,46 +31,57 @@ public class ActionTypeWait extends ActionType {
 
         int offset = 0;
 
-        boolean addRandomFood = false;
+        int bns = userResources.resourceBonus;
         switch (tile.decoration) {
             case Tree:
-                userResources.add(new ResourceCount(0, 0, 0, 0, TREE_WOOD));
-                player.displayResourceGather(Assets.wood, TREE_WOOD, offset++);
-                addRandomFood = true;
-                player.world.screen.stats.wood += TREE_WOOD;
+                int gain = TREE_WOOD + bns;
+                userResources.add(new ResourceCount(0, 0, 0, 0, gain));
+                player.displayResourceGather(Assets.wood, gain, offset++);
+                player.world.screen.stats.wood += gain;
                 break;
             case Cow:
-                userResources.add(new ResourceCount(COW_FOOD, 0, 0, 0, 0));
-                player.displayResourceGather(Assets.food, COW_FOOD, offset++);
-                player.world.screen.stats.food += COW_FOOD;
+                gain = COW_FOOD + bns;
+                userResources.add(new ResourceCount(gain, 0, 0, 0, 0));
+                player.displayResourceGather(Assets.food, gain, offset++);
+                player.world.screen.stats.food += gain;
                 break;
             case IronMine:
-                userResources.add(new ResourceCount(0, 0, IRON, 0, 0));
-                player.displayResourceGather(Assets.iron, IRON, offset++);
-                player.world.screen.stats.iron += IRON;
+                gain = IRON + bns;
+                userResources.add(new ResourceCount(0, 0, gain, 0, 0));
+                player.displayResourceGather(Assets.iron, gain, offset++);
+                player.world.screen.stats.iron += gain;
                 break;
             case GoldMine:
-                userResources.add(new ResourceCount(0, 0, 0, GOLD, 0));
-                player.displayResourceGather(Assets.gold, GOLD, offset++);
-                player.world.screen.stats.gold += GOLD;
+                gain = GOLD + bns;
+                userResources.add(new ResourceCount(0, 0, 0, gain, 0));
+                player.displayResourceGather(Assets.gold, gain, offset++);
+                player.world.screen.stats.gold += gain;
                 break;
             case Hut:
                 player.world.addPlayer(player.row, player.col);
                 break;
             case None:
                 if (tile.type == TileType.Sand) {
-                    userResources.add(new ResourceCount(0, SAND, 0, 0, 0));
-                    player.displayResourceGather(Assets.sand, SAND, offset++);
-                    addRandomFood = true;
-                    player.world.screen.stats.sand += SAND;
+                    gain = SAND + bns;
+                    userResources.add(new ResourceCount(0, gain, 0, 0, 0));
+                    player.displayResourceGather(Assets.sand, gain, offset++);
+                    player.world.screen.stats.sand += gain;
+                } else {
+                    gain = bns + 1;
+                    if (MathUtils.randomBoolean()){
+                        userResources.add(new ResourceCount(gain, 0, 0, 0, 0));
+                        player.displayResourceGather(Assets.food, gain, offset++);
+                        player.world.screen.stats.food += gain;
+                    } else {
+                        userResources.add(new ResourceCount(0, 0, 0, 0, gain));
+                        player.displayResourceGather(Assets.wood, gain, offset++);
+                        player.world.screen.stats.wood += gain;
+                    }
                 }
                 break;
         }
         tile.decoration = Decoration.None;
-        if (addRandomFood) {
-            userResources.add(new ResourceCount(1, 0, 0, 0, 0));
-            player.displayResourceGather(Assets.food, 1, offset++);
-        }
+
     }
 
     @Override

@@ -137,7 +137,7 @@ public class Player extends GameObject {
 
         float size = 15;
 
-        Rectangle resourcePos =  new Rectangle(position.x, position.y + (offset * (size + 2)), size, size);
+        Rectangle resourcePos =  new Rectangle(position.x, position.y + position.z + (offset * (size + 2)), size, size);
         world.resIndicators.add(new ResourceIndicator(icon, resourcePos, numResourcesGathered));
     }
 
