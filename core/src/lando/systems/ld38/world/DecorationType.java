@@ -7,7 +7,7 @@ import lando.systems.ld38.utils.Assets;
 /**
  * Created by Brian on 4/23/2017
  */
-public enum Type {
+public enum DecorationType {
     Clay(Assets.clay_hex, Assets.clay_bottom),
     Dirt(Assets.dirt_hex, Assets.dirt_bottom, new Array<Decoration>(new Decoration[]{
             Decoration.None,
@@ -39,13 +39,13 @@ public enum Type {
     public TextureRegion bottom_tex;
     public Array<Decoration> availableDecorations;
 
-    Type() {
+    DecorationType() {
         availableDecorations = new Array<Decoration>(new Decoration[]{
                 Decoration.None
         });
     }
 
-    Type(TextureRegion top, TextureRegion bottom) {
+    DecorationType(TextureRegion top, TextureRegion bottom) {
         top_tex = top;
         bottom_tex = bottom;
         availableDecorations = new Array<Decoration>(new Decoration[]{
@@ -53,7 +53,7 @@ public enum Type {
         });
     }
 
-    Type(TextureRegion top, TextureRegion bottom, Array<Decoration> availableDecorations) {
+    DecorationType(TextureRegion top, TextureRegion bottom, Array<Decoration> availableDecorations) {
         top_tex = top;
         bottom_tex = bottom;
         this.availableDecorations = availableDecorations;

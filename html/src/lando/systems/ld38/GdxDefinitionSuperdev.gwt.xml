@@ -7,6 +7,7 @@
     <inherits name='lando.systems.ld38.GdxDefinition' />
 
 	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld38.world.Decoration" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld38.world.PlayerType" />
 
     <collapse-all-properties />
     

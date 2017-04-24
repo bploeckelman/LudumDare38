@@ -16,35 +16,17 @@ import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.accessors.Vector3Accessor;
 
 public class Player extends GameObject {
-    enum Type {
-        BF(Assets.bfWalkDown, Assets.bfWalkUp, Assets.bfWalkSide, Assets.head_female_dark),
-        WF(Assets.wfWalkDown, Assets.wfWalkUp, Assets.wfWalkSide, Assets.head_female_white),
-        BM(Assets.bmWalkDown, Assets.bmWalkUp, Assets.bmWalkSide, Assets.head_male_dark),
-        WM(Assets.wmWalkDown, Assets.wmWalkUp, Assets.wmWalkSide, Assets.head_male_white);
-
-        public Animation<TextureRegion> down;
-        public Animation<TextureRegion> up;
-        public Animation<TextureRegion> side;
-        public TextureRegion head;
-        Type(Animation<TextureRegion> down, Animation<TextureRegion> up, Animation<TextureRegion> side, TextureRegion head) {
-            this.down = down;
-            this.up = up;
-            this.side = side;
-            this.head = head;
-        }
-    }
-
     public TextureRegion tex;
     public TextureRegion faceTex;
     public float timer = 0f;
 
     public boolean walkRight = false;
-    public Type type;
+    public PlayerType type;
     public Animation<TextureRegion> animation;
 
     public Player(World world, int row, int col) {
         super(world);
-        type = new Array<Type>(Type.values()).random();
+        type = new Array<PlayerType>(PlayerType.values()).random();
         animation = type.down;
         tex = animation.getKeyFrame(timer);
         faceTex = type.head;

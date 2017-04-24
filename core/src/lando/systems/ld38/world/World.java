@@ -181,21 +181,21 @@ public class World {
         for (Tile tile : tiles) {
             relativeHeightAboveSeaLevel = tile.height <= 0 ? 0 : tile.height / maxTileHeight;
             // Clay, Dirt, Grass, Sand, Snow, Stone
-            Type type;
+            DecorationType type;
             if (tile.height <= -1){
-                type = Type.Ocean;
+                type = DecorationType.Ocean;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 1) {
-                type = Type.Sand;
+                type = DecorationType.Sand;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 2) {
-                type = Type.Clay;
+                type = DecorationType.Clay;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 3) {
-                type = Type.Grass;
+                type = DecorationType.Grass;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 4) {
-                type = Type.Dirt;
+                type = DecorationType.Dirt;
             } else if (relativeHeightAboveSeaLevel <= typeStep * 5) {
-                type = Type.Stone;
+                type = DecorationType.Stone;
             } else {
-                type = Type.Snow;
+                type = DecorationType.Snow;
             }
             tile.setType(type);
             Tile ul = getUpperLeftTile(tile.row, tile.col);

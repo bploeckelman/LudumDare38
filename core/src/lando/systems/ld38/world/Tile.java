@@ -3,8 +3,6 @@ package lando.systems.ld38.world;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.utils.Assets;
 
 /**
@@ -15,7 +13,7 @@ public class Tile extends GameObject {
 
     public static float heightScale = 8;
 
-    public Type type;
+    public DecorationType type;
     public TextureRegion top_tex;
     TextureRegion bottom_tex;
     Decoration decoration;
@@ -28,14 +26,14 @@ public class Tile extends GameObject {
 
     public Tile(World world, int col, int row, float height) {
         super(world, col, row, height);
-        type = Type.Ocean;
+        type = DecorationType.Ocean;
         pickColor = Tile.getColorFromPosition(row, col);
         heightOffset = this.height * heightScale;
         decoration = Decoration.None;
         isHighlighted = false;
     }
 
-    public void setType(Type type){
+    public void setType(DecorationType type){
         this.type = type;
         this.top_tex = type.top_tex;
         this.bottom_tex = type.bottom_tex;
@@ -62,7 +60,7 @@ public class Tile extends GameObject {
     }
 
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater, boolean asPickBuffer){
-        if (type == Type.Ocean) return;
+        if (type == DecorationType.Ocean) return;
         TextureRegion bottomTex = bottom_tex;
         TextureRegion topTex = top_tex;
         Color texColor = Color.WHITE;

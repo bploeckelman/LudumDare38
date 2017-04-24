@@ -5,6 +5,7 @@
 	<inherits name='aurelienribon.tweenengine' />
 
 	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld38.world.Decoration" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld38.world.PlayerType" />
 
 	<inherits name='LudumDare38' />
 	<entry-point class='lando.systems.ld38.client.HtmlLauncher' />
