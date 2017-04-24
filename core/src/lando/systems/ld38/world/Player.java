@@ -15,6 +15,7 @@ import lando.systems.ld38.turns.ActionTypeMove;
 import lando.systems.ld38.turns.ActionTypeWait;
 import lando.systems.ld38.turns.TurnAction;
 import lando.systems.ld38.ui.PlayerHud;
+import lando.systems.ld38.ui.PlayerSelectionHud;
 import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.accessors.Vector2Accessor;
 import lando.systems.ld38.utils.accessors.Vector3Accessor;
@@ -95,9 +96,20 @@ public class Player extends GameObject {
         batch.setColor(Color.WHITE);
     }
 
-    public void renderHud(SpriteBatch batch, float x, float y) {
-        batch.draw(faceTex, x, y, 25, 25);
-        batch.draw(turnActionRegion, x + turnActionRegionPos.x, y + turnActionRegionPos.y, turnActionRegionDimensions.x, turnActionRegionDimensions.y);
+    public void renderHud(SpriteBatch batch) {
+        if (isSelected()) {
+            batch.setColor(0.04f, 0.51f, 0.01f, 1);
+            batch.draw(Assets.whitePixel, playerHud.bounds.x - 4, playerHud.bounds.y - 2, PlayerSelectionHud.BOUNDS_WIDTH - 12, 25 + 4);
+            batch.setColor(Color.WHITE);
+//            batch.draw(Assets.whitePixel, playerHud.bounds.x - 2, playerHud.bounds.y - 0, PlayerSelectionHud.BOUNDS_WIDTH - 16, 25 + 0);
+        }
+        batch.draw(
+                faceTex,
+                playerHud.bounds.x, playerHud.bounds.y,
+                25, 25);
+        batch.draw(turnActionRegion,
+                playerHud.bounds.x + turnActionRegionPos.x, playerHud.bounds.y + turnActionRegionPos.y,
+                turnActionRegionDimensions.x, turnActionRegionDimensions.y);
     }
 
 
@@ -235,6 +247,10 @@ public class Player extends GameObject {
         Vector3 worldPos = worldCamera.project(new Vector3(currentPos.x, currentPos.y, 0));
         Vector3 hudPos = hudCamera.project(worldPos);
         return new Vector2(hudPos.x, hudPos.y);
+    }
+
+    public boolean isSelected() {
+        return world.screen.selectedPlayer == this;
     }
 
 }

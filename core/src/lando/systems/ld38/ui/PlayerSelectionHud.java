@@ -13,6 +13,7 @@ import lando.systems.ld38.world.Player;
  * Created by dsgraham on 4/23/17.
  */
 public class PlayerSelectionHud {
+    public static final float BOUNDS_WIDTH = 75;
     public GameScreen gameScreen;
     public Rectangle bounds;
     Vector3 screenPos;
@@ -32,7 +33,7 @@ public class PlayerSelectionHud {
     public void buildPlayerHuds(){
         float offset = 40;
         float height = segmentHeight * gameScreen.world.players.size + 20;
-        bounds.set(10, gameScreen.camera.viewportHeight - height - 10, 75, height);
+        bounds.set(10, gameScreen.camera.viewportHeight - height - 10, BOUNDS_WIDTH, height);
         playerHuds.clear();
         for (int i = 0; i < gameScreen.world.players.size; i++){
             Player p = gameScreen.world.players.get(i);

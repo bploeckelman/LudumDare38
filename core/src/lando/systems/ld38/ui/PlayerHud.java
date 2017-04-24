@@ -33,7 +33,7 @@ public class PlayerHud {
     }
 
     public void render(SpriteBatch batch){
-        player.renderHud(batch, bounds.x, bounds.y);
+        player.renderHud(batch);
     }
 
 }
