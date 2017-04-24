@@ -64,6 +64,7 @@ public class World {
     }
 
     public void update(float dt){
+        Tile.accum += dt;
         water.update(dt);
         for (int i = players.size - 1; i >= 0; i--){
             Player p = players.get(i);

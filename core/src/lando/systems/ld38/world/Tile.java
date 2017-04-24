@@ -15,6 +15,7 @@ public class Tile extends GameObject {
 
     public static float heightScale = 8;
     public static MutableFloat renderShift = new MutableFloat(-120);
+    public static float accum = 0;
 
     public TileType type;
     public TextureRegion top_tex;
@@ -29,11 +30,13 @@ public class Tile extends GameObject {
     public boolean isInaccessible;
     public boolean isMoveTarget;
     public boolean isBuildTarget;
+    public boolean isWaitTarget;
     public float heightOffset;
 
 
     public Tile(World world, int col, int row, float height) {
         super(world, col, row, height);
+        accum = 0;
         type = TileType.Ocean;
         pickColor = Tile.getColorFromPosition(row, col);
         decoration = Decoration.None;
@@ -82,6 +85,7 @@ public class Tile extends GameObject {
 
     public void render(SpriteBatch batch, float x, float y, float waterHeight, boolean aboveWater, boolean asPickBuffer){
         if (type == TileType.Ocean) return;
+        float selectAlpha = .75f + (float)Math.sin(accum * 6f) * .25f;
         heightOffset = this.height * heightScale + renderShift.floatValue();
         if (item == Assets.sandbags) heightOffset += heightScale;
         TextureRegion bottomTex = bottom_tex;
@@ -129,12 +133,17 @@ public class Tile extends GameObject {
             batch.setColor(Color.WHITE);
         }
         if (isMoveTarget) {
-            batch.setColor(Color.GREEN);
+            batch.setColor(0,1,0,selectAlpha);
             batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
             batch.setColor(Color.WHITE);
         }
         if (isBuildTarget) {
-            batch.setColor(Color.ORANGE);
+            batch.setColor(1, .75f, 0, selectAlpha);
+            batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
+            batch.setColor(Color.WHITE);
+        }
+        if (isWaitTarget){
+            batch.setColor(1,0,1,selectAlpha);
             batch.draw(Assets.select_hex, x, y + heightOffset, tileWidth, tileHeight);
             batch.setColor(Color.WHITE);
         }

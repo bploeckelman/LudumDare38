@@ -318,6 +318,9 @@ public class GameScreen extends BaseScreen {
                 if (removeAction.action instanceof ActionTypeBuild) {
                     removeAction.action.getTargetTile(world).isBuildTarget = false;
                 }
+                if (removeAction.action instanceof ActionTypeWait) {
+                    removeAction.action.getTargetTile(world).isWaitTarget = false;
+                }
                 removeAction.player.getResources().add(removeAction.cost);
                 turnActions.removeIndex(i);
             }
@@ -328,6 +331,9 @@ public class GameScreen extends BaseScreen {
         }
         if (turnAction.action instanceof ActionTypeBuild) {
             turnAction.action.getTargetTile(world).isBuildTarget = true;
+        }
+        if (turnAction.action instanceof ActionTypeWait) {
+            turnAction.action.getTargetTile(world).isWaitTarget = true;
         }
         turnActions.add(turnAction);
     }
@@ -531,6 +537,9 @@ public class GameScreen extends BaseScreen {
             }
             if (turnAction.action instanceof ActionTypeBuild) {
                 turnAction.action.getTargetTile(world).isBuildTarget = false;
+            }
+            if (turnAction.action instanceof ActionTypeWait) {
+                turnAction.action.getTargetTile(world).isWaitTarget = false;
             }
         }
         turnActions.clear();
