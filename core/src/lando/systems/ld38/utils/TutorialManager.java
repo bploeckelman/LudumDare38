@@ -33,7 +33,7 @@ public class TutorialManager {
 
         // Introduction -------------------------------------------------------
         screens.add(new TutorialInfo(
-                        "Welcome to [#00FFFFxALPHAx] Higher Ground[]\nLudum Dare 38 jam entry\n\nCreated by LandoSystems"
+                        "Welcome to [#00FFFFxALPHAx] Higher Ground[]\n\n* Ludum Dare 38 jam entry * \n\nCreated by [#F16F75xALPHAx] Team LandoSystems[]"
                            + "\n\n[#FFFF00xALPHAx] Click[] to [#FFFF00xALPHAx] Continue[]"
                            + "\n[#FF0000xALPHAx] Escape[] to [#FF0000xALPHAx] Skip tutorial[]",
                         new Rectangle(0, 0, 0, 0)));
@@ -44,13 +44,18 @@ public class TutorialManager {
                         new Rectangle(g.turnCounter.bounds.x - 2f, g.turnCounter.bounds.y - 2f,
                                       g.turnCounter.bounds.width + 4f, g.turnCounter.bounds.height + 4f)));
 
+        screens.add(new TutorialInfo(
+                "Mouse wheel: [#FFFF00xALPHAx] ZOOMS[]\n\nClick & Drag: [#00FFFFxALPHAx] PANS[]\n\nClick: [#FF00FFxALPHAx] SELECTS[]",
+                new Rectangle(0, 0, 0,0)));
+
         // Resources ----------------------------------------------------------
 
         screens.add(new TutorialInfo(
                 "[#FF6500xALPHAx] Resources[] are [#FF0000xALPHAx] critical[]"
-                   + "\n\n[#FF6500xALPHAx] Harvest[] them as you move\n to stay ahead of the [#0099FFxALPHAx] rising ocean[]",
+                   + "\n\n[#FF6500xALPHAx] Harvest[] them as you move\nStay ahead of the [#0099FFxALPHAx] rising ocean[]",
                 new Rectangle(g.resources.bounds.x - 2f, g.resources.bounds.y - 2f,
                               g.resources.bounds.width + 4f, g.resources.bounds.height + 4f)));
+
 
         // Natives ------------------------------------------------------------
 
@@ -109,17 +114,21 @@ public class TutorialManager {
 
         // Buildings-----------------------------------------------------------
 
-        // !!!!!! most important building is LADDER... built it on higher tiles in order to move onto them
-        // raft will let you float on the water
-        // huts will let you make new natives ;)
-        // tools will increase the harvest / forage efficiency
-        // sandbag delays when that tile gets under water
 
-        // --------------------------------------------------------------------
+        screens.add(new TutorialInfo(
+                "[#00FEDAxALPHAx] Buildings:[]"
+                + "\n\n[#00FEDAxALPHAx] Ladders[] are [#D82039xALPHAx] extremely important[]"
+                + "\nThey are [#FF0000xALPHAx] required[] for moving to [#FFFF00xALPHAx] higher ground[]!"
+                + "\n\n[#F7D900xALPHAx] Rafts[] allow natives to [#F7D900xALPHAx] float[] on submerged tiles that would otherwise be deadly"
+                + "\n\n[#ABD0BCxALPHAx] Tools[] improve [#ABD0BCxALPHAx] harvesting efficiency[], resulting in more resources per [#FF00FFxALPHAx] harvest[] action"
+                + "\n\n[#53F54AxALPHAx] Sandbags[] act as [#53F54AxALPHAx] flood prevention[], keeping tiles above water for extra turns"
+                + "\n\n[#F54A53xALPHAx] Huts[] produce [#F54A53xALPHAx] new natives[], build them, then [#FF00FFxALPHAx] 'harvest'[] them to add to the tribe",
+                new Rectangle(0, 0, 0,0)));
+
         // --------------------------------------------------------------------
 
         screens.add(new TutorialInfo(
-                "[#FF6500xALPHAx] Good Luck![]",
+                "Get your natives to the\n[#0099FFxALPHAx] snowy mountain-tops[] to save them!\n\n[#FF6500xALPHAx] Good Luck![]",
                 new Rectangle(0, 0, 0,0)));
 
 
