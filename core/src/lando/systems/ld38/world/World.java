@@ -49,7 +49,7 @@ public class World {
         this.screen = screen;
         THE_WORLD = this;
         water = new Water(this);
-        osn = new OpenSimplexNoise(HEIGHT_NOISE_SEED);
+        osn = new OpenSimplexNoise((long)(Math.random()*100000)); // HEIGHT_NOISE_SEED);
 
         generateWorldTiles();
         bounds = new Rectangle(-100, -100,(Tile.tileWidth) * WORLD_WIDTH + 200, Tile.tileHeight * WORLD_WIDTH * .75f + 200);
