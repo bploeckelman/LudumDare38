@@ -134,7 +134,7 @@ public class GameScreen extends BaseScreen {
         }
         gullTimer -= dt;
         if (gullTimer < 0 && endGameOverlay == null){
-            gullTimer = MathUtils.random(30f,60f);
+            gullTimer = MathUtils.random(30f,90f);
             SoundManager.playSound(SoundManager.SoundOptions.seagull);
         }
         if (tutorialManager != null) {
