@@ -276,7 +276,13 @@ public class GameScreen extends BaseScreen {
                     addHarvestAction(selectedPlayer, true);
                     break;
                 case build:
-                    showMovement(selectedPlayer, actionButton.region);
+                    if (actionButton.region == Assets.hammer_upgrade){
+                        TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
+                        turnAction.action = new ActionTypeBuild(turnAction, actionButton.region, selectedPlayer.col, selectedPlayer.row);
+                        addAction(turnAction, selectedPlayer.getHudPostion(camera, hudCamera));
+                    } else {
+                        showMovement(selectedPlayer, actionButton.region);
+                    }
                     break;
             }
         }
