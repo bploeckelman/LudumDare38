@@ -51,6 +51,7 @@ public class OptionButton extends Button {
     }
 
     public void update(float dt) {
+        super.update(dt);
         isTriggered = (Gdx.input.isKeyJustPressed(binding));
         if (isTriggered) {
             gameScreen.handleBindingPress();
