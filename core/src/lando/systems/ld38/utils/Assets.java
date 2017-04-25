@@ -18,8 +18,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld38.utils.accessors.*;
 
-import java.lang.reflect.Array;
-
 /**
  * Created by Brian on 4/16/2017.
  */
@@ -130,7 +128,7 @@ public class Assets {
         nearestParams.magFilter = Texture.TextureFilter.Nearest;
 
         mgr = new AssetManager();
-        mgr.load("images/title-screen.png", Texture.class, nearestParams);
+        mgr.load("images/title-credits-screen.png", Texture.class, nearestParams);
         mgr.load("images/blank-hex.png", Texture.class, nearestParams);
         mgr.load("images/water-bump.png", Texture.class, nearestParams);
         mgr.load("images/turn_counter_background.png", Texture.class, nearestParams);
@@ -210,7 +208,7 @@ public class Assets {
         shadowUR = atlas.findRegion("shadow_ur");
         shadowUL = atlas.findRegion("shadow_ul");
 
-        titleTexture = mgr.get("images/title-screen.png", Texture.class);
+        titleTexture = mgr.get("images/title-credits-screen.png", Texture.class);
 
         water_bumpmap = mgr.get("images/water-bump.png", Texture.class);  // NEVER MOVE THIS INTO THE ATLAS!!!!!
         water_bumpmap.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
