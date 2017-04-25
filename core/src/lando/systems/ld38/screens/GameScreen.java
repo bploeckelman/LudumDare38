@@ -543,7 +543,7 @@ public class GameScreen extends BaseScreen {
             world.getResources().renderToolTips(batch, hudCamera);
 
 //            testingButton.render(batch);
-            Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
+//            Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
 
             if (modal.isActive) {
                 modal.render(batch);
@@ -671,7 +671,7 @@ public class GameScreen extends BaseScreen {
                     public void onEvent(int i, BaseTween<?> baseTween) {
                         pauseGame = false;
                         firstRun = true;
-                        tutorialManager = new TutorialManager();
+                        tutorialManager = new TutorialManager(GameScreen.this);
                         Gdx.input.setInputProcessor(GameScreen.this);
                     }
                 }))

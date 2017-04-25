@@ -20,7 +20,7 @@ public class TurnCounter {
     private static final float HEIGHT = 60f;
     private static final float PADDING = 2f;
 
-    private Rectangle bounds;
+    public Rectangle bounds;
     private GlyphLayout layout;
     private BitmapFont font;
 

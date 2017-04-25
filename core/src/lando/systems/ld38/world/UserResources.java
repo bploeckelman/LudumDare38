@@ -82,6 +82,7 @@ public class UserResources extends ResourceCount {
 
     private Array<Button> buttons = new Array<Button>(5);
     private Array<AddRemoveIndicator> indicators;
+    public Rectangle bounds;
 
     public UserResources(OrthographicCamera camera) {
         super(5, 0, 0, 0, 6);
@@ -119,6 +120,8 @@ public class UserResources extends ResourceCount {
         buttons.add(sandTooltip);
         buttons.add(woodTooltip);
         buttons.add(effTooltip);
+
+        bounds = new Rectangle(X, Y, WIDTH, HEIGHT);
     }
 
     public void update(float dt) {
