@@ -26,6 +26,7 @@ public enum TileType {
     })),
     Sand(Assets.sand_hex, Assets.sand_bottom, new Array<Decoration>(new Decoration[]{
             Decoration.None,
+            Decoration.Cow,
             Decoration.Tree,
             Decoration.Tree,
             Decoration.Tree,
