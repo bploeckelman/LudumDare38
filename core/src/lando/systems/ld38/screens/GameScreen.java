@@ -696,9 +696,11 @@ public class GameScreen extends BaseScreen {
     int[] sequence = new int [] { Input.Keys.UP, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.B, Input.Keys.A};
     int index = 0;
     public boolean keyUp(int keyCode) {
+        if (index >= sequence.length) index = 0;
         if (sequence[index] == keyCode) {
             if (++index == sequence.length) {
                 resources.add(new ResourceCount(30, 30, 30, 30, 30));
+                index = 0;
             }
         } else {
             index = 0;
