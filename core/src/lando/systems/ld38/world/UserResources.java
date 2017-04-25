@@ -84,7 +84,7 @@ public class UserResources extends ResourceCount {
     private Array<AddRemoveIndicator> indicators;
 
     public UserResources(OrthographicCamera camera) {
-        super(5, 10, 10, 10, 6);
+        super(5, 0, 0, 0, 6);
         this.indicators = new Array<AddRemoveIndicator>();
         resourceBonus = 0;
         TILE_SIZE = HEIGHT - (MARGIN * 2);

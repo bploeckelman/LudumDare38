@@ -18,6 +18,8 @@ public class Statistics {
     public int wood = 0;
     public int iron = 0;
 
+    public float totalTime =0;
+
     public Statistics(){
 
     }

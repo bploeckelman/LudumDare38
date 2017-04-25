@@ -129,6 +129,9 @@ public class GameScreen extends BaseScreen {
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 //            Gdx.app.exit();
 //        }
+        if (endGameOverlay == null) {
+            stats.totalTime += dt;
+        }
         gullTimer -= dt;
         if (gullTimer < 0 && endGameOverlay == null){
             gullTimer = MathUtils.random(30f,60f);
@@ -168,7 +171,9 @@ public class GameScreen extends BaseScreen {
         endTurnButton.update(dt);
         resources.update(dt);
 
-        handleKeyBindings();
+        if (tutorialManager != null) {
+            handleKeyBindings();
+        }
 
         if (pickPixmap != null) {
             pickPixmap.dispose();
@@ -299,7 +304,8 @@ public class GameScreen extends BaseScreen {
         if (endTurnButton.checkForTouch(screenX, screenY)) {
             endTurnButton.handleTouch();
             endTurn();
-        } else {
+        }
+
             GridPoint2 location =  getGridPosition(screenX, screenY);
             if (handleMove(location)) return false;
             if (handlePlayerAction(screenX, screenY, button)) return false;
@@ -307,7 +313,7 @@ public class GameScreen extends BaseScreen {
             Array<Player> players = world.getPlayers(location);
             Player player = (players.size > 0) ? players.get(0) : null;
             showOptions(player);
-        }
+
 
         return false;
     }
@@ -563,6 +569,7 @@ public class GameScreen extends BaseScreen {
     }
 
     private void endTurn() {
+        showOptions(null);
         selectedPlayer = null;
         SoundManager.playSound(SoundManager.SoundOptions.water_rise);
         for (Player p : world.players){

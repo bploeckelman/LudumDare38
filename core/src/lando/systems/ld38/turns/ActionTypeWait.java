@@ -13,7 +13,7 @@ public class ActionTypeWait extends ActionType {
     private Player player;
 
     private static int TREE_WOOD = 3;
-    private static int COW_FOOD = 10;
+    private static int COW_FOOD = 5;
     private static int IRON = 3;
     private static int GOLD = 1;
     private static int SAND = 2;
