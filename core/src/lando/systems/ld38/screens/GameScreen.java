@@ -700,7 +700,7 @@ public class GameScreen extends BaseScreen {
         if (sequence[index] == keyCode) {
             if (++index == sequence.length) {
                 resources.add(new ResourceCount(30, 30, 30, 30, 30));
-                int count = 0;
+                /*int count = 0;
                 for (int y = 0; y < world.WORLD_MAX_HEIGHT; y++) {
                     for (int x = 0; x < world.WORLD_WIDTH; x++) {
                         if (world.getTile(y, x) == null || world.getTile(y, x).type == TileType.Ocean) {
@@ -713,7 +713,8 @@ public class GameScreen extends BaseScreen {
                             return false;
                         }
                     }
-                }
+                }*/
+                index = 0;
             }
         } else {
             index = 0;
