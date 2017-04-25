@@ -17,7 +17,7 @@ public class SoundManager{
     private static final float MUSIC_VOLUME = 1.0f;
 
     public enum SoundOptions {
-        button_select, resource_collected, seagull, player_move, ocean_waves, ladder, water_rise, end_turn, earthquake
+        button_select, resource_collected, seagull, player_move, ocean_waves, ladder, water_rise, end_turn, earthquake, bubbles
     }
 
     public enum MusicOptions {
@@ -39,6 +39,7 @@ public class SoundManager{
         soundMap.put(SoundOptions.ladder, Gdx.audio.newSound(Gdx.files.internal("sounds/ladder.mp3")));
         soundMap.put(SoundOptions.water_rise, Gdx.audio.newSound(Gdx.files.internal("sounds/water_rise.mp3")));
         soundMap.put(SoundOptions.earthquake, Gdx.audio.newSound(Gdx.files.internal("sounds/earthquake.wav")));
+        soundMap.put(SoundOptions.bubbles, Gdx.audio.newSound(Gdx.files.internal("sounds/bubbles.mp3")));
 //        soundMap.put(SoundOptions.end_turn, Gdx.audio.newSound(Gdx.files.internal("sounds/end_turn.mp3")));
 //        soundMap.put(SoundOptions.foo, Gdx.audio.newSound(Gdx.files.internal("sounds/foo.mp3")));
 //        soundMap.put(SoundOptions.foo, Gdx.audio.newSound(Gdx.files.internal("sounds/foo.mp3")));

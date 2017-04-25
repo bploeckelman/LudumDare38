@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld38.lib.openSimplexNoise.OpenSimplexNoise;
 import lando.systems.ld38.screens.GameScreen;
 import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.utils.SoundManager;
 
 /**
  * Created by dsgraham on 4/22/17.
@@ -294,6 +295,7 @@ public class World {
             if (t.item != Assets.raft && t.heightOffset < water.waterHeight){
                 screen.stats.deaths++;
                 p.kill();
+                SoundManager.playSound(SoundManager.SoundOptions.bubbles);
             }
         }
     }
