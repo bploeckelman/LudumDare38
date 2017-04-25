@@ -166,7 +166,7 @@ public class UserResources extends ResourceCount {
     }
 
     public void upgradeResourceBonus(){
-        resourceBonus ++;
+        resourceBonus++;
     }
 
     @Override
