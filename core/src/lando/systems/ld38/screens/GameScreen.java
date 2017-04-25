@@ -692,4 +692,32 @@ public class GameScreen extends BaseScreen {
             endTurn();
         }
     }
+
+
+    int[] sequence = new int [] { Input.Keys.UP, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.B, Input.Keys.A};
+    int index = 0;
+    public boolean keyUp(int keyCode) {
+        if (sequence[index] == keyCode) {
+            if (++index == sequence.length) {
+                resources.add(new ResourceCount(30, 30, 30, 30, 30));
+                int count = 0;
+                for (int y = 0; y < world.WORLD_MAX_HEIGHT; y++) {
+                    for (int x = 0; x < world.WORLD_WIDTH; x++) {
+                        if (world.getTile(y, x) == null || world.getTile(y, x).type == TileType.Ocean) {
+                            continue;
+                        }
+
+                        world.addPlayer(y, x);
+                        if (++count == 30) {
+                            index = 0;
+                            return false;
+                        }
+                    }
+                }
+            }
+        } else {
+            index = 0;
+        }
+        return false;
+    }
 }
