@@ -117,7 +117,7 @@ public class Player extends GameObject {
     public void setTurnAction(TurnAction turnAction, Vector2 triggeringIconScreenPos) {
 
         if (actionTween != null) {
-            actionTween.free();
+//            actionTween.free();
         }
 
         if (turnAction != null){

@@ -64,8 +64,11 @@ public class EndGameOverlay {
                 bounds.width - 2f * MARGIN,
                 Align.center);
 
+        int min = (int)(screen.stats.totalTime / 60);
+        int sec = (int)(screen.stats.totalTime % 60);
+
         float x = bounds.x + MARGIN + 30;
-        float y = bounds.y - MARGIN + bounds.height - 160;
+        float y = bounds.y - MARGIN + bounds.height - 150;
         renderString(batch, "Natives Lost: " + screen.stats.deaths, x, y, .3f);
         y -= 25;
         renderString(batch, "Natives Born: " + screen.stats.births, x, y, .3f);
@@ -79,7 +82,9 @@ public class EndGameOverlay {
         renderString(batch, "Huts Built: " + screen.stats.huts, x, y, .3f);
 
         x = bounds.x + (bounds.width/2);
-        y = bounds.y - MARGIN + bounds.height - 160;
+        y = bounds.y - MARGIN + bounds.height - 150;
+        renderString(batch, "Total Turns: " + screen.turn, x, y, .3f);
+        y -= 25;
         renderString(batch, "Food Collected: " + screen.stats.food, x, y, .3f);
         y -= 25;
         renderString(batch, "Wood Collected: " + screen.stats.wood, x, y, .3f);
@@ -90,6 +95,11 @@ public class EndGameOverlay {
         y -= 25;
         renderString(batch, "Gold Collected: " + screen.stats.gold, x, y, .3f);
 
+
+        renderString(batch, "Play Time: " + min + " minutes " + sec + " seconds",
+                bounds.x + MARGIN,
+                bounds.y - MARGIN + bounds.height - 300,
+                .4f, bounds.width - 2*MARGIN, Align.center);
     }
 
 

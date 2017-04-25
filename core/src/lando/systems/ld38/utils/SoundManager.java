@@ -28,14 +28,14 @@ public class SoundManager{
     private static HashMap<MusicOptions, Music> musicMap = new HashMap<MusicOptions, Music>();
 
     public static Music gameMusic;
+    public static Music oceanWaves;
     public static MutableFloat musicVolume;
 
     public static void load(boolean playMusic) {
-        soundMap.put(SoundOptions.button_select, Gdx.audio.newSound(Gdx.files.internal("sounds/button_select.mp3")));
+        soundMap.put(SoundOptions.player_move, Gdx.audio.newSound(Gdx.files.internal("sounds/button_select.mp3")));
         soundMap.put(SoundOptions.resource_collected, Gdx.audio.newSound(Gdx.files.internal("sounds/resource_collected.mp3")));
         soundMap.put(SoundOptions.seagull, Gdx.audio.newSound(Gdx.files.internal("sounds/seagull.mp3")));
-        soundMap.put(SoundOptions.player_move, Gdx.audio.newSound(Gdx.files.internal("sounds/player_move.mp3")));
-        soundMap.put(SoundOptions.ocean_waves, Gdx.audio.newSound(Gdx.files.internal("sounds/ocean_waves.mp3")));
+        soundMap.put(SoundOptions.button_select, Gdx.audio.newSound(Gdx.files.internal("sounds/player_move.mp3")));
         soundMap.put(SoundOptions.ladder, Gdx.audio.newSound(Gdx.files.internal("sounds/ladder.mp3")));
         soundMap.put(SoundOptions.water_rise, Gdx.audio.newSound(Gdx.files.internal("sounds/water_rise.mp3")));
         soundMap.put(SoundOptions.earthquake, Gdx.audio.newSound(Gdx.files.internal("sounds/earthquake.wav")));
@@ -45,6 +45,10 @@ public class SoundManager{
 //        soundMap.put(SoundOptions.foo, Gdx.audio.newSound(Gdx.files.internal("sounds/foo.mp3")));
         musicMap.put(MusicOptions.end_game, Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3")));
         musicMap.put(MusicOptions.game_music, Gdx.audio.newMusic(Gdx.files.internal("sounds/stomp_dance_loop.mp3")));
+
+        oceanWaves = Gdx.audio.newMusic(Gdx.files.internal("sounds/ocean_waves.mp3"));
+        oceanWaves.setLooping(true);
+
         musicVolume = new MutableFloat(0);
         gameMusic = musicMap.get(MusicOptions.game_music);
         gameMusic.setLooping(true);

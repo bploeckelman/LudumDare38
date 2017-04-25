@@ -28,6 +28,7 @@ import lando.systems.ld38.utils.Assets;
 import lando.systems.ld38.utils.Config;
 import lando.systems.ld38.utils.Screenshake;
 import lando.systems.ld38.utils.SoundManager;
+import lando.systems.ld38.utils.*;
 import lando.systems.ld38.utils.accessors.CameraAccessor;
 import lando.systems.ld38.world.*;
 
@@ -38,6 +39,7 @@ import lando.systems.ld38.world.*;
  */
 public class GameScreen extends BaseScreen {
 
+    public TutorialManager tutorialManager;
     public TextureRegion debugTex;
     public World world;
     public UserResources resources;
@@ -70,6 +72,7 @@ public class GameScreen extends BaseScreen {
     public static float DRAG_DELTA = 10f;
 
     public boolean cancelTouchUp = false;
+    public boolean firstRun = false;
 
     public Button testingButton;
 
@@ -82,9 +85,12 @@ public class GameScreen extends BaseScreen {
     public Statistics stats;
     public Screenshake shaker;
     public Vector2 cameraCenter;
+    public float gullTimer;
 
     public GameScreen() {
         super();
+        SoundManager.oceanWaves.play();
+        gullTimer = 40;
         stats = new Statistics();
         cameraCenter = new Vector2();
         gameOver = false;
@@ -114,13 +120,29 @@ public class GameScreen extends BaseScreen {
         cameraTouchStart = new Vector3();
         touchStart = new Vector3();
         shaker = new Screenshake(120, 3);
+
         startScript();
     }
 
     @Override
     public void update(float dt) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+//            Gdx.app.exit();
+//        }
+        if (endGameOverlay == null) {
+            stats.totalTime += dt;
+        }
+        gullTimer -= dt;
+        if (gullTimer < 0 && endGameOverlay == null){
+            gullTimer = MathUtils.random(30f,60f);
+            SoundManager.playSound(SoundManager.SoundOptions.seagull);
+        }
+        if (tutorialManager != null) {
+            if (!firstRun && tutorialManager.isDisplayed()) {
+                tutorialManager.update(dt);
+                return;
+            }
+            firstRun = false;
         }
 
         if (endGameOverlay != null){
@@ -149,7 +171,9 @@ public class GameScreen extends BaseScreen {
         endTurnButton.update(dt);
         resources.update(dt);
 
-        handleKeyBindings();
+        if (tutorialManager != null) {
+            handleKeyBindings();
+        }
 
         if (pickPixmap != null) {
             pickPixmap.dispose();
@@ -193,7 +217,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (modal.isActive) {
+        if (modal.isActive || (tutorialManager != null && tutorialManager.isDisplayed())) {
             return false;
         }
 
@@ -214,7 +238,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (modal.isActive) {
+        if (modal.isActive || (tutorialManager != null && tutorialManager.isDisplayed())) {
             return false;
         }
 
@@ -233,6 +257,10 @@ public class GameScreen extends BaseScreen {
         world.orderPlayer(player);
         clearMovement();
         actionManager.showOptions(player);
+    }
+
+    public void handleBindingPress() {
+        handlePlayerAction(-1, -1, -1);
     }
 
     private boolean handlePlayerAction(int screenX, int screenY, int button) {
@@ -257,6 +285,10 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (tutorialManager != null && tutorialManager.isDisplayed()) {
+            return false;
+        }
+
         if (modal.isActive && modal.checkForTouch(screenX, screenY, hudCamera)) {
             modal.isActive = false;
             modal.set("", 0, 0, 0, 0);
@@ -272,7 +304,8 @@ public class GameScreen extends BaseScreen {
         if (endTurnButton.checkForTouch(screenX, screenY)) {
             endTurnButton.handleTouch();
             endTurn();
-        } else {
+        }
+
             GridPoint2 location =  getGridPosition(screenX, screenY);
             if (handleMove(location)) return false;
             if (handlePlayerAction(screenX, screenY, button)) return false;
@@ -280,7 +313,7 @@ public class GameScreen extends BaseScreen {
             Array<Player> players = world.getPlayers(location);
             Player player = (players.size > 0) ? players.get(0) : null;
             showOptions(player);
-        }
+
 
         return false;
     }
@@ -291,6 +324,7 @@ public class GameScreen extends BaseScreen {
         Tile tile = world.getTile(location);
         if (actionButton.action == Actions.displayMoves) {
             if (adjacentTiles.contains(tile, true) && !tile.isInaccessible) {
+                SoundManager.playSound(SoundManager.SoundOptions.player_move);
                 TurnAction turnAction = new TurnAction(selectedPlayer, actionCost);
                 turnAction.action = new ActionTypeMove(turnAction, tile.col, tile.row);
                 addAction(turnAction, selectedPlayer.getHudPostion(camera, hudCamera));
@@ -397,6 +431,10 @@ public class GameScreen extends BaseScreen {
     Vector3 tp = new Vector3();
     @Override
     public boolean scrolled (int change) {
+        if (tutorialManager != null && tutorialManager.isDisplayed()) {
+            return false;
+        }
+
         camera.unproject(tp.set(Gdx.input.getX(), Gdx.input.getY(), 0 ));
         float px = tp.x;
         float py = tp.y;
@@ -505,7 +543,7 @@ public class GameScreen extends BaseScreen {
             world.getResources().renderToolTips(batch, hudCamera);
 
 //            testingButton.render(batch);
-            Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
+//            Assets.font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 3, 16);
 
             if (modal.isActive) {
                 modal.render(batch);
@@ -522,12 +560,18 @@ public class GameScreen extends BaseScreen {
 
             if (endGameOverlay != null) endGameOverlay.render(batch);
 
+            if (tutorialManager != null) {
+                tutorialManager.render(batch);
+            }
         }
         batch.end();
+
     }
 
     private void endTurn() {
+        showOptions(null);
         selectedPlayer = null;
+        SoundManager.playSound(SoundManager.SoundOptions.water_rise);
         for (Player p : world.players){
             boolean hasAction = false;
             for (TurnAction turnAction : turnActions){
@@ -574,6 +618,7 @@ public class GameScreen extends BaseScreen {
                     .push(Tween.call(new TweenCallback() {
                         @Override
                         public void onEvent(int i, BaseTween<?> baseTween) {
+                            SoundManager.oceanWaves.stop();
                             SoundManager.playMusic(SoundManager.MusicOptions.end_game);
                             gameOver = true;
                             endGameOverlay = new EndGameOverlay(GameScreen.this);
@@ -620,10 +665,13 @@ public class GameScreen extends BaseScreen {
                 .pushPause(1f)
                 .push(Tween.to(camera, CameraAccessor.XYZ, 1f)
                         .target(world.WORLD_WIDTH * Tile.tileWidth / 2f, 2 * Tile.tileHeight, .5f))
+                .pushPause(0.5f)
                 .push(Tween.call(new TweenCallback() {
                     @Override
                     public void onEvent(int i, BaseTween<?> baseTween) {
                         pauseGame = false;
+                        firstRun = true;
+                        tutorialManager = new TutorialManager(GameScreen.this);
                         Gdx.input.setInputProcessor(GameScreen.this);
                     }
                 }))
@@ -638,6 +686,4 @@ public class GameScreen extends BaseScreen {
             endTurn();
         }
     }
-
-
 }

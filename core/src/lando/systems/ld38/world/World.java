@@ -255,7 +255,7 @@ public class World {
 
     public void addStartPlayers(){
         players.clear();
-        for (int i = 0; i < 5; i ++){
+        for (int i = 0; i < 4; i ++){
             int row = 1;
             int col = MathUtils.random(WORLD_WIDTH);
             boolean alreadyOccupied = false;

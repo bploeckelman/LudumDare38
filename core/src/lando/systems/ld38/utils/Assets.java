@@ -32,6 +32,7 @@ public class Assets {
     public static GlyphLayout layout;
     public static BitmapFont font;
     public static BitmapFont fancyFont;
+    public static BitmapFont tutorialFont;
     public static ShaderProgram fontShader;
     public static ShaderProgram waterShader;
 
@@ -255,6 +256,9 @@ public class Assets {
         final Texture fancyDistText = new Texture(Gdx.files.internal("fonts/vinque.png"), true);
         fancyDistText.setFilter(Texture.TextureFilter.MipMapLinearNearest, Texture.TextureFilter.Linear);
         fancyFont = new BitmapFont(Gdx.files.internal("fonts/vinque.fnt"), new TextureRegion(fancyDistText), false);
+
+        tutorialFont = new BitmapFont();
+        tutorialFont.getData().markupEnabled = true;
 
         fontShader = new ShaderProgram(Gdx.files.internal("shaders/dist.vert"),
                 Gdx.files.internal("shaders/dist.frag"));

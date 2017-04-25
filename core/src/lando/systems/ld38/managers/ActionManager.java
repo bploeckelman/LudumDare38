@@ -12,6 +12,7 @@ import lando.systems.ld38.turns.PendingAction;
 import lando.systems.ld38.ui.ActionMenu;
 import lando.systems.ld38.ui.OptionButton;
 import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.utils.SoundManager;
 import lando.systems.ld38.world.Player;
 import lando.systems.ld38.world.ResourceCount;
 import lando.systems.ld38.world.Tile;
@@ -62,6 +63,8 @@ public class ActionManager {
 
         if (player == null) return;
 
+        SoundManager.playSound(SoundManager.SoundOptions.button_select);
+
         // determine available options from tile - for now, use all three
         Array<OptionButton> optionButtons = new Array<OptionButton>(3);
 
@@ -75,8 +78,8 @@ public class ActionManager {
 
         UserResources resources = player.getResources();
 
-        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, camera, "Move", resources, new ResourceCount(1, 0, 0, 0, 0)));
-        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, camera, "Build", resources, new ResourceCount()));
+        optionButtons.add(new OptionButton(Assets.arrow, buttonBounds, Actions.displayMoves, camera, "Move", resources, new ResourceCount(1, 0, 0, 0, 0), Input.Keys.M));
+        optionButtons.add(new OptionButton(Assets.hammer, buttonBounds, Actions.displayBuild, camera, "Build", resources, new ResourceCount(), Input.Keys.B));
         TextureRegion harvestRegion = Assets.wait;
         String tooltip = "Forage";
         switch(tile.decoration){
@@ -105,7 +108,7 @@ public class ActionManager {
                 tooltip = "Make Sweet Love";
                 break;
         }
-        optionButtons.add(new OptionButton(harvestRegion, buttonBounds, Actions.harvest, camera, tooltip, resources, new ResourceCount()));
+        optionButtons.add(new OptionButton(harvestRegion, buttonBounds, Actions.harvest, camera, tooltip, resources, new ResourceCount(), Input.Keys.N));
 
         playerOptions.add(new ActionMenu(player, optionButtons));
     }
@@ -133,6 +136,8 @@ public class ActionManager {
     private void showBuildOptions(Player player) {
         Array<OptionButton> optionButtons = new Array<OptionButton>(3);
 
+        SoundManager.playSound(SoundManager.SoundOptions.button_select);
+
         Vector3 position = player.position;
 
         float x = position.x + (player.tileWidth / 2);
@@ -142,11 +147,11 @@ public class ActionManager {
 
         UserResources resources = player.getResources();
 
-        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.build, camera, "Build Ladder", resources, new ResourceCount(0, 0, 0, 0, 3)));
-        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.build, camera, "Build Raft", resources, new ResourceCount(0, 0, 0, 0, 4)));
-        optionButtons.add(new OptionButton(Assets.sandbags, buttonBounds, Actions.build, camera, "Build Sandbags", resources, new ResourceCount(0, 6, 0, 0, 0)));
-        optionButtons.add(new OptionButton(Assets.hut, buttonBounds, Actions.build, camera, "Build Hut", resources, new ResourceCount(0, 0, 0, 2, 0)));
-        optionButtons.add(new OptionButton(Assets.hammer_upgrade, buttonBounds, Actions.build, camera, "Upgrade Tools", resources, new ResourceCount(0, 0, 3, 0, 0)));
+        optionButtons.add(new OptionButton(Assets.ladder, buttonBounds, Actions.build, camera, "Build Ladder", resources, new ResourceCount(0, 0, 0, 0, 4), Input.Keys.L));
+        optionButtons.add(new OptionButton(Assets.raft, buttonBounds, Actions.build, camera, "Build Raft", resources, new ResourceCount(0, 0, 0, 0, 2), Input.Keys.R));
+        optionButtons.add(new OptionButton(Assets.sandbags, buttonBounds, Actions.build, camera, "Build Sandbags", resources, new ResourceCount(0, 6, 0, 0, 0), Input.Keys.S));
+        optionButtons.add(new OptionButton(Assets.hut, buttonBounds, Actions.build, camera, "Build Hut", resources, new ResourceCount(0, 0, 0, 2, 0), Input.Keys.H));
+        optionButtons.add(new OptionButton(Assets.hammer_upgrade, buttonBounds, Actions.build, camera, "Upgrade Tools", resources, new ResourceCount(0, 0, 3, 0, 0), Input.Keys.U));
         //optionButtons.add(new OptionButton(Assets.sandbag, buttonBounds, Actions.buildSandbag, camera));
         //optionButtons.add(new OptionButton(Assets.people, buttonBounds, Actions.buildPeople, camera));
         playerOptions.add(new ActionMenu(player, optionButtons));

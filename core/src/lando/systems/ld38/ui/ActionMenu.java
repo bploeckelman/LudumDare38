@@ -8,8 +8,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld38.turns.Actions;
+import lando.systems.ld38.turns.BuildType;
 import lando.systems.ld38.turns.PendingAction;
 import lando.systems.ld38.utils.Assets;
+import lando.systems.ld38.utils.SoundManager;
 import lando.systems.ld38.utils.accessors.RectangleAccessor;
 import lando.systems.ld38.world.Player;
 
@@ -38,6 +41,7 @@ public class ActionMenu {
         float dir = 90;
         float dr = 360 / options.size;
         for (OptionButton btn : options){
+            btn.gameScreen = player.world.screen;
             float x = btn.origX + (MathUtils.cosDeg(dir) * buttonSpread) - btn.width/2;
             float y = btn.origY + (MathUtils.sinDeg(dir) * buttonSpread) - btn.height/2;
 
@@ -102,6 +106,7 @@ public class ActionMenu {
             if (button.checkForTouch(screenX, screenY)) {
                 if (displayState == DisplayState.show || displayState == DisplayState.grow) {
                     if (!button.disabled) {
+                        if (button.action != Actions.displayBuild) SoundManager.playSound(SoundManager.SoundOptions.button_select);
                         pendingAction.action = button.action;
                         pendingAction.cost = button.cost;
                         pendingAction.button = button;
